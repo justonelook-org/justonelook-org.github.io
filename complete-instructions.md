@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: defualt
 title: Complete Instructions
 parent: The Just One Look Method
 nav_order: 1
