@@ -315,14 +315,9 @@ Since 1999, John and Carla meet with people from all walks of life to speak abou
 
 # <span id="page-40-0"></span>**Connect with us**
 
-FACEBOOK:
+Just One Look Forum
+https://forum.justonelook.org
 
-[facebook.com/justonelookproject](https://www.facebook.com/justonelookproject)
+GitHub
+https://github.com/justonelook-org
 
-[facebook.com/justonelook](https://www.facebook.com/justonelook)
-
-YOUTUBE: [youtube.com/justonelook](https://www.youtube.com/justonelook)
-
-TWITTER:
-
-[twitter.com/Just\\_OneLook](https://twitter.com/Just_OneLook)
