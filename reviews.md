@@ -1,8 +1,7 @@
 ---
-default
+layout: default
 title: Reviews
 parent: The Just One Look Method
-nav_order: 1
 ---
 
 ## Reviews
