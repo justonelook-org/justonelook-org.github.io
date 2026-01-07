@@ -1,5 +1,5 @@
-title: The title.
-description: The description.
+title: Just One Look Organization
+description: The purpose of our work is to rud humanity of the fear of life, one person at a time..
 
 # Theme
 remote_theme: just-the-docs/just-the-docs
@@ -19,3 +19,9 @@ heading_anchors: true
 
 # Color Scheme (Optional)
 color_scheme: light
+
+# External links
+aux_links:
+  "Forum": "http://forum.justonelook.org"
+  "GitHub Repo": "https://github.com/justonelook-org"
+
