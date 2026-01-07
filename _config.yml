@@ -1,13 +1,21 @@
+title: The title.
+description: The description.
+
+# Theme
+remote_theme: just-the-docs/just-the-docs
+
+# Plugins
 plugins:
   - jekyll-remote-theme
-  - jekyll-paginate   # Required for the 'paginate' setting below to work
-  - jekyll-seo-tag    # Highly recommended: Automatically handles SEO title/desc
+  - jekyll-seo-tag
 
-title: "This is the title"
-description: "This is the description."
-remote_theme: poole/lanyon
+# Enable the search bar
+search_enabled: true
 
-# Lanyon specific settings
-paginate: 5       # Shows 5 posts per page
-url: ""           # Leave empty for now (good practice to have the key)
-baseurl: ""       # Leave empty if using organization.github.io
+# Navigation Settings
+back_to_top: true
+back_to_top_text: "Back to top"
+heading_anchors: true
+
+# Color Scheme (Optional)
+color_scheme: light
