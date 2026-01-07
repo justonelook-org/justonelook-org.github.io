@@ -6,6 +6,7 @@ The Just One Look Method is an extremely simple approach to mental suffering unl
 The Just One Look Method is the result of over twenty years of experience working with people all over the world who have seen their relationship with their own lives change dramatically for the better.
 
 ## Contributing and Volunteering to Maintain The Site
+This guide explains how to add content to our site. We use a system called Just the Docs. You don't need to know code, but you do need to follow these specific rules.
 
 ### Cheat Sheet
 Each page *must* contain these lines in the beginning of the document:
