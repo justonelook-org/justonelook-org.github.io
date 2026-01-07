@@ -1,34 +1,26 @@
-# The Just One Look Method
-
-Complete Instructions
-
-John Sherman & Carla Sherman
-
 # THE JUST ONE LOOK METHOD
 
 *Complete Instructions*
 
 ![](_page_1_Picture_2.jpeg)
 
-### THE JUST ONE LOOK METHOD
+Just One Look Press
 
-### *Complete Instructions*
+#### THE JUST ONE LOOK METHOD
+
+#### *Complete Instructions*
 
 *© 2018, 2019 John Sherman, Carla Sherman. Revised and updated on May 5, 2019.*
 
 *This book is licensed under a BY-NC-ND 4.0 Creative Commons license. For details, see<https://creativecommons.org/licenses/by-nc-nd/4.0/>*
 
-ISBN: 978-0-9718246-3-8 (paperback)
-
-Library of Congress Control Number: 2018908010
+ISBN: 978-0-9718246-3-8 (paperback) Library of Congress Control Number: 2018908010
 
 ASIN: B07B4XG22J (Kindle ebook)
 
 Edited by Carla Sherman
 
-Front cover image: Simon Matzinger
-
-Book design: Carla Sherman
+Front cover image: Simon Matzinger Book design: Carla Sherman
 
 Just One Look Press 201 E. Ojai Avenue, 1566 Ojai, California 93023 United States of America
 
@@ -38,7 +30,7 @@ Visit J[ustOneLook.org](https://www.justonelook.org)
 
 Printed in the United States of America. First published on March 11, 2018. Revised edition published on May 5, 2019. To all those who are tired of feeling that their life is not worth living, tired of feeling that they are trapped in a world that they do not understand and cannot deal with, tired of feeling that there is something missing, tired of feeling that the way to be effective in life is to be found among the many failures we humans have come upon in all the years that we have been suffering from the disease of fearfulness, alienation, and anxiety.
 
-### **Contents**
+## **Contents**
 
 | Welcome to Just One Look                        | iii |
 |-------------------------------------------------|-----|
@@ -55,7 +47,7 @@ Printed in the United States of America. First published on March 11, 2018. Revi
 | About the Authors                               | 30  |
 | Connect with us                                 | 35  |
 
-### **Welcome to Just One Look**
+# **Welcome to Just One Look**
 
 <span id="page-5-0"></span>The Just One Look Method is an extremely simple approach to mental misery unlike anything you have ever tried. It will rid you of the root cause of your dissatisfaction with life and the painful yearning for peace and fulfillment that seems never to be fully satisfied.
 
@@ -63,7 +55,7 @@ The Just One Look Method is the result of twenty years of experience working wit
 
 # <span id="page-6-0"></span>**The Just One Look Method Complete Instructions**
 
-### <span id="page-7-0"></span>**Step One: Look at Yourself**
+#### <span id="page-7-0"></span>**Step One: Look at Yourself**
 
 Sit down, close your eyes, and just breathe for a little while. When you feel relaxed, put your attention on the sensation of your tongue resting in your mouth and focus on that sensation for a minute or so.
 
@@ -101,7 +93,7 @@ If it is done right, just one look at yourself is enough but, since directing ou
 
 In time, as you begin to see the changes unfold in your mind, you will simply lose interest in doing the act of Looking at Yourself since, in fact, you are never *not* here.
 
-### <span id="page-10-0"></span>**Step Two: Self-Directed Attention Exercise**
+#### <span id="page-10-0"></span>**Step Two: Self-Directed Attention Exercise**
 
 After looking at yourself for the first time, you may experience relief, lightness, and a sense that all is well for a few days, weeks, or even months. That is what we call the "honeymoon period." Then, there may be a period of confusion and psychological difficulty in which old patterns of thought and behavior may reappear.
 
@@ -149,7 +141,7 @@ In the beginning, it may seem that this exercise is the hardest thing you have e
 
 You may go through a difficult period, but that will pass. Some people find it useful to write down the changes they notice in their behavior. If you are so inclined, keeping a diary can help you track and understand your progress.
 
-## <span id="page-17-0"></span>**Using Self-Directed Attention in Daily Life**
+#### <span id="page-17-0"></span>**Using Self-Directed Attention in Daily Life**
 
 After practicing the Self-Directed Attention Exercise for a while, start using your attention to help the healing of your mind.
 
@@ -173,7 +165,7 @@ If you are not aware of what is happening to you, it is very likely that you wil
 
 Please let us know how this process unfolds for you. Since there are many people who write asking for help, it is best to post your reports and questions in the Just One Look Forum. We read every post and reply when needed. There are also many people in the forum who have gone through this process and will be able to help you. Your reports and questions will help others too.
 
-## <span id="page-20-0"></span>**Understanding the Fear of Life**
+#### <span id="page-20-0"></span>**Understanding the Fear of Life**
 
 The fear of life is the first cause of all our purely psychological difficulties. The fear of life is a silent and false assumption that life is untrustworthy and dangerous and it runs in the background of all experience.
 
@@ -215,7 +207,7 @@ When we see the actual cause of all the trouble, the almost worshipful relations
 
 Therefore, although it is not necessary that you understand the fear of life and its nature to free yourself of its influence and its psychological minions, when the fear is gone and you begin to have the direct experience of life, you will find that understanding to be deeply empowering and extremely helpful.
 
-### **The Soldiers of Fear**
+#### **The Soldiers of Fear**
 
 <span id="page-26-0"></span>The act of Looking at Yourself cleans up the slate. It removes the fear of life that is the distorted environment in which your mind (your conditioned responses, your likes and dislikes, your understandings, etc.) has developed over time. One look at the *sense of being me* flips the switch. The reality that you are always here, and that you are not at stake in your own life, is exposed and the entire project of self-protection loses its ground of being. All this happens under the radar, in what is referred to in psychology as our *subconscious.* Most people usually cannot see this clearly while they are going through the process, but we have seen it happen over and over to hundreds of people.
 
@@ -241,7 +233,7 @@ Again, the presence of those diseased, fearful thought processes (algorithms) do
 
 That is your birthright and it is the natural state of being human.
 
-### **Resources**
+#### **Resources**
 
 <span id="page-31-0"></span>There are many resources available free of charge on our website that will be helpful to you on your journey from fear to sanity.
 
@@ -253,17 +245,15 @@ For more information, visit our website:
 
 [www.justonelook.org](https://www.justonelook.org)
 
-### **Contact us**
+#### **Contact us**
 
 <span id="page-32-0"></span>John and Carla Sherman Just One Look Foundation 201 E. Ojai Avenue, 1566 Ojai, California 93023 United States of America
 
-Phone: +1 (805) 649-1600
-
-Email: [info@justonelook.org](mailto:info%40justonelook.org?subject=Request for information)
+Phone: +1 (805) 649-1600 Email: [info@justonelook.org](mailto:info%40justonelook.org?subject=Request for information)
 
 [www.justonelook.org](https://www.justonelook.org)
 
-### **Support our Work**
+#### **Support our Work**
 
 <span id="page-33-0"></span>The Just One Look Project is a program of the Just One Look Foundation. The program was launched officially in 2012 with the goal of bringing The Just One Look Method free of charge to everyone all around the world.
 
@@ -273,7 +263,7 @@ All our programs are supported entirely by donations. Donations are tax-deductib
 
 There are many ways you can donate to support our work. More information on how to donate to the Just One Look Foundation is available [on our website](https://www.justonelook.org/donate.php). You may also contact us directly by phone, email, or mail for more information.
 
-### <span id="page-34-0"></span>**Other Titles by John & Carla Sherman**
+## <span id="page-34-0"></span>**Other Titles by John & Carla Sherman**
 
 Our paperback books and ebooks are published by Just One Look Press and can be purchased at Amazon stores worldwide and other places that sell books.
 
@@ -289,7 +279,7 @@ Our paperback books and ebooks are published by Just One Look Press and can be p
 
 *Meeting Ramana Maharshi, Conversations with John Sherman (2004, 2017)*
 
-### **About the Authors**
+#### **About the Authors**
 
 <span id="page-35-0"></span>John Sherman was born in 1942 in Camden, New Jersey. Like everyone, John spent most of his life unconsciously searching for the one perfect path out of the wilderness of human life; the one perfect idea, the one perfect thing to think, to understand, to want, to have, to believe, to become that would bring him salvation and satisfaction. The course of John's search was extreme compared to most, but the result was the same: nothing worked; nothing ever does.
 
@@ -323,7 +313,7 @@ Since 1999, John and Carla meet with people from all walks of life to speak abou
 
 ![](_page_39_Picture_1.jpeg)
 
-### <span id="page-40-0"></span>**Connect with us**
+# <span id="page-40-0"></span>**Connect with us**
 
 FACEBOOK:
 
@@ -331,9 +321,7 @@ FACEBOOK:
 
 [facebook.com/justonelook](https://www.facebook.com/justonelook)
 
-YOUTUBE:
-
-[youtube.com/justonelook](https://www.youtube.com/justonelook)
+YOUTUBE: [youtube.com/justonelook](https://www.youtube.com/justonelook)
 
 TWITTER:
 
