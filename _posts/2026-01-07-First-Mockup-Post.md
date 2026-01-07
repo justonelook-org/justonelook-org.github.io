@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Project Launch: A New Beginning"
-date: 2023-10-25 12:00:00 +0000
+date: 2025-01-07 12:00:00 +0000
 categories: [news, updates]
 ---
 
