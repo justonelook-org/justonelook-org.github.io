@@ -1,2 +1,2 @@
-# justonelook-org.github.io
+## Just One Look is moving to GitHub
 The Just One Look Method is an extremely simple approach to mental suffering unlike anything else you have ever tried. It will rid you of the root cause of your dissatisfaction with life and the painful yearning for peace and fulfillment that seems never to be fully satisfied, and gives you the means to develop new and natural control of your mind.
