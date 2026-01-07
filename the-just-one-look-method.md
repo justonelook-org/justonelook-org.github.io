@@ -4,6 +4,7 @@ title: The Just One Look Method
 has_children: 1
 nav_order: 1
 ---
+
 The Just One Look Method
 Complete Instructions
 A book by John and Carla Sherman
