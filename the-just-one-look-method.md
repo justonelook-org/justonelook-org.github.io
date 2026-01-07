@@ -2,6 +2,7 @@
 layout: default
 title: The Just One Look Method
 has_children: 1
+nav_order: 1
 ---
 
 The Just One Look Method
