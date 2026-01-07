@@ -2,6 +2,7 @@
 layout: default
 title: Reviews
 parent: The Just One Look Method
+nav_order: 3
 ---
 
 ## Reviews
