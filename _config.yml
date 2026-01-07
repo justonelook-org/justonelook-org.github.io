@@ -1,6 +1,13 @@
 plugins:
   - jekyll-remote-theme
+  - jekyll-paginate   # Required for the 'paginate' setting below to work
+  - jekyll-seo-tag    # Highly recommended: Automatically handles SEO title/desc
 
-title: "The Title"
-description: "The description."
+title: "This is the title"
+description: "This is the description."
 remote_theme: poole/lanyon
+
+# Lanyon specific settings
+paginate: 5       # Shows 5 posts per page
+url: ""           # Leave empty for now (good practice to have the key)
+baseurl: ""       # Leave empty if using organization.github.io
