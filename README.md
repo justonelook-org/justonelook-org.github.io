@@ -14,7 +14,7 @@ Each page *must* contain these lines in the beginning of the document:
 **Standard pages:**
 ```
 ---
-default
+layout: default
 title: Your Page Title
 parent: The Parent Section Name
 nav_order: 1
