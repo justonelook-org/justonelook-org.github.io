@@ -1,3 +1,9 @@
+---
+layout: home
+title: Complete Instructions
+nav_order: 1
+---
+
 # THE JUST ONE LOOK METHOD
 
 *Complete Instructions*
