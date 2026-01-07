@@ -13,10 +13,11 @@ Each page *must* contain these lines in the beginning of the document:
 
 **Standard pages:**
 ```
+---
 default
 title: Your Page Title
-parent: The Parent Section Name  # (Optional: Only if this page belongs inside a folder)
-nav_order: 1                     # (Optional: Lower numbers appear higher in the menu)
+parent: The Parent Section Name
+nav_order: 1
 ---
 ```
 
