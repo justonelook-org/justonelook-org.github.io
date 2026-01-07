@@ -1,5 +1,5 @@
 ---
-layout: home
+layout: default
 title: Welcome
 nav_order: 0
 ---
