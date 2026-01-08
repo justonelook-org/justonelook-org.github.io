@@ -5,7 +5,7 @@ parent: The Just One Look Method
 nav_order: 3
 ---
 
-## Reviews
+### Reviews
 
 ##### Hopelessness and anxiety are gone
 
