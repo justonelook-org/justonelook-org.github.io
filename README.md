@@ -31,6 +31,14 @@ nav_order: 2
 ---
 ```
 
+**Text Sizing**
+Change the size of headings or paragraphs without changing the structure.
+```
+Make it Huge: {: .fs-9 } (Good for page titles)
+Make it Tiny: {: .fs-2 } (Good for disclaimers)
+Make it Light: {: .fw-300 } (Thinner font weight)
+```
+
 #### License
 © 2000-2026 Just One Look Foundation. This website and all its contents are licensed under a Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License unless otherwise noted. The material on this website may be freely copied and distributed providing that this copyright notice - including the website address - is included in full. This material may not be included in any publication offered for sale without the written agreement of the copyright holder. For further information on this and related articles please visit our Copyright Page.
 
