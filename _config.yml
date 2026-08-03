@@ -1,27 +1,2 @@
-title: Just One Look
-description: The purpose of our work is to rid humanity of the fear of life, one person at a time
-
-# Theme
-remote_theme: just-the-docs/just-the-docs
-
-# Plugins
-plugins:
-  - jekyll-remote-theme
-  - jekyll-seo-tag
-
-# Enable the search bar
-search_enabled: true
-
-# Navigation Settings
-back_to_top: true
-back_to_top_text: "Back to top"
-heading_anchors: true
-
-# Color Scheme (Optional)
-color_scheme: light
-
-# External links
-aux_links:
-  "Forum": "http://forum.justonelook.org"
-  "GitHub Repo": "https://github.com/justonelook-org"
-
+exclude:
+  - legacy-site/

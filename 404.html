@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found — Just One Look</title>
+  <meta name="description" content="The page you requested could not be found. Return to the Just One Look homepage.">
+  <meta property="og:title" content="Page Not Found — Just One Look">
+  <meta property="og:description" content="The page you requested could not be found. Return to the Just One Look homepage.">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --blue: #0b3d5c;
+      --link: #165f91;
+      --accent: #0788c9;
+      --ink: #303438;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      color: var(--ink);
+      background: #fff;
+      font: 18px/1.7 Georgia, "Times New Roman", serif;
+    }
+
+    main {
+      width: min(100%, 680px);
+      text-align: center;
+    }
+
+    .brand {
+      width: 100%;
+      max-width: none;
+      margin: 0 auto 44px;
+      color: var(--blue);
+      font: 700 1.1rem/1.3 Arial, sans-serif;
+      letter-spacing: .14em;
+      text-align: center;
+    }
+
+    .error-code {
+      display: block;
+      color: var(--accent);
+      font: 700 .85rem/1 Arial, sans-serif;
+      letter-spacing: .12em;
+    }
+
+    h1 {
+      margin: 14px 0 20px;
+      color: var(--blue);
+      font-size: clamp(2.2rem, 8vw, 3.6rem);
+      font-weight: 400;
+      line-height: 1.12;
+    }
+
+    p {
+      margin: 0 auto 30px;
+      max-width: 560px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+    }
+
+    a {
+      color: var(--link);
+      text-underline-offset: .18em;
+    }
+
+    a:focus-visible {
+      outline: 3px solid #9ed9f4;
+      outline-offset: 4px;
+    }
+  </style>
+  <meta name="robots" content="noindex, follow">
+</head>
+<body>
+  <main>
+    <p class="brand">JUST ONE LOOK</p>
+    <span class="error-code">ERROR 404</span>
+    <h1>Page not found</h1>
+    <p>The page you were looking for may have moved or may no longer exist.</p>
+    <nav aria-label="Helpful links">
+      <a href="/">Return home</a>
+    </nav>
+  </main>
+</body>
+</html>

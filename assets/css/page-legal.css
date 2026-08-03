@@ -1,0 +1,5 @@
+body {font-family: Georgia, "Times New Roman", serif; background: #fff; color: #333; line-height: 1.72; margin: 0;}
+h1, h2 {color: #0b3d5c; font-weight: 400;}
+h2 {margin-top: 42px;}
+a {color: #0b3d5c; text-underline-offset: .18em;}
+.updated {color: #687078; font-size: .92rem;}
