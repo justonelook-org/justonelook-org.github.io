@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /legacy-site/
+
+Sitemap: https://justonelook.org/sitemap.xml
