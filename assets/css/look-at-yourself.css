@@ -228,6 +228,8 @@ button:disabled { cursor: wait; opacity: .65; }
   text-align: center;
 }
 
+.quiet-opening span { display: block; }
+
 .conversation-starters {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
