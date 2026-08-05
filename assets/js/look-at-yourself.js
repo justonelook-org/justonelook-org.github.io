@@ -26,6 +26,7 @@
   const publicAccess = main.dataset.publicAccess === "true";
   const apiEndpoint = isLocal ? `${window.location.origin}${main.dataset.localEndpoint}` : main.dataset.apiEndpoint;
   const opening = main.dataset.opening;
+  const welcome = main.dataset.welcome || "";
   const maxResponses = Number.parseInt(main.dataset.maxResponses || "5", 10);
   const messages = [];
   let sessionId = crypto.randomUUID();
@@ -132,7 +133,7 @@
     if (guardianApproval) guardianApproval.checked = false;
     if (guardianNote) guardianNote.hidden = true;
     entryForm?.reset();
-    conversation.replaceChildren(createParagraph("quiet-opening", opening));
+    conversation.replaceChildren(createQuietOpening());
     if (conversationStarters) conversationStarters.hidden = false;
     status.textContent = "";
     guidePanel.hidden = !publicAccess;
@@ -195,6 +196,16 @@
     const paragraph = document.createElement("p");
     paragraph.className = className;
     paragraph.textContent = text;
+    return paragraph;
+  }
+  function createQuietOpening() {
+    const paragraph = document.createElement("p");
+    paragraph.className = "quiet-opening";
+    for (const text of [welcome, opening].filter(Boolean)) {
+      const line = document.createElement("span");
+      line.textContent = text;
+      paragraph.append(line);
+    }
     return paragraph;
   }
   function setBusy(busy) {
