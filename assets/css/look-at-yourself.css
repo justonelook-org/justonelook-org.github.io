@@ -151,10 +151,15 @@ button:disabled { cursor: wait; opacity: .65; }
   font-size: clamp(1.65rem, 4vh, 2.25rem);
 }
 
+.guide-panel > .guide-welcome-title {
+  font-size: clamp(1.35rem, 3vh, 1.8rem);
+  line-height: 1.3;
+}
+
 .zero-wrap {
   position: relative;
-  width: min(118px, 26vw, 15vh);
-  margin: 0 auto;
+  width: min(142px, 31.2vw, 18vh);
+  margin: 16px auto 0;
 }
 
 .zero {
@@ -212,6 +217,11 @@ button:disabled { cursor: wait; opacity: .65; }
   text-align: left;
 }
 
+.conversation:has(.quiet-opening) {
+  max-width: 760px;
+  overflow-y: hidden;
+}
+
 .conversation p { margin: 0 0 20px; }
 
 .conversation .from-guide {
@@ -224,6 +234,7 @@ button:disabled { cursor: wait; opacity: .65; }
 .conversation .from-guide strong { color: #062f49; font-weight: 600; }
 
 .quiet-opening {
+  margin-bottom: 0 !important;
   color: var(--muted);
   text-align: center;
 }
@@ -346,6 +357,7 @@ dialog::backdrop { background: rgba(20, 31, 38, .34); }
   .pilot-header { padding-top: 22px; }
   .guide { padding: 12px 0; }
   .guide-panel { height: calc(100dvh - 24px); min-height: 460px; gap: 6px; padding-top: 0; }
+  .zero-wrap { margin-top: 0; }
   .message-form { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
   .conversation-starters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
   .conversation-starters button { min-height: 44px; padding: 6px 8px; font-size: .86rem; }
