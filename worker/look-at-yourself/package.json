@@ -1,0 +1,18 @@
+{
+  "name": "look-at-yourself-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:instructions": "node scripts/prepare-instructions.mjs",
+    "check": "node scripts/prepare-instructions.mjs && wrangler deploy --dry-run --outdir ../../tmp/look-at-yourself-worker-check",
+    "local": "node scripts/prepare-instructions.mjs && node scripts/local-server.mjs",
+    "test": "node scripts/prepare-instructions.mjs && node --test test/*.test.mjs",
+    "predev": "node scripts/prepare-instructions.mjs",
+    "dev": "wrangler dev",
+    "predeploy": "node scripts/prepare-instructions.mjs",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.36.0"
+  }
+}

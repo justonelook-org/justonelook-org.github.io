@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Look At Yourself — Just One Look</title>
+  <meta name="description" content="The Look At Yourself AI guide from Just One Look.">
+  <link rel="stylesheet" href="../../assets/css/look-at-yourself.css">
+</head>
+<body>
+  <main class="guide" data-public-access="true" data-api-endpoint="https://look-at-yourself-api.look-at-yourself-worker.workers.dev/api/look-at-yourself" data-local-endpoint="/api/look-at-yourself" data-opening="Choose a starting point, or write in your own words." data-max-responses="12">
+    <section id="guide-panel" class="guide-panel" aria-labelledby="guide-title">
+      <h1 id="guide-title">Look At Yourself</h1>
+
+      <div class="zero-wrap" aria-hidden="true">
+        <img class="zero" src="../../assets/brand/jol-logo.jpg" alt="" width="675" height="932">
+        <span class="zero-eyelid zero-eyelid--left"></span>
+        <span class="zero-eyelid zero-eyelid--right"></span>
+      </div>
+
+      <div id="conversation" class="conversation" aria-live="polite" aria-atomic="false">
+        <p class="quiet-opening">Choose a starting point, or write in your own words.</p>
+      </div>
+
+      <div id="conversation-starters" class="conversation-starters" aria-label="Suggested ways to begin">
+        <button type="button" data-starter="Can you guide me?">Can you guide me?</button>
+        <button type="button" data-starter="I feel stressed—what should I do?">I feel stressed—what should I do?</button>
+        <button type="button" data-starter="What do you mean by ‘look’?">What do you mean by ‘look’?</button>
+        <button type="button" data-starter="This sounds strange—explain it">This sounds strange—explain it</button>
+      </div>
+
+      <form id="message-form" class="message-form">
+        <label class="visually-hidden" for="message">Your message</label>
+        <textarea id="message" name="message" rows="2" maxlength="600" required></textarea>
+        <button id="send" type="submit">Send</button>
+      </form>
+
+      <p id="guide-status" class="form-message" role="status" aria-live="polite"></p>
+
+      <div class="guide-actions">
+        <button id="restart" class="text-button" type="button">Restart</button>
+        <a href="../../">Home</a>
+        <a href="../../contact.html">Contact</a>
+      </div>
+
+      <p class="small-notice">AI guide <span aria-hidden="true">·</span> Messages are sent to OpenAI <span aria-hidden="true">·</span> Don’t share personal information <span aria-hidden="true">·</span> <button id="open-privacy" class="link-button" type="button">Privacy</button></p>
+    </section>
+  </main>
+
+  <dialog id="age-dialog" aria-labelledby="age-title">
+    <div class="dialog-content">
+      <h2 id="age-title">Before continuing</h2>
+      <form id="age-form">
+        <label class="choice"><input id="adult-confirmation" type="checkbox" required> I am 18 or older</label>
+        <button type="submit">Continue</button>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+    <div class="dialog-content">
+      <h2 id="privacy-title">About this AI guide</h2>
+      <p>This guide uses OpenAI to generate its responses. What you write is sent to OpenAI for processing.</p>
+      <p>The Just One Look website does not intentionally save your conversation. OpenAI may retain API data temporarily to operate and protect its service. API messages are not used to train OpenAI’s models by default.</p>
+      <p>Please do not enter your name, address, contact details, medical information, or other private information.</p>
+      <p>This guide only provides the Look At Yourself instruction. It is not a person, therapist, medical service, or emergency service.</p>
+      <p>For privacy questions, <a href="../../contact.html">contact the Just One Look team</a>.</p>
+      <form method="dialog"><button type="submit">Close</button></form>
+    </div>
+  </dialog>
+
+  <script src="../../assets/js/look-at-yourself.js" defer></script>
+</body>
+</html>
