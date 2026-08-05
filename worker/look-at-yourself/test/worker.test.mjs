@@ -139,7 +139,10 @@ test("sends temporary context with storage disabled", async () => {
     assert.match(openAIBody.instructions, /Do not tell them to suppress, remove, ignore/);
     assert.match(openAIBody.instructions, /turn your attention toward/);
     assert.match(openAIBody.instructions, /not the stress—just that feeling/);
-    assert.match(openAIBody.instructions, /asks what “look” means/);
+    assert.match(openAIBody.instructions, /not looking with the eyes/);
+    assert.match(openAIBody.instructions, /asks what they should look at/);
+    assert.match(openAIBody.instructions, /felt sense of being themselves/);
+    assert.match(openAIBody.instructions, /Do not answer them with the same explanation/);
     assert.match(openAIBody.instructions, /Markdown bold sparingly/);
     assert.match(openAIBody.instructions, /not response templates/i);
     assert.match(openAIBody.instructions, /do not repeat a complete sentence or full sequence/i);
