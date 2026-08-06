@@ -156,7 +156,10 @@
     if (!cleanText) return;
     messages.push({ role, content: cleanText });
     if (messages.length > 24) messages.splice(0, messages.length - 24);
-    if (role === "assistant") conversation.replaceChildren(createGuideResponse(cleanText));
+    if (role === "assistant") {
+      conversation.replaceChildren(createGuideResponse(cleanText));
+      conversation.classList.toggle("conversation--completion", cleanText.includes("[Just One Look website]("));
+    }
   }
 
   function createGuideResponse(text) {
@@ -171,26 +174,33 @@
   }
 
   function appendSafeMarkdown(parent, text) {
-    const tokenPattern = /(\[Continue to the Just One Look website\]\(https:\/\/(?:www\.)?justonelook\.org\/?\)|\*\*[^*\n]+\*\*|\n)/gi;
+    const tokenPattern = /(\*\*|\[Just One Look website\]\(https:\/\/(?:www\.)?justonelook\.org\/?\)|\n)/gi;
     let position = 0;
+    let activeParent = parent;
+    let strong = null;
     for (const match of text.matchAll(tokenPattern)) {
-      parent.append(document.createTextNode(text.slice(position, match.index)));
+      activeParent.append(document.createTextNode(text.slice(position, match.index)));
       const token = match[0];
       if (token === "\n") {
-        parent.append(document.createElement("br"));
-      } else if (token.startsWith("**")) {
-        const strong = document.createElement("strong");
-        strong.textContent = token.slice(2, -2);
-        parent.append(strong);
+        activeParent.append(document.createElement("br"));
+      } else if (token === "**") {
+        if (strong) {
+          strong = null;
+          activeParent = parent;
+        } else {
+          strong = document.createElement("strong");
+          parent.append(strong);
+          activeParent = strong;
+        }
       } else {
         const link = document.createElement("a");
         link.href = "/";
-        link.textContent = "Continue to the Just One Look website";
-        parent.append(link);
+        link.textContent = "Just One Look website";
+        activeParent.append(link);
       }
       position = match.index + token.length;
     }
-    parent.append(document.createTextNode(text.slice(position)));
+    activeParent.append(document.createTextNode(text.slice(position)));
   }
   function createParagraph(className, text) {
     const paragraph = document.createElement("p");
