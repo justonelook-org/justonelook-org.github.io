@@ -217,3 +217,22 @@ test("keeps the SDA guide on its separate route, key, and instructions", async (
     globalThis.fetch = originalFetch;
   }
 });
+
+test("lets returning SDA visitors skip repeating the Step One confirmation", async () => {
+  const originalFetch = globalThis.fetch;
+  let openAIBody;
+  globalThis.fetch = async (_url, options) => {
+    openAIBody = JSON.parse(options.body);
+    return new Response(JSON.stringify({ output: [{ content: [{ type: "output_text", text: "Let’s continue with your question." }] }] }), { status: 200, headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    const body = validBody();
+    body.stepOneConfirmed = true;
+    const response = await worker.fetch(request(body, { path: "/api/self-directed-attention", omitAuthorization: true }), baseEnv);
+    assert.equal(response.status, 200);
+    assert.match(openAIBody.instructions, /previously confirmed on this device/i);
+    assert.match(openAIBody.instructions, /Do not ask them to confirm Step One again/i);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});

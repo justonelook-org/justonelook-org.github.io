@@ -27,6 +27,7 @@ Do not trigger this exception for ordinary references to fear, sadness, illness,
 
 const guides = {
   "/api/look-at-yourself": {
+    acceptsStepOneConfirmation: false,
     requiresAccessCode: false,
     apiKeyName: "OPENAI_API_KEY",
     modelEnvName: "LOOK_MODEL",
@@ -77,6 +78,7 @@ WEBSITE GUIDANCE STYLE
 `
   },
   "/api/self-directed-attention": {
+    acceptsStepOneConfirmation: true,
     requiresAccessCode: false,
     apiKeyName: "OPENAI_SDA_API_KEY",
     modelEnvName: "SDA_MODEL",
@@ -150,7 +152,12 @@ export default {
         headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: env[guide.modelEnvName] || guide.defaultModel,
-          instructions: guide.instructions,
+          instructions: guide.instructions + (guide.acceptsStepOneConfirmation && validation.stepOneConfirmed ? `
+
+SESSION CONTEXT
+
+The visitor previously confirmed on this device that they performed the inward look. Do not ask them to confirm Step One again unless they now express uncertainty or say they have not done it. Respond directly to their current message while preserving all Step Two boundaries.
+` : ""),
           input: validation.messages,
           store: false,
           max_output_tokens: 800,
@@ -190,7 +197,8 @@ function validatePayload(body, maxResponses) {
 
   if (messages[messages.length - 1].role !== "user") return invalid("The last message must be from the visitor.");
   if (totalCharacters > MAX_TOTAL_CHARACTERS) return invalid("The conversation is too long. Please restart the guide.");
-  return { ok: true, sessionId: body.sessionId, messages };
+  if (body.stepOneConfirmed !== undefined && typeof body.stepOneConfirmed !== "boolean") return invalid("The Step One confirmation could not be read.");
+  return { ok: true, sessionId: body.sessionId, messages, stepOneConfirmed: body.stepOneConfirmed === true };
 }
 
 function invalid(error) { return { ok: false, error }; }

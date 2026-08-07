@@ -16,6 +16,7 @@
   const conversationStarters = document.querySelector("#conversation-starters");
   const status = document.querySelector("#guide-status");
   const restartButton = document.querySelector("#restart");
+  const forgetStepOneButton = document.querySelector("#forget-step-one");
   const privacyButton = document.querySelector("#open-privacy");
   const privacyDialog = document.querySelector("#privacy-dialog");
   const ageDialog = document.querySelector("#age-dialog");
@@ -24,6 +25,7 @@
 
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   const publicAccess = main.dataset.publicAccess === "true";
+  const remembersStepOne = main.dataset.remembersStepOne === "true";
   const apiEndpoint = isLocal ? `${window.location.origin}${main.dataset.localEndpoint}` : main.dataset.apiEndpoint;
   const opening = main.dataset.opening;
   const welcome = main.dataset.welcome || "";
@@ -34,6 +36,9 @@
   let assistantCount = 0;
   let sessionComplete = false;
   let adultConfirmed = false;
+  let stepOneConfirmed = remembersStepOne && readStepOneConfirmation();
+
+  updateStepOneAction();
 
   entryForm?.addEventListener("change", () => {
     const permission = new FormData(entryForm).get("permission");
@@ -86,6 +91,11 @@
       return;
     }
     if (conversationStarters) conversationStarters.hidden = true;
+    if (remembersStepOne && !stepOneConfirmed && confirmsStepOne(message, messages)) {
+      stepOneConfirmed = true;
+      writeStepOneConfirmation(true);
+      updateStepOneAction();
+    }
     appendMessage("user", message);
     messageInput.value = "";
     guidePanel.dataset.state = "responding";
@@ -98,7 +108,7 @@
       const response = await fetch(apiEndpoint, {
         method: "POST",
         headers,
-        body: JSON.stringify({ sessionId, turnCount: assistantCount + 1, messages })
+        body: JSON.stringify({ sessionId, turnCount: assistantCount + 1, messages, stepOneConfirmed })
       });
       const body = await response.json().catch(() => ({}));
       if (!response.ok) {
@@ -123,7 +133,15 @@
     }
   });
 
-  restartButton.addEventListener("click", () => {
+  restartButton.addEventListener("click", () => restartGuide(false));
+  forgetStepOneButton?.addEventListener("click", () => restartGuide(true));
+
+  function restartGuide(clearStepOne) {
+    if (clearStepOne) {
+      stepOneConfirmed = false;
+      writeStepOneConfirmation(false);
+      updateStepOneAction();
+    }
     messages.length = 0;
     sessionId = crypto.randomUUID();
     assistantCount = 0;
@@ -141,7 +159,7 @@
     if (entry) entry.hidden = publicAccess;
     if (publicAccess) messageInput.focus();
     else accessCodeInput.focus();
-  });
+  }
 
   privacyButton.addEventListener("click", () => privacyDialog.showModal());
   messageInput.addEventListener("input", () => {
@@ -223,5 +241,27 @@
     messageInput.disabled = busy || sessionComplete;
     if (busy) status.textContent = "Zero is responding…";
     if (!busy && !sessionComplete) messageInput.focus();
+  }
+
+  function confirmsStepOne(message, history) {
+    if (!/^(yes\b|yes[, .]|i have\b|i did\b|already\b)/i.test(message)) return false;
+    const previous = [...history].reverse().find((item) => item.role === "assistant")?.content || "";
+    return /(performed|done|already).{0,45}(inward look|step one)|inward look.{0,60}(performed|done|already)|looking directly.{0,80}(being|you|me)/i.test(previous);
+  }
+
+  function readStepOneConfirmation() {
+    try { return localStorage.getItem("jol-sda-step-one-confirmed") === "true"; }
+    catch { return false; }
+  }
+
+  function writeStepOneConfirmation(confirmed) {
+    try {
+      if (confirmed) localStorage.setItem("jol-sda-step-one-confirmed", "true");
+      else localStorage.removeItem("jol-sda-step-one-confirmed");
+    } catch { /* Continue without browser memory when storage is unavailable. */ }
+  }
+
+  function updateStepOneAction() {
+    if (forgetStepOneButton) forgetStepOneButton.hidden = !stepOneConfirmed;
   }
 })();
