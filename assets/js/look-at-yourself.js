@@ -16,7 +16,6 @@
   const conversationStarters = document.querySelector("#conversation-starters");
   const status = document.querySelector("#guide-status");
   const restartButton = document.querySelector("#restart");
-  const forgetStepOneButton = document.querySelector("#forget-step-one");
   const privacyButton = document.querySelector("#open-privacy");
   const privacyDialog = document.querySelector("#privacy-dialog");
   const ageDialog = document.querySelector("#age-dialog");
@@ -38,7 +37,6 @@
   let adultConfirmed = false;
   let stepOneConfirmed = remembersStepOne && readStepOneConfirmation();
 
-  updateStepOneAction();
 
   entryForm?.addEventListener("change", () => {
     const permission = new FormData(entryForm).get("permission");
@@ -93,8 +91,7 @@
     if (conversationStarters) conversationStarters.hidden = true;
     if (remembersStepOne && !stepOneConfirmed && confirmsStepOne(message, messages)) {
       stepOneConfirmed = true;
-      writeStepOneConfirmation(true);
-      updateStepOneAction();
+      writeStepOneConfirmation();
     }
     appendMessage("user", message);
     messageInput.value = "";
@@ -133,15 +130,9 @@
     }
   });
 
-  restartButton.addEventListener("click", () => restartGuide(false));
-  forgetStepOneButton?.addEventListener("click", () => restartGuide(true));
+  restartButton.addEventListener("click", restartGuide);
 
-  function restartGuide(clearStepOne) {
-    if (clearStepOne) {
-      stepOneConfirmed = false;
-      writeStepOneConfirmation(false);
-      updateStepOneAction();
-    }
+  function restartGuide() {
     messages.length = 0;
     sessionId = crypto.randomUUID();
     assistantCount = 0;
@@ -254,14 +245,9 @@
     catch { return false; }
   }
 
-  function writeStepOneConfirmation(confirmed) {
+  function writeStepOneConfirmation() {
     try {
-      if (confirmed) localStorage.setItem("jol-sda-step-one-confirmed", "true");
-      else localStorage.removeItem("jol-sda-step-one-confirmed");
+      localStorage.setItem("jol-sda-step-one-confirmed", "true");
     } catch { /* Continue without browser memory when storage is unavailable. */ }
-  }
-
-  function updateStepOneAction() {
-    if (forgetStepOneButton) forgetStepOneButton.hidden = !stepOneConfirmed;
   }
 })();
