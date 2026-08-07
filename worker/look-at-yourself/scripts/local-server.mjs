@@ -8,7 +8,7 @@ const port = 8000;
 const repositoryRoot = resolve(fileURLToPath(new URL("../../../", import.meta.url)));
 const settings = await readSettings(new URL("../.dev.vars", import.meta.url));
 
-if (!settings.OPENAI_API_KEY || !settings.OPENAI_SDA_API_KEY || !settings.PILOT_ACCESS_CODE) {
+if (!settings.OPENAI_API_KEY || !settings.OPENAI_SDA_API_KEY) {
   throw new Error("The local secret file is incomplete.");
 }
 

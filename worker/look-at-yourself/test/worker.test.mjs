@@ -44,9 +44,18 @@ test("rejects an unapproved website origin", async () => {
   assert.equal(response.status, 403);
 });
 
-test("keeps the private SDA guide behind its invitation code", async () => {
-  const response = await worker.fetch(request(validBody(), { path: "/api/self-directed-attention", accessCode: "wrong" }), baseEnv);
-  assert.equal(response.status, 401);
+test("allows the public SDA guide without exposing an invitation code", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    output: [{ content: [{ type: "output_text", text: "Have you already performed the inward look?" }] }]
+  }), { status: 200, headers: { "Content-Type": "application/json" } });
+
+  try {
+    const response = await worker.fetch(request(validBody(), { path: "/api/self-directed-attention", omitAuthorization: true }), baseEnv);
+    assert.equal(response.status, 200);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });
 
 test("allows the public Looking guide without exposing an invitation code", async () => {
@@ -94,10 +103,26 @@ test("ends the Looking guide after twelve responses", async () => {
   assert.match((await response.json()).error, /session has ended/i);
 });
 
-test("keeps the SDA pilot at five responses for now", async () => {
+test("gives the SDA guide room for twelve responses", async () => {
   const body = validBody();
-  body.turnCount = 6;
-  const response = await worker.fetch(request(body, { path: "/api/self-directed-attention" }), baseEnv);
+  body.turnCount = 12;
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    output: [{ content: [{ type: "output_text", text: "Return attention to the breath and restart at 1." }] }]
+  }), { status: 200, headers: { "Content-Type": "application/json" } });
+
+  try {
+    const response = await worker.fetch(request(body, { path: "/api/self-directed-attention", omitAuthorization: true }), baseEnv);
+    assert.equal(response.status, 200);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("ends the SDA guide after twelve responses", async () => {
+  const body = validBody();
+  body.turnCount = 13;
+  const response = await worker.fetch(request(body, { path: "/api/self-directed-attention", omitAuthorization: true }), baseEnv);
   assert.equal(response.status, 400);
   assert.match((await response.json()).error, /session has ended/i);
 });
@@ -176,9 +201,15 @@ test("keeps the SDA guide on its separate route, key, and instructions", async (
     const response = await worker.fetch(request(validBody(), { path: "/api/self-directed-attention" }), baseEnv);
     assert.equal(response.status, 200);
     assert.equal(authorization, "Bearer test-sda-key");
+    assert.equal(openAIBody.model, "gpt-5.6-sol");
+    assert.equal(openAIBody.reasoning.effort, "medium");
     assert.match(openAIBody.instructions, /Self-Directed Attention Exercise/);
     assert.match(openAIBody.instructions, /Step Two only/i);
     assert.match(openAIBody.instructions, /Never blend the two guides/i);
+    assert.match(openAIBody.instructions, /ordinary visitor messages/i);
+    assert.match(openAIBody.instructions, /do not use fixed or exact starter replies/i);
+    assert.match(openAIBody.instructions, /breath should be allowed to occur naturally/i);
+    assert.match(openAIBody.instructions, /repeated distraction as part of the exercise/i);
   } finally {
     globalThis.fetch = originalFetch;
   }
