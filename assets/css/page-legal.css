@@ -1,5 +1,14 @@
 body {font-family: Georgia, "Times New Roman", serif; background: #fff; color: #333; line-height: 1.72; margin: 0;}
-h1, h2 {color: #0b3d5c; font-weight: 400;}
+h1, h2, h3 {color: #0b3d5c; font-weight: 400;}
 h2 {margin-top: 42px;}
 a {color: #0b3d5c; text-underline-offset: .18em;}
 .updated {color: #687078; font-size: .92rem;}
+.legal-contents {display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 32px 0 12px; padding: 22px 24px; border-left: 3px solid #0788c9; background: #f3f6f7;}
+.legal-contents a {font-weight: 700;}
+.legal-section {scroll-margin-top: 135px; margin-top: 52px; padding-top: 8px; border-top: 1px solid #dfe4e7;}
+.legal-section h2 {margin-top: 0;}
+.legal-section h3 {margin-top: 34px; font-size: 1.2rem;}
+.notice {padding: 20px 24px; border-left: 3px solid #0788c9; background: #f3f6f7;}
+.notice p:first-child {margin-top: 0;}
+.notice p:last-child {margin-bottom: 0;}
+.legal-back {margin-top: 32px; font-size: .92rem;}

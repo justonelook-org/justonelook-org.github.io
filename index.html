@@ -101,56 +101,19 @@
       }
 
       .footer-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px 24px;
+      }
+
+      .footer-group {
         display: contents;
       }
 
       .footer a {
         color: #1f5f9f;
         text-decoration: none;
-        margin: 0 12px;
-      }
-
-      .footer-top a:nth-child(1) {
-        order: 1;
-      }
-
-      .footer-top a:nth-child(2) {
-        order: 2;
-      }
-
-      .footer-bottom a:nth-child(1) {
-        order: 3;
-      }
-
-      .footer-bottom a:nth-child(2) {
-        order: 4;
-      }
-
-      .footer-bottom a:nth-child(3) {
-        order: 5;
-      }
-
-      .footer-bottom a:nth-child(4) {
-        order: 6;
-      }
-
-      .footer-top a:nth-child(3) {
-        order: 7;
-      }
-
-      .footer-legal {
-        order: 8;
-        flex-basis: 100%;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 8px 20px;
-        margin-top: 10px;
-        padding-top: 0;
-        font-size: 0.82rem;
-      }
-
-      .footer-legal a {
         margin: 0;
       }
 
@@ -202,8 +165,13 @@
           padding-bottom: 20px;
         }
 
-        .footer a {
-          margin: 0 10px;
+        .footer-row { gap: 10px 0; }
+
+        .footer-group {
+          display: flex;
+          flex-basis: 100%;
+          justify-content: center;
+          gap: 10px 20px;
         }
       }
     </style>
@@ -234,20 +202,18 @@
       </main>
 
       <footer class="footer">
-        <div class="footer-row footer-top">
-          <a href="what-now.html">What Now?</a>
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-        </div>
-        <div class="footer-row footer-bottom">
-          <a href="library.html">Library</a>
-          <a href="https://forum.justonelook.org">Forum</a>
-          <a href="newsletter.html">Newsletter</a>
-        </div>
-        <nav class="footer-legal" aria-label="Legal information">
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
-          <a href="copyright.html">Copyright</a>
+        <nav class="footer-row" aria-label="Footer navigation">
+          <span class="footer-group">
+            <a href="what-now.html">What Now?</a>
+            <a href="about.html">About</a>
+            <a href="library.html">Library</a>
+            <a href="https://forum.justonelook.org">Forum</a>
+          </span>
+          <span class="footer-group">
+            <a href="newsletter.html">Newsletter</a>
+            <a href="contact.html">Contact</a>
+            <a href="legal.html">Legal</a>
+          </span>
         </nav>
       </footer>
     </div>

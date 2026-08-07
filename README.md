@@ -47,4 +47,4 @@ Large audio or video files should not be added without first confirming the inte
 
 ## Copyright and licensing
 
-See the website’s [Copyright and Licensing](https://justonelook.org/copyright.html) page. Item-specific notices and the rights of historical material take precedence. No separate repository-wide license is asserted here while future rights arrangements remain under review.
+See the website’s [Copyright and Licensing](https://justonelook.org/legal.html#copyright) section. Item-specific notices and the rights of historical material take precedence. No separate repository-wide license is asserted here while future rights arrangements remain under review.
