@@ -93,6 +93,47 @@ body {
   padding-bottom: 0 !important;
 }
 
+/* Keep Library context available without adding navigation after every item. */
+.site-header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+}
+
+.site-nav a[aria-current="location"] {
+  color: #303438;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.series-navigation {
+  margin-top: 34px;
+  padding-top: 24px;
+  border-top: 1px solid #dfe4e7;
+}
+
+.series-navigation__next {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 100%;
+}
+
+.series-navigation__label {
+  color: #687078;
+  font: 700 0.78rem/1.4 Arial, sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.series-navigation__title {
+  font-size: 1.12rem;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .site-content,
 .content:not(.site-content--wide) {
   box-sizing: border-box;
