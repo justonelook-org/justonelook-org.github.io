@@ -210,6 +210,9 @@ test("keeps the SDA guide on its separate route, key, and instructions", async (
     assert.match(openAIBody.instructions, /do not use fixed or exact starter replies/i);
     assert.match(openAIBody.instructions, /breath should be allowed to occur naturally/i);
     assert.match(openAIBody.instructions, /repeated distraction as part of the exercise/i);
+    assert.match(openAIBody.instructions, /Always call it "the formal exercise," not "SDA/i);
+    assert.match(openAIBody.instructions, /does not mean continuously controlling, monitoring, or supervising attention/i);
+    assert.match(openAIBody.instructions, /Do not turn self-directed attention in daily life into another formal technique/i);
   } finally {
     globalThis.fetch = originalFetch;
   }
