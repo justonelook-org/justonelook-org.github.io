@@ -165,24 +165,24 @@ test("sends temporary context with storage disabled", async () => {
     assert.match(openAIBody.instructions, /link to the Just One Look homepage/);
     assert.match(openAIBody.instructions, /Do not send the visitor directly to another AI guide or a specific resource page/);
     assert.match(openAIBody.instructions, /Do not turn the inward look into a numbered list/);
-    assert.match(openAIBody.instructions, /Do not tell them to suppress, remove, ignore/);
+    assert.match(openAIBody.instructions, /do not need to be suppressed, removed, ignored, or fought/i);
     assert.match(openAIBody.instructions, /turn your attention toward/);
-    assert.match(openAIBody.instructions, /not the stress—just that feeling/);
-    assert.match(openAIBody.instructions, /not with your eyes, but with the focus of your attention/);
-    assert.match(openAIBody.instructions, /Look at the simple, immediate feeling of being/);
-    assert.match(openAIBody.instructions, /Turn your attention toward that feeling now/);
-    assert.match(openAIBody.instructions, /Do not answer them with the same explanation/);
-    assert.match(openAIBody.instructions, /Zero has four defined opening choices/);
-    assert.match(openAIBody.instructions, /four suggested opening questions have defined first responses/i);
-    assert.match(openAIBody.instructions, /For “Can you guide me\?” reply exactly/);
-    assert.match(openAIBody.instructions, /For “What should I look at\?” reply exactly/);
-    assert.match(openAIBody.instructions, /For “What do you mean by ‘look’\?” reply exactly/);
-    assert.match(openAIBody.instructions, /For “This sounds strange—explain it” reply exactly/);
-    assert.match(openAIBody.instructions, /exact-response rule applies only to the opening choice/);
+    assert.match(openAIBody.instructions, /ordinary visitor messages/i);
+    assert.match(openAIBody.instructions, /do not use fixed, exact, or templated starter replies/i);
+    assert.match(openAIBody.instructions, /What should I look at.*asks about the immediate feeling of being “me,”/i);
+    assert.match(openAIBody.instructions, /What do you mean by look.*asks about directing attention rather than looking with the eyes/i);
+    assert.match(openAIBody.instructions, /Answer the visitor's actual question before returning naturally/i);
+    assert.match(openAIBody.instructions, /Nothing needs to be suppressed or removed/i);
+    assert.match(openAIBody.instructions, /nothing special has to happen/i);
+    assert.match(openAIBody.instructions, /does not need certainty that they succeeded/i);
+    assert.match(openAIBody.instructions, /up to about 120 words/i);
+    assert.doesNotMatch(openAIBody.instructions, /reply exactly/i);
+    assert.doesNotMatch(openAIBody.instructions, /defined first responses/i);
+    assert.doesNotMatch(openAIBody.instructions, /exact-response rule/i);
     assert.match(openAIBody.instructions, /Markdown bold sparingly/);
     assert.match(openAIBody.instructions, /not response templates/i);
     assert.match(openAIBody.instructions, /do not repeat a complete sentence or full sequence/i);
-    assert.match(openAIBody.instructions, /do not automatically repeat the entire thoughts\/emotions\/body\/story contrast/i);
+    assert.match(openAIBody.instructions, /Do not automatically repeat the complete thoughts\/emotions\/body\/story contrast/i);
   } finally {
     globalThis.fetch = originalFetch;
   }

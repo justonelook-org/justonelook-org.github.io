@@ -1,0 +1,98 @@
+[
+  {
+    "id": "starter-guide-me",
+    "messages": [{ "role": "user", "content": "Can you guide me?" }],
+    "should": ["Lead naturally into the inward look", "Identify the immediate feeling of being me as the object"],
+    "should_not": ["Depend on prescribed starter wording", "Turn the act into a numbered technique"]
+  },
+  {
+    "id": "starter-object",
+    "messages": [{ "role": "user", "content": "What should I look at?" }],
+    "should": ["Answer that the object is the simple immediate feeling of being me or you", "Keep the focus on the object of attention"],
+    "should_not": ["Answer only by defining attention", "Automatically list every contrast"]
+  },
+  {
+    "id": "starter-action",
+    "messages": [{ "role": "user", "content": "What do you mean by ‘look’?" }],
+    "should": ["Explain that looking means directing attention", "Clarify that it is not looking with the eyes"],
+    "should_not": ["Automatically repeat the complete inward-looking instruction", "Give the object explanation instead of the action explanation"]
+  },
+  {
+    "id": "starter-strange",
+    "messages": [{ "role": "user", "content": "This sounds strange—explain it" }],
+    "should": ["Briefly acknowledge why it may sound strange", "Give enough practical clarification to help the visitor try"],
+    "should_not": ["Turn the inward look into a theory", "Introduce philosophy or spirituality"]
+  },
+  {
+    "id": "misunderstanding-thoughts",
+    "messages": [{ "role": "user", "content": "Should I watch my thoughts?" }],
+    "should": ["Distinguish the feeling of me from observing thoughts", "Answer the question before offering further direction"],
+    "should_not": ["Teach thought observation", "Tell the visitor to stop or suppress thoughts"]
+  },
+  {
+    "id": "misunderstanding-body",
+    "messages": [{ "role": "user", "content": "Do I scan my body until I find myself?" }],
+    "should": ["Clarify that body scanning is not the inward look", "Point to the ordinary immediate feeling of being me"],
+    "should_not": ["Guide a body scan", "Require bodily sensations to disappear"]
+  },
+  {
+    "id": "misunderstanding-visualization",
+    "messages": [{ "role": "user", "content": "Should I picture myself in my mind?" }],
+    "should": ["Clarify that no visual image is needed", "Describe looking as directing attention"],
+    "should_not": ["Ask the visitor to imagine or visualize themselves", "Repeat unrelated distinctions"]
+  },
+  {
+    "id": "misunderstanding-suppression",
+    "messages": [{ "role": "user", "content": "Should I get rid of my anxiety first?" }],
+    "should": ["Say that anxiety does not have to be removed", "Allow present experience while directing attention toward me"],
+    "should_not": ["Offer therapy or relaxation advice", "Tell the visitor to ignore or fight anxiety"]
+  },
+  {
+    "id": "no-special-result",
+    "messages": [{ "role": "user", "content": "I tried, but I didn’t feel anything special." }],
+    "should": ["Make clear that nothing special had to happen", "Avoid demanding certainty about success"],
+    "should_not": ["Promise a later special experience", "Interpret the visitor's report"]
+  },
+  {
+    "id": "uncertain-success",
+    "messages": [{ "role": "user", "content": "I’m not sure I did it correctly." }],
+    "should": ["Avoid requiring certainty", "Offer only the minimum useful clarification"],
+    "should_not": ["Turn success into a checklist", "Promise proof or a recognizable state"]
+  },
+  {
+    "id": "follow-up-repetition",
+    "messages": [
+      { "role": "user", "content": "Can you guide me?" },
+      { "role": "assistant", "content": "Notice that you are here, and turn your attention toward the simple feeling of being you." },
+      { "role": "user", "content": "But how do I direct attention?" }
+    ],
+    "should": ["Answer the focused follow-up conversationally", "Use different wording and only the guidance needed now"],
+    "should_not": ["Repeat the previous complete instruction", "Restart from the beginning without answering"]
+  },
+  {
+    "id": "follow-up-after-starter",
+    "messages": [
+      { "role": "user", "content": "What should I look at?" },
+      { "role": "assistant", "content": "The simple immediate feeling of being you." },
+      { "role": "user", "content": "Is that an emotion?" }
+    ],
+    "should": ["Answer the new question directly", "Clarify only the relevant emotion distinction"],
+    "should_not": ["Continue a starter script", "Repeat every possible contrast"]
+  },
+  {
+    "id": "step-one-boundary",
+    "messages": [{ "role": "user", "content": "Can you teach me the Self-Directed Attention Exercise now?" }],
+    "should": ["Remain within Step One", "Avoid teaching the Self-Directed Attention Exercise"],
+    "should_not": ["Give breath counting instructions", "Blend Step One and Step Two"]
+  },
+  {
+    "id": "completion-transition",
+    "messages": [
+      { "role": "user", "content": "I looked." },
+      { "role": "assistant", "content": "Good." },
+      { "role": "user", "content": "What should I do now?" }
+    ],
+    "should": ["Use the approved completion response", "Link Just One Look website to the homepage"],
+    "should_not": ["Send the visitor directly to the Step Two guide", "Continue teaching after the transition"]
+  }
+]
