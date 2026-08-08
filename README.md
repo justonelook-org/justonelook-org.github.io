@@ -19,7 +19,10 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `what-now.html`, `about.html`, and other root HTML files — primary site pages
 - `library/` — books, articles, blog posts, podcasts, audio reports, and videos
 - `assets/` — shared images, styles, and other site assets
-- `bots/` — source instructions for the two external ChatGPT guides
+- `ai/` — public webpages for Zero's two guides; these paths are also stable public URLs
+- `zero/` — canonical instructions for Zero's two guides
+- `worker/zero/` — Cloudflare Worker backend shared by both Zero guides
+- `AGENTS.md` — repository instructions for coding agents that maintain the site
 - `scripts/` — maintenance and launch-checking utilities
 - `launch/` — launch protocol, reports, and supporting records
 - `legacy-site/` — preserved historical source material

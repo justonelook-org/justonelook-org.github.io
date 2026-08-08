@@ -4,5 +4,5 @@
 node_modules/
 .dev.vars
 .wrangler/
-worker/look-at-yourself/src/generated-instructions.js
-worker/look-at-yourself/src/generated-sda-instructions.js
+worker/zero/src/generated-instructions.js
+worker/zero/src/generated-sda-instructions.js
