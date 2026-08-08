@@ -1,4 +1,4 @@
-# Look At Yourself private service
+# Zero private service
 
 This small Cloudflare Worker connects the Look At Yourself and Self-Directed Attention Exercise guides to OpenAI. It contains no conversation database and does not intentionally log message content.
 
@@ -36,4 +36,6 @@ Cloudflare's rate-limit counters are approximate and location-based. Before wide
 
 ## Source of truth
 
-The preparation script reads both canonical files in `bots/` whenever the Worker is checked, tested, or published. It creates temporary generated modules that Git ignores. This keeps each guide's repository instruction file as its source of truth. The additional instructions in `src/index.js` contain only website-specific boundaries, response guidance, transparency rules, and the narrow emergency exception.
+The preparation script reads both canonical files in `zero/` whenever the Worker is checked, tested, or published. It creates temporary generated modules that Git ignores. This keeps each guide's repository instruction file as its source of truth. The additional instructions in `src/index.js` contain only website-specific boundaries, response guidance, transparency rules, and the narrow emergency exception.
+
+The deployed Worker retains the historical `look-at-yourself-api` name because its workers.dev address is used by both public guide pages.

@@ -2,8 +2,8 @@ import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const sources = [
-  ["../../../bots/look-at-yourself/instructions.md", "../src/generated-instructions.js"],
-  ["../../../bots/self-directed-attention-exercise/instructions.md", "../src/generated-sda-instructions.js"]
+  ["../../../zero/look-at-yourself/instructions.md", "../src/generated-instructions.js"],
+  ["../../../zero/self-directed-attention-exercise/instructions.md", "../src/generated-sda-instructions.js"]
 ];
 
 for (const [source, target] of sources) {
