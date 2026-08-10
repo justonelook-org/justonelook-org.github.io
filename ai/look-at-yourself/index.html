@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../../assets/css/look-at-yourself.css?v=20260807-2">
 </head>
 <body>
-  <main class="guide" data-public-access="true" data-api-endpoint="https://look-at-yourself-api.look-at-yourself-worker.workers.dev/api/look-at-yourself" data-local-endpoint="/api/look-at-yourself" data-opening="Choose one of the questions below, or ask in your own words." data-max-responses="12">
+  <main class="guide" data-public-access="true" data-api-endpoint="https://look-at-yourself-api.look-at-yourself-worker.workers.dev/api/look-at-yourself" data-local-endpoint="/api/look-at-yourself" data-opening="Choose one of the questions below, or ask in your own words." data-max-responses="12" data-anonymous-traffic-event="zero_opened">
     <section id="guide-panel" class="guide-panel" aria-labelledby="guide-title">
       <h1 id="guide-title" class="guide-welcome-title"><span class="heading-line keep-together">Hi! I’m Zero. Before exploring the site,</span><span class="heading-line keep-together">take a moment to look at yourself.</span></h1>
 
@@ -62,6 +62,7 @@
       <h2 id="privacy-title">About this AI guide</h2>
       <p>This guide uses OpenAI to generate its responses. What you write is sent to OpenAI for processing.</p>
       <p>The Just One Look website does not intentionally save your conversation. OpenAI may retain API data temporarily to operate and protect its service. API messages are not used to train OpenAI’s models by default.</p>
+      <p>At selected points, the active conversation is also processed temporarily to record anonymous indications that the invitation was delivered and whether the visitor’s words report trying. Conversation text is not saved in this measurement, and it does not decide whether the inward look occurred or succeeded.</p>
       <p>Please do not enter your name, address, contact details, medical information, or other private information.</p>
       <p>This guide only provides the Look At Yourself instruction. It is not a person, therapist, medical service, or emergency service.</p>
       <p>For privacy questions, <a href="../../contact.html">contact the Just One Look team</a>.</p>
@@ -69,6 +70,7 @@
     </div>
   </dialog>
 
-  <script src="../../assets/js/look-at-yourself.js?v=20260807-3" defer></script>
+  <script src="../../assets/js/anonymous-traffic.js?v=20260810-1" defer></script>
+  <script src="../../assets/js/look-at-yourself.js?v=20260810-1" defer></script>
 </body>
 </html>

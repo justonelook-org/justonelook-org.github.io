@@ -36,6 +36,7 @@
   let sessionComplete = false;
   let adultConfirmed = false;
   let stepOneConfirmed = remembersStepOne && readStepOneConfirmation();
+  let trafficStartReported = false;
 
 
   entryForm?.addEventListener("change", () => {
@@ -93,6 +94,10 @@
       stepOneConfirmed = true;
       writeStepOneConfirmation();
     }
+    if (!trafficStartReported) {
+      trafficStartReported = true;
+      window.jolAnonymousTraffic?.("zero_session_started");
+    }
     appendMessage("user", message);
     messageInput.value = "";
     guidePanel.dataset.state = "responding";
@@ -137,6 +142,7 @@
     sessionId = crypto.randomUUID();
     assistantCount = 0;
     sessionComplete = false;
+    trafficStartReported = false;
     accessCode = "";
     if (accessCodeInput) accessCodeInput.value = "";
     if (guardianApproval) guardianApproval.checked = false;

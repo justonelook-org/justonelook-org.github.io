@@ -1,5 +1,8 @@
 import lookInstructions from "./generated-instructions.js";
 import sdaInstructions from "./generated-sda-instructions.js";
+import { archiveExpiredSessions, handleAnalyticsRequest } from "./analytics.js";
+import { hashSessionId, measureConversation, recordMeasurementError, recordSessionStart } from "./outcome-measurement.js";
+import { handleTrafficDashboard, handleTrafficEvent } from "./traffic-analytics.js";
 
 const OPENAI_URL = "https://api.openai.com/v1/responses";
 const MAX_MESSAGES = 24;
@@ -27,6 +30,7 @@ Do not trigger this exception for ordinary references to fear, sadness, illness,
 
 const guides = {
   "/api/look-at-yourself": {
+    measuresOutcome: true,
     acceptsStepOneConfirmation: false,
     requiresAccessCode: false,
     apiKeyName: "OPENAI_API_KEY",
@@ -58,6 +62,7 @@ WEBSITE GUIDANCE STYLE
 - If the visitor mentions stress or another difficult experience, briefly acknowledge their actual situation before guiding them. Do not offer advice or analyze the experience.
 - Do not mistake the inward look for thinking about oneself, observing thoughts or emotions, scanning the body, examining a story, visualizing, or producing a special state. Clarify only what is relevant now.
 - Nothing needs to be suppressed or removed, nothing special has to happen, and the visitor does not need certainty that they succeeded.
+- Do not routinely ask whether the inward look worked or ask the visitor to evaluate an experience. When the conversation remains conceptual and it genuinely helps to establish whether they attempted the act, use the optional two-stage question and clarification from the canonical instructions. It must not become an automatic confirmation flow.
 - Give a complete inward-looking instruction when needed. After that, use the minimum guidance that answers the visitor's words; acknowledgment or focused clarification may be enough.
 - When the visitor still needs direction, end with a simple invitation they can act on. Do not append another instruction when it is unnecessary.
 - Short line breaks are welcome when they make the instruction quieter and easier to follow. Do not use headings or unnecessary emphasis.
@@ -67,6 +72,7 @@ WEBSITE GUIDANCE STYLE
 `
   },
   "/api/self-directed-attention": {
+    measuresOutcome: false,
     acceptsStepOneConfirmation: true,
     requiresAccessCode: false,
     apiKeyName: "OPENAI_SDA_API_KEY",
@@ -101,10 +107,20 @@ SDA WEBSITE GUIDANCE STYLE
 };
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx = { waitUntil() {} }) {
+    const pathname = new URL(request.url).pathname;
+    if (pathname.startsWith("/private/website-traffic")) {
+      if (request.method !== "GET") return jsonResponse({ error: "Method not allowed." }, 405, { "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8" });
+      return handleTrafficDashboard(request, env);
+    }
+    if (pathname.startsWith("/private/looking-zero")) {
+      if (request.method !== "GET") return jsonResponse({ error: "Method not allowed." }, 405, { "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8" });
+      return handleAnalyticsRequest(request, env);
+    }
+    if (pathname === "/api/traffic") return handleTrafficEvent(request, env);
     const origin = request.headers.get("Origin") || "";
     const corsHeaders = getCorsHeaders(origin, env.ALLOWED_ORIGINS);
-    const guide = guides[new URL(request.url).pathname];
+    const guide = guides[pathname];
 
     if (request.method === "OPTIONS") {
       return guide ? new Response(null, { status: 204, headers: corsHeaders }) : jsonResponse({ error: "Not found." }, 404, corsHeaders);
@@ -133,6 +149,33 @@ export default {
     const sessionLimit = await env.SESSION_RATE_LIMITER.limit({ key: `${guide.limiterKey}:${validation.sessionId}` });
     const pilotLimit = await env.PILOT_RATE_LIMITER.limit({ key: guide.limiterKey });
     if (!sessionLimit.success || !pilotLimit.success) return jsonResponse({ error: "Please leave a little space before trying again." }, 429, corsHeaders);
+
+    let measurementSessionHash = "";
+    const outcomeMeasurementEnabled = outcomeMeasurementAllowed(
+      env.OUTCOME_MEASUREMENT_ENABLED, origin, env.OUTCOME_TEST_ORIGIN
+    );
+    const diagnosticHeaderEnabled = env.OUTCOME_MEASUREMENT_ENABLED === "test" && origin === env.OUTCOME_TEST_ORIGIN;
+    let measurementStatus = outcomeMeasurementEnabled ? "eligible" : "disabled";
+    let measurementError = "";
+    if (guide.measuresOutcome && outcomeMeasurementEnabled && env.OUTCOME_DB && env.OUTCOME_SESSION_SECRET) {
+      try {
+        measurementSessionHash = await hashSessionId(validation.sessionId, env.OUTCOME_SESSION_SECRET);
+        await recordSessionStart(env.OUTCOME_DB, measurementSessionHash, new Date().toISOString(), validation.turnCount);
+        if (diagnosticHeaderEnabled) {
+          const recorded = await env.OUTCOME_DB.prepare(
+            "SELECT COUNT(*) AS count FROM looking_sessions WHERE session_hash = ?"
+          ).bind(measurementSessionHash).first();
+          measurementStatus = Number(recorded?.count) === 1 ? "session-recorded" : "session-missing";
+        } else {
+          measurementStatus = "session-recorded";
+        }
+      } catch (error) {
+        measurementSessionHash = "";
+        measurementStatus = "session-error";
+        if (diagnosticHeaderEnabled) measurementError = sanitizeDiagnostic(error?.message);
+        /* Outcome measurement must never interfere with Zero. */
+      }
+    }
 
     let openAIResponse;
     try {
@@ -163,7 +206,36 @@ The visitor previously confirmed on this device that they performed the inward l
     const result = await openAIResponse.json();
     const message = extractOutputText(result);
     if (!message || message.length > 1200) return jsonResponse({ error: "The guide could not give a short response. Please try again." }, 502, corsHeaders);
+    if (guide.measuresOutcome && outcomeMeasurementEnabled && measurementSessionHash && env.OPENAI_OUTCOME_API_KEY) {
+      const measuredMessages = [...validation.messages, { role: "assistant", content: message }];
+      const measurement = measureConversation({
+        database: env.OUTCOME_DB,
+        apiKey: env.OPENAI_OUTCOME_API_KEY,
+        model: env.OUTCOME_MODEL || "gpt-5.6-luna",
+        sessionHash: measurementSessionHash,
+        messages: measuredMessages,
+        turnCount: validation.turnCount
+      });
+      if (diagnosticHeaderEnabled) {
+        try {
+          const result = await measurement;
+          measurementStatus = `${result.skipped ? "skipped" : "classified"}-${measurementStatus}`;
+        } catch (error) {
+          const code = await recordMeasurementError(env.OUTCOME_DB, measurementSessionHash, error).catch(() => "classifier_status_write_error");
+          measurementStatus = `${code}-${measurementStatus}`;
+        }
+      } else {
+        ctx.waitUntil(measurement.catch((error) => recordMeasurementError(env.OUTCOME_DB, measurementSessionHash, error).catch(() => {})));
+        measurementStatus = `scheduled-${measurementStatus}`;
+      }
+    }
+    if (diagnosticHeaderEnabled) corsHeaders["X-Outcome-Measurement"] = measurementStatus;
+    if (diagnosticHeaderEnabled && measurementError) corsHeaders["X-Outcome-Error"] = measurementError;
     return jsonResponse({ message }, 200, corsHeaders);
+  },
+
+  async scheduled(_event, env, ctx = { waitUntil() {} }) {
+    if (env.OUTCOME_DB) ctx.waitUntil(archiveExpiredSessions(env.OUTCOME_DB).catch(() => {}));
   }
 };
 
@@ -187,7 +259,7 @@ function validatePayload(body, maxResponses) {
   if (messages[messages.length - 1].role !== "user") return invalid("The last message must be from the visitor.");
   if (totalCharacters > MAX_TOTAL_CHARACTERS) return invalid("The conversation is too long. Please restart the guide.");
   if (body.stepOneConfirmed !== undefined && typeof body.stepOneConfirmed !== "boolean") return invalid("The Step One confirmation could not be read.");
-  return { ok: true, sessionId: body.sessionId, messages, stepOneConfirmed: body.stepOneConfirmed === true };
+  return { ok: true, sessionId: body.sessionId, turnCount: body.turnCount, messages, stepOneConfirmed: body.stepOneConfirmed === true };
 }
 
 function invalid(error) { return { ok: false, error }; }
@@ -206,3 +278,10 @@ function getCorsHeaders(origin, configuredOrigins) {
   return headers;
 }
 function jsonResponse(body, status, headers) { return new Response(JSON.stringify(body), { status, headers }); }
+export function outcomeMeasurementAllowed(mode, origin, testOrigin) {
+  if (mode === "true") return !testOrigin || origin !== testOrigin;
+  return mode === "test" && Boolean(testOrigin) && origin === testOrigin;
+}
+function sanitizeDiagnostic(value = "") {
+  return String(value).replace(/[^a-z0-9 _.:(),-]/gi, "?").slice(0, 180) || "unknown";
+}
