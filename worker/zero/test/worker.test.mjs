@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import worker from "../src/index.js";
+import worker, { outcomeMeasurementAllowed } from "../src/index.js";
 
 const allowedOrigin = "http://localhost:8000";
 const baseEnv = {
@@ -8,9 +8,83 @@ const baseEnv = {
   OPENAI_API_KEY: "test-openai-key",
   OPENAI_SDA_API_KEY: "test-sda-key",
   PILOT_ACCESS_CODE: "test-pilot-code",
+  OUTCOME_MEASUREMENT_ENABLED: "false",
   SESSION_RATE_LIMITER: { limit: async () => ({ success: true }) },
   PILOT_RATE_LIMITER: { limit: async () => ({ success: true }) }
 };
+
+test("keeps outcome measurement disabled unless explicitly enabled", async () => {
+  const originalFetch = globalThis.fetch;
+  let databaseTouched = false;
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    output: [{ content: [{ type: "output_text", text: "Notice that you are here." }] }]
+  }), { status: 200, headers: { "Content-Type": "application/json" } });
+  const env = {
+    ...baseEnv,
+    OUTCOME_DB: { prepare() { databaseTouched = true; throw new Error("Measurement should be disabled."); } },
+    OUTCOME_SESSION_SECRET: "test-session-secret",
+    OPENAI_OUTCOME_API_KEY: "test-outcome-key"
+  };
+  try {
+    const response = await worker.fetch(request(validBody()), env);
+    assert.equal(response.status, 200);
+    assert.equal(databaseTouched, false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("limits test measurement to the exact configured test origin", () => {
+  assert.equal(outcomeMeasurementAllowed("false", "https://website-test-zero.pages.dev", "https://website-test-zero.pages.dev"), false);
+  assert.equal(outcomeMeasurementAllowed("test", "https://justonelook.org", "https://website-test-zero.pages.dev"), false);
+  assert.equal(outcomeMeasurementAllowed("test", "https://website-test-zero.pages.dev", "https://website-test-zero.pages.dev"), true);
+  assert.equal(outcomeMeasurementAllowed("test", "https://website-test-zero.pages.dev.evil.example", "https://website-test-zero.pages.dev"), false);
+  assert.equal(outcomeMeasurementAllowed("true", "https://justonelook.org", "https://website-test-zero.pages.dev"), true);
+  assert.equal(outcomeMeasurementAllowed("true", "https://website-test-zero.pages.dev", "https://website-test-zero.pages.dev"), false);
+  assert.equal(outcomeMeasurementAllowed("true", "https://website-test-zero.pages.dev.evil.example", "https://website-test-zero.pages.dev"), true);
+});
+
+test("excludes the team test origin from production measurement", async () => {
+  const originalFetch = globalThis.fetch;
+  let databaseTouched = false;
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    output: [{ content: [{ type: "output_text", text: "Notice that you are here." }] }]
+  }), { status: 200, headers: { "Content-Type": "application/json" } });
+  const teamOrigin = "https://website-test-zero.pages.dev";
+  const env = {
+    ...baseEnv,
+    ALLOWED_ORIGINS: `${allowedOrigin},${teamOrigin}`,
+    OUTCOME_MEASUREMENT_ENABLED: "true",
+    OUTCOME_TEST_ORIGIN: teamOrigin,
+    OUTCOME_DB: { prepare() { databaseTouched = true; throw new Error("Team testing must not be measured."); } },
+    OUTCOME_SESSION_SECRET: "test-session-secret",
+    OPENAI_OUTCOME_API_KEY: "test-outcome-key"
+  };
+  try {
+    const response = await worker.fetch(request(validBody(), { origin: teamOrigin }), env);
+    assert.equal(response.status, 200);
+    assert.equal(databaseTouched, false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("does not expose the test-only measurement diagnostic to production origins", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    output: [{ content: [{ type: "output_text", text: "Notice that you are here." }] }]
+  }), { status: 200, headers: { "Content-Type": "application/json" } });
+  try {
+    const response = await worker.fetch(request(validBody(), { origin: allowedOrigin }), {
+      ...baseEnv,
+      OUTCOME_MEASUREMENT_ENABLED: "test",
+      OUTCOME_TEST_ORIGIN: "https://website-test-zero.pages.dev"
+    });
+    assert.equal(response.headers.get("X-Outcome-Measurement"), null);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
 
 function request(body, options = {}) {
   const headers = {
@@ -175,6 +249,10 @@ test("sends temporary context with storage disabled", async () => {
     assert.match(openAIBody.instructions, /Nothing needs to be suppressed or removed/i);
     assert.match(openAIBody.instructions, /nothing special has to happen/i);
     assert.match(openAIBody.instructions, /does not need certainty that they succeeded/i);
+    assert.match(openAIBody.instructions, /Did you try looking at yourself just now\?/);
+    assert.match(openAIBody.instructions, /By looking, I mean turning your attention toward the simple feeling of being you—not thinking about yourself\./);
+    assert.match(openAIBody.instructions, /not an automatic questionnaire or confirmation flow/i);
+    assert.match(openAIBody.instructions, /Do not routinely ask whether the inward look worked/i);
     assert.match(openAIBody.instructions, /up to about 120 words/i);
     assert.doesNotMatch(openAIBody.instructions, /reply exactly/i);
     assert.doesNotMatch(openAIBody.instructions, /defined first responses/i);

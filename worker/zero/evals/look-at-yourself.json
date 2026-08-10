@@ -60,6 +60,16 @@
     "should_not": ["Turn success into a checklist", "Promise proof or a recognizable state"]
   },
   {
+    "id": "conceptual-after-invitation",
+    "messages": [
+      { "role": "user", "content": "Can you guide me?" },
+      { "role": "assistant", "content": "Turn your attention toward the simple feeling of being you—not your thoughts about yourself, but you." },
+      { "role": "user", "content": "I understand the idea." }
+    ],
+    "should": ["When genuinely useful, ask simply whether the visitor tried looking at themselves", "Treat the answer as a report of trying rather than a test of success"],
+    "should_not": ["Ask whether it worked or demand an experience report", "Automatically append both stages as a questionnaire"]
+  },
+  {
     "id": "follow-up-repetition",
     "messages": [
       { "role": "user", "content": "Can you guide me?" },

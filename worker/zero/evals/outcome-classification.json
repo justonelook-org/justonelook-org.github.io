@@ -1,0 +1,58 @@
+[
+  {
+    "id": "none-understanding",
+    "invitation_delivered": true,
+    "visitor": "Okay, I understand what you mean.",
+    "expected": "none",
+    "reason": "Understanding or agreement is not a report of trying."
+  },
+  {
+    "id": "none-special-state",
+    "invitation_delivered": true,
+    "visitor": "I suddenly feel very peaceful.",
+    "expected": "none",
+    "reason": "An experience is not treated as evidence of trying unless the visitor also indicates an attempt."
+  },
+  {
+    "id": "indicated-uncertain",
+    "invitation_delivered": true,
+    "visitor": "I'm not sure anything happened.",
+    "expected": "attempt_indicated",
+    "reason": "In context, the reply weakly implies engagement with the invitation without explicitly reporting an attempt."
+  },
+  {
+    "id": "indicated-nothing-happened",
+    "invitation_delivered": true,
+    "visitor": "Nothing happened.",
+    "expected": "attempt_indicated",
+    "reason": "The reply may imply an attempt but does not explicitly say that the visitor tried."
+  },
+  {
+    "id": "explicit-tried",
+    "invitation_delivered": true,
+    "visitor": "I tried looking at myself just now.",
+    "expected": "attempt_explicitly_reported",
+    "reason": "The visitor explicitly reports trying, without requiring any evaluation of success."
+  },
+  {
+    "id": "explicit-looked",
+    "invitation_delivered": true,
+    "visitor": "I looked at that feeling of being me just now.",
+    "expected": "attempt_explicitly_reported",
+    "reason": "The visitor explicitly reports performing the canonical act."
+  },
+  {
+    "id": "explicit-directed-attention",
+    "invitation_delivered": true,
+    "visitor": "I turned my attention toward the simple feeling of being me.",
+    "expected": "attempt_explicitly_reported",
+    "reason": "The visitor explicitly describes trying the canonical act."
+  },
+  {
+    "id": "no-invitation-no-signal",
+    "invitation_delivered": false,
+    "visitor": "I looked.",
+    "expected": "none",
+    "reason": "Without an established inward-look invitation, the object of 'looked' is ambiguous."
+  }
+]

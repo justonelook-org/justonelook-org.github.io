@@ -3,9 +3,10 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const scenarios = JSON.parse(await readFile(new URL("../evals/look-at-yourself.json", import.meta.url), "utf8"));
+const outcomeScenarios = JSON.parse(await readFile(new URL("../evals/outcome-classification.json", import.meta.url), "utf8"));
 
 test("covers Looking Zero's behavioral evaluation scenarios without exact reply templates", () => {
-  assert.equal(scenarios.length, 14);
+  assert.equal(scenarios.length, 15);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
 
   const requiredIds = [
@@ -19,6 +20,7 @@ test("covers Looking Zero's behavioral evaluation scenarios without exact reply 
     "misunderstanding-suppression",
     "no-special-result",
     "uncertain-success",
+    "conceptual-after-invitation",
     "follow-up-repetition",
     "follow-up-after-starter",
     "step-one-boundary",
@@ -31,5 +33,16 @@ test("covers Looking Zero's behavioral evaluation scenarios without exact reply 
     assert.ok(Array.isArray(scenario.should) && scenario.should.length >= 2, `${scenario.id} needs positive criteria`);
     assert.ok(Array.isArray(scenario.should_not) && scenario.should_not.length >= 2, `${scenario.id} needs boundary criteria`);
     assert.equal("expected_reply" in scenario, false, `${scenario.id} must evaluate meaning rather than exact wording`);
+  }
+});
+
+test("documents conservative outcome-classification boundaries for human and model evals", () => {
+  assert.equal(outcomeScenarios.length, 8);
+  assert.equal(new Set(outcomeScenarios.map(({ id }) => id)).size, outcomeScenarios.length);
+  assert.deepEqual(new Set(outcomeScenarios.map(({ expected }) => expected)), new Set(["none", "attempt_indicated", "attempt_explicitly_reported"]));
+  for (const scenario of outcomeScenarios) {
+    assert.equal(typeof scenario.invitation_delivered, "boolean");
+    assert.ok(scenario.visitor.length > 0);
+    assert.ok(scenario.reason.length > 0);
   }
 });
