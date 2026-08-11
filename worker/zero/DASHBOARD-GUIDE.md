@@ -1,6 +1,6 @@
-# Looking Zero outcome dashboard guide
+# Just One Look measurement dashboard guide
 
-This guide is for the owner of the private Looking Zero outcome dashboard. It explains how to read and maintain the dashboard without treating its figures as evidence that the inward look succeeded or failed.
+This guide is for the owner of the unified private measurement dashboard. The page presents website traffic and Looking Zero outcomes as two clearly separated sections without combining their data or interpretations.
 
 ## Open the dashboard
 
@@ -11,7 +11,7 @@ Sign in with:
 - Username: `analytics`
 - Password: the value stored in Cloudflare as `ANALYTICS_ACCESS_TOKEN`
 
-Save the URL as a browser favorite named **Looking Zero – Outcome Dashboard**. Store the password in a password manager, preferably in an entry with the same name. Never put the password in a bookmark, repository file, ordinary note, screenshot, or conversation.
+Save the URL as a browser favorite named **Just One Look – Measurement Dashboard**. Store the password in a password manager, preferably in an entry with the same name. Never put the password in a bookmark, repository file, ordinary note, screenshot, or conversation.
 
 The dashboard currently uses an HTTP Basic password check built into the Worker. Because the public guides share this Worker, do not place Cloudflare Access in front of the entire Worker hostname. If stronger access control is added later, protect only `/private/looking-zero*` or move analytics to a separate Worker first.
 
@@ -23,9 +23,13 @@ The dashboard opens with the most recent 30 days selected.
 2. Choose the last included date under **Through**.
 3. Select **Update**.
 
-The selected range can be no longer than 366 days. **Through** includes the whole date shown. Data is grouped by the session start date.
+The selected range can be no longer than 366 days. **Through** includes the whole date shown. One selection updates both dashboard sections. Traffic is grouped by UTC day, while Looking Zero outcomes are selected by session start date.
 
-## Read the figures
+## Website Traffic
+
+The first section shows homepage views, Try It clicks, Looking Zero openings, and Looking Zero sessions started. These are anonymous aggregate action counts, not unique people or linked visitor journeys. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for their exact definitions and privacy boundaries.
+
+## Looking Zero outcomes
 
 | Figure | Meaning |
 | --- | --- |

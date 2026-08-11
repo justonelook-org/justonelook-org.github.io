@@ -121,22 +121,31 @@ function unauthorized() {
 function dashboardHtml() {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Looking Zero — Outcome Measurement</title><style>
+<title>Just One Look — Measurement Dashboard</title><style>
 :root{color-scheme:light dark;font-family:system-ui,sans-serif}body{max-width:58rem;margin:0 auto;padding:2rem 1rem;line-height:1.5}
-h1{font-size:1.55rem}.controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:end;margin:2rem 0}.controls label{display:grid;gap:.3rem}
+h1{font-size:1.65rem}h2{font-size:1.4rem;margin:0}.controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:end;margin:2rem 0}.controls label{display:grid;gap:.3rem}
 button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem}
 .card{border:1px solid #8886;border-radius:.5rem;padding:1rem}.value{font-size:2rem;font-variant-numeric:tabular-nums}.detail{color:#666;font-size:.9rem}
-@media(prefers-color-scheme:dark){.detail{color:#bbb}}#status{min-height:1.5rem}.note{margin-top:2rem;max-width:48rem}
-</style></head><body><main><h1>Looking Zero — Outcome Measurement</h1>
-<p>Anonymous milestones and reports of trying. This dashboard does not determine whether the inward look succeeded.</p>
+@media(prefers-color-scheme:dark){.detail{color:#bbb}}#status{min-height:1.5rem}.dashboard-section{margin:2.5rem 0}.section-intro{margin:.4rem 0 1.25rem}.note{margin-top:1.5rem;max-width:48rem}.divider{border:0;border-top:1px solid #8886;margin:3rem 0}
+</style></head><body><main><h1>Just One Look — Measurement Dashboard</h1>
+<p>Anonymous aggregate website activity and Looking Zero outcome measurements.</p>
 <form class="controls" id="range"><label>From<input type="date" name="from" required></label><label>Through<input type="date" name="to" required></label><button>Update</button></form>
-<p id="status" role="status"></p><section class="cards" id="cards" aria-live="polite"></section><p class="note" id="note"></p>
+<p id="status" role="status"></p>
+<section class="dashboard-section" aria-labelledby="traffic-heading"><h2 id="traffic-heading">Website Traffic</h2>
+<p class="section-intro">Anonymous aggregate views and actions. These figures do not identify or follow visitors.</p>
+<div class="cards" id="traffic-cards" aria-live="polite"></div><p class="note" id="traffic-note"></p></section>
+<hr class="divider">
+<section class="dashboard-section" aria-labelledby="outcome-heading"><h2 id="outcome-heading">Looking Zero — Outcome Measurement</h2>
+<p class="section-intro">Anonymous milestones and reports of trying. These figures do not determine whether the inward look succeeded.</p>
+<div class="cards" id="outcome-cards" aria-live="polite"></div><p class="note" id="outcome-note"></p></section>
 <script>
-const form=document.querySelector('#range'),cards=document.querySelector('#cards'),status=document.querySelector('#status'),note=document.querySelector('#note');
+const form=document.querySelector('#range'),status=document.querySelector('#status'),trafficCards=document.querySelector('#traffic-cards'),trafficNote=document.querySelector('#traffic-note'),outcomeCards=document.querySelector('#outcome-cards'),outcomeNote=document.querySelector('#outcome-note');
 const today=new Date(),from=new Date(today.getTime()-30*86400000);form.to.value=today.toISOString().slice(0,10);form.from.value=from.toISOString().slice(0,10);
 form.addEventListener('submit',e=>{e.preventDefault();load()});
-async function load(){status.textContent='Loading…';cards.replaceChildren();const q=new URLSearchParams(new FormData(form));try{const r=await fetch('/private/looking-zero/api?'+q,{cache:'no-store'});const d=await r.json();if(!r.ok)throw new Error(d.error||'Unable to load analytics.');render(d);status.textContent='';}catch(e){status.textContent=e.message}}
-function render(d){const c=d.counts,p=d.percentages;const rows=[['Sessions started',c.sessions,''],['Complete invitation delivered',c.invitations,p.invitations_of_started+'% of sessions'],['Response after invitation',c.post_responses,p.post_responses_of_invitations+'% of invitations'],['Possible indication of trying',c.indicated,p.indicated_of_invitations+'% of invitations'],['Explicitly reported trying',c.explicit,p.explicit_of_invitations+'% of invitations'],['No attempt report',c.no_report,'Not evidence that the look did not occur'],['Median messages before attempt report',d.median_messages_before_attempt_report??'—',d.median_coverage]];for(const [label,value,detail]of rows){const el=document.createElement('article');el.className='card';const l=document.createElement('div'),v=document.createElement('div'),x=document.createElement('div');l.textContent=label;v.className='value';v.textContent=value;x.className='detail';x.textContent=detail;el.append(l,v,x);cards.append(el)}note.textContent=d.note}
+async function load(){status.textContent='Loading…';trafficCards.replaceChildren();outcomeCards.replaceChildren();const q=new URLSearchParams(new FormData(form));try{const [tr,or]=await Promise.all([fetch('/private/website-traffic/api?'+q,{cache:'no-store'}),fetch('/private/looking-zero/api?'+q,{cache:'no-store'})]);const [td,od]=await Promise.all([tr.json(),or.json()]);if(!tr.ok)throw new Error(td.error||'Unable to load website traffic.');if(!or.ok)throw new Error(od.error||'Unable to load Looking Zero outcomes.');renderTraffic(td);renderOutcome(od);status.textContent='';}catch(e){status.textContent=e.message}}
+function renderTraffic(d){const c=d.counts,p=d.percentages;renderCards(trafficCards,[['Homepage views',c.homepage_views,'Page loads, not unique people'],['Try It clicks',c.try_it_clicks,p.views_to_try_it+'% of homepage views'],['Looking Zero opened',c.zero_opens,p.try_it_to_zero_open+'% of Try It clicks'],['Looking Zero sessions started',c.zero_session_starts,p.zero_open_to_start+'% of Zero opens']]);trafficNote.textContent=d.note}
+function renderOutcome(d){const c=d.counts,p=d.percentages;renderCards(outcomeCards,[['Sessions started',c.sessions,''],['Complete invitation delivered',c.invitations,p.invitations_of_started+'% of sessions'],['Response after invitation',c.post_responses,p.post_responses_of_invitations+'% of invitations'],['Possible indication of trying',c.indicated,p.indicated_of_invitations+'% of invitations'],['Explicitly reported trying',c.explicit,p.explicit_of_invitations+'% of invitations'],['No attempt report',c.no_report,'Not evidence that the look did not occur'],['Median messages before attempt report',d.median_messages_before_attempt_report??'—',d.median_coverage]]);outcomeNote.textContent=d.note}
+function renderCards(container,rows){for(const [label,value,detail]of rows){const el=document.createElement('article');el.className='card';const l=document.createElement('div'),v=document.createElement('div'),x=document.createElement('div');l.textContent=label;v.className='value';v.textContent=value;x.className='detail';x.textContent=detail;el.append(l,v,x);container.append(el)}}
 load();
 </script></main></body></html>`;
 }
