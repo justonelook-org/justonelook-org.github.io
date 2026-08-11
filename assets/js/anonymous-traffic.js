@@ -2,8 +2,8 @@
   "use strict";
 
   const endpoint = "https://look-at-yourself-api.look-at-yourself-worker.workers.dev/api/traffic";
-  const allowedEvents = new Set(["homepage_view", "try_it_click", "zero_opened", "zero_session_started"]);
-  const oncePerPageEvents = new Set(["homepage_view", "try_it_click", "zero_opened"]);
+  const allowedEvents = new Set(["homepage_view", "homepage_entrance", "try_it_click", "zero_opened", "zero_session_started"]);
+  const oncePerPageEvents = new Set(["homepage_view", "homepage_entrance", "try_it_click", "zero_opened"]);
   const reportedThisPage = new Set();
 
   function report(event) {
@@ -19,10 +19,23 @@
     }).catch(() => {});
   }
 
+  function reportHomepageEntrance() {
+    const navigation = performance.getEntriesByType?.("navigation")[0];
+    if (navigation?.type === "reload") return;
+    if (document.referrer) {
+      try { if (new URL(document.referrer).origin === location.origin) return; }
+      catch { return; }
+    }
+    report("homepage_entrance");
+  }
+
   document.querySelectorAll("[data-anonymous-traffic-event]").forEach((element) => {
     const event = element.dataset.anonymousTrafficEvent;
     if (element.matches("a,button")) element.addEventListener("click", () => report(event));
-    else report(event);
+    else {
+      report(event);
+      if (event === "homepage_view") reportHomepageEntrance();
+    }
   });
 
   window.jolAnonymousTraffic = report;

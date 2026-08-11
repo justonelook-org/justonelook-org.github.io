@@ -16,6 +16,7 @@ Use the same private credentials as the Looking Zero outcome dashboard:
 ## What is counted
 
 - **Homepage views:** loads of the Just One Look homepage.
+- **Homepage entrances:** direct or external arrivals at the homepage, excluding ordinary reloads and navigation from another Just One Look page. This is a storage-free estimate, not a visit or unique person.
 - **Try It clicks:** clicks on the homepage link leading to Looking Zero.
 - **Looking Zero opened:** loads of the Looking Zero page.
 - **Looking Zero sessions started:** first messages sent in Looking Zero, including a new first message after an intentional restart on the same open page.
@@ -36,11 +37,13 @@ The system does not use or retain:
 - browsing histories
 - links between traffic actions and individual Zero outcome records
 
-Because people are not identified, repeated page loads are repeated views. The dashboard must never label them as unique visitors.
+The browser checks only the current page's navigation type and whether its referrer is from the same site. It sends the fixed `homepage_entrance` event when the arrival is direct or external and is not an ordinary reload. The referrer itself is never sent or stored.
+
+Because people are not identified, homepage entrances must never be labelled as visits or unique visitors. The same person returning later or using another device can create additional entrances, and some browser behavior may undercount or overcount them.
 
 ## Storage
 
-The D1 table `website_daily_traffic` contains one row per UTC day and four integer counters. Browser events increment those totals directly; there are no event-level traffic records to archive.
+The D1 table `website_daily_traffic` contains one row per UTC day and five integer counters. Browser events increment those totals directly; there are no event-level traffic records to archive. Homepage-entrance measurement began on August 11, 2026, so its comparisons exclude earlier Try It clicks.
 
 `TRAFFIC_MEASUREMENT_ENABLED` supports:
 
@@ -52,7 +55,7 @@ Team activity at `https://website-test-zero.pages.dev` is excluded in production
 
 ## Interpretation
 
-Use the figures to ask whether the website is helping people reach and begin Looking Zero. Do not infer how many distinct people visited or claim that an identified visitor moved through every step.
+Use the figures to ask whether the website is helping people reach and begin Looking Zero. Homepage entrances reduce inflation from ordinary reloads without recognizing browsers, but they do not measure visits or distinct people. Do not claim that an identified visitor moved through every step.
 
 The Looking Zero outcome section remains the source for invitation delivery and conversational reports of trying. Although both sections share one page and date selector, traffic and outcomes must still be discussed as separate aggregate layers.
 
