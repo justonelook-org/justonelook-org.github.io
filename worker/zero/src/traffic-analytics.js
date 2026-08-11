@@ -1,6 +1,8 @@
 const MAX_DAYS = 366;
+const HOMEPAGE_ENTRANCES_STARTED_DAY = "2026-08-11";
 const EVENT_COLUMNS = Object.freeze({
   homepage_view: "homepage_views",
+  homepage_entrance: "homepage_entrances",
   try_it_click: "try_it_clicks",
   zero_opened: "zero_opens",
   zero_session_started: "zero_session_starts"
@@ -50,14 +52,17 @@ export async function readTrafficMetrics(database, from, to) {
   const totals = await database.prepare(`
     SELECT
       COALESCE(SUM(homepage_views), 0) AS homepage_views,
+      COALESCE(SUM(homepage_entrances), 0) AS homepage_entrances,
+      COALESCE(SUM(CASE WHEN day >= ? THEN try_it_clicks ELSE 0 END), 0) AS comparable_try_it_clicks,
       COALESCE(SUM(try_it_clicks), 0) AS try_it_clicks,
       COALESCE(SUM(zero_opens), 0) AS zero_opens,
       COALESCE(SUM(zero_session_starts), 0) AS zero_session_starts
     FROM website_daily_traffic
     WHERE day >= substr(?, 1, 10) AND day < substr(?, 1, 10)
-  `).bind(from, to).first();
+  `).bind(HOMEPAGE_ENTRANCES_STARTED_DAY, from, to).first();
   const counts = {
     homepage_views: number(totals?.homepage_views),
+    homepage_entrances: number(totals?.homepage_entrances),
     try_it_clicks: number(totals?.try_it_clicks),
     zero_opens: number(totals?.zero_opens),
     zero_session_starts: number(totals?.zero_session_starts)
@@ -67,10 +72,12 @@ export async function readTrafficMetrics(database, from, to) {
     counts,
     percentages: {
       views_to_try_it: percent(counts.try_it_clicks, counts.homepage_views),
+      entrances_to_try_it: percent(number(totals?.comparable_try_it_clicks), counts.homepage_entrances),
       try_it_to_zero_open: percent(counts.zero_opens, counts.try_it_clicks),
       zero_open_to_start: percent(counts.zero_session_starts, counts.zero_opens)
     },
-    note: "These are anonymous aggregate action counts, not unique people or linked visitor journeys. No analytics cookies or visitor profiles are used."
+    homepage_entrances_started_day: HOMEPAGE_ENTRANCES_STARTED_DAY,
+    note: "Homepage entrances are storage-free estimates of direct or external arrivals, not visits or unique people. Only anonymous daily totals are retained; no analytics cookies, visitor identifiers, raw referrers, or linked visitor journeys are used."
   };
 }
 
