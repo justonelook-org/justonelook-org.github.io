@@ -16,6 +16,8 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(response.headers.get("Content-Security-Policy"), /frame-ancestors 'none'/);
   const html = await response.text();
   assert.match(html, /Website Traffic/i);
+  assert.match(html, /Anonymous aggregate measurement of website activity and Looking Zero outcomes/i);
+  assert.match(html, /Looking Zero sessions started from the production website/i);
   assert.match(html, /Looking Zero — Outcome Measurement/i);
   assert.match(html, /do not determine whether the inward look succeeded/i);
   assert.match(html, /\/private\/website-traffic\/api/);
