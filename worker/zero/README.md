@@ -2,11 +2,11 @@
 
 This small Cloudflare Worker connects the Look At Yourself and Self-Directed Attention Exercise guides to OpenAI. It contains no conversation database and does not intentionally log message content.
 
-For day-to-day access, interpretation, privacy, and maintenance of the private outcome dashboard, see [DASHBOARD-GUIDE.md](DASHBOARD-GUIDE.md).
+For day-to-day access, interpretation, privacy, and maintenance of the unified private traffic and outcome dashboard, see [DASHBOARD-GUIDE.md](DASHBOARD-GUIDE.md).
 
 For the short internal note telling the JOL team where to test without affecting production measurements, see [TEAM-TESTING.md](TEAM-TESTING.md).
 
-For the separate privacy-first website traffic dashboard, event definitions, and maintenance boundaries, see [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md).
+For the privacy-first website traffic section, event definitions, and maintenance boundaries, see [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md).
 
 The repository also contains an optional, disabled-by-default anonymous outcome-measurement layer for Looking Zero. It does not apply to Self-Directed Attention Zero. It remains inactive unless its dedicated D1 binding and secrets are configured. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins.
 

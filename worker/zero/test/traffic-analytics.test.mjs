@@ -58,13 +58,13 @@ test("reads aggregate traffic totals with explicit denominators", async () => {
   assert.match(metrics.note, /not unique people/i);
 });
 
-test("private traffic dashboard uses the existing analytics credentials", async () => {
+test("private traffic dashboard uses the existing credentials and redirects to the unified page", async () => {
   const token = "a-private-analytics-token-longer-than-24";
   const unauthorized = await handleTrafficDashboard(new Request("https://example.test/private/website-traffic"), {});
   const authorized = await handleTrafficDashboard(new Request("https://example.test/private/website-traffic", { headers:{Authorization:`Basic ${btoa(`analytics:${token}`)}`} }), {ANALYTICS_ACCESS_TOKEN:token,OUTCOME_DB:{}});
   assert.equal(unauthorized.status, 401);
-  assert.equal(authorized.status, 200);
-  assert.match(await authorized.text(), /does not identify or follow visitors/i);
+  assert.equal(authorized.status, 302);
+  assert.equal(authorized.headers.get("Location"), "/private/looking-zero");
 });
 
 test("browser instrumentation contains no visitor storage or fingerprinting", async () => {

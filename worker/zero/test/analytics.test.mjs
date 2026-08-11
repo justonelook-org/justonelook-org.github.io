@@ -14,7 +14,14 @@ test("private analytics accepts only the configured Basic credentials", async ()
   const response = await handleAnalyticsRequest(new Request("https://example.test/private/looking-zero", { headers }), { ANALYTICS_ACCESS_TOKEN: token, OUTCOME_DB: {} });
   assert.equal(response.status, 200);
   assert.match(response.headers.get("Content-Security-Policy"), /frame-ancestors 'none'/);
-  assert.match(await response.text(), /does not determine whether the inward look succeeded/i);
+  const html = await response.text();
+  assert.match(html, /Website Traffic/i);
+  assert.match(html, /Looking Zero — Outcome Measurement/i);
+  assert.match(html, /do not determine whether the inward look succeeded/i);
+  assert.match(html, /\/private\/website-traffic\/api/);
+  assert.match(html, /\/private\/looking-zero\/api/);
+  assert.match(html, /Complete invitation delivered/);
+  assert.match(html, /No attempt report/);
 });
 
 test("combines retained sessions and archived daily aggregates with clear denominators", async () => {
