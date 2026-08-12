@@ -320,6 +320,10 @@ textarea {
   font-size: .92rem;
 }
 
+.guide-panel:has(.conversation--completion) .guide-actions {
+  align-items: baseline;
+}
+
 .text-button,
 .link-button {
   padding: 0;
