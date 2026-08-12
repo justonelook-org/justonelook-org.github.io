@@ -102,7 +102,7 @@
       { "role": "assistant", "content": "Good." },
       { "role": "user", "content": "What should I do now?" }
     ],
-    "should": ["Use the approved completion response", "Link Just One Look website to the homepage"],
-    "should_not": ["Send the visitor directly to the Step Two guide", "Continue teaching after the transition"]
+    "should": ["Close the Looking session naturally in response to the visitor's words", "Convey relevant completion meaning without requiring certainty or a special result", "Link Just One Look website to the homepage"],
+    "should_not": ["Repeat prescribed completion wording", "Send the visitor directly to the Step Two guide", "Continue teaching after the transition"]
   }
 ]

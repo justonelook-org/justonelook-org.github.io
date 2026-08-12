@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const scenarios = JSON.parse(await readFile(new URL("../evals/look-at-yourself.json", import.meta.url), "utf8"));
+const lookingPage = await readFile(new URL("../../../ai/look-at-yourself/index.html", import.meta.url), "utf8");
 const outcomeScenarios = JSON.parse(await readFile(new URL("../evals/outcome-classification.json", import.meta.url), "utf8"));
 
 test("covers Looking Zero's behavioral evaluation scenarios without exact reply templates", () => {
@@ -34,6 +35,11 @@ test("covers Looking Zero's behavioral evaluation scenarios without exact reply 
     assert.ok(Array.isArray(scenario.should_not) && scenario.should_not.length >= 2, `${scenario.id} needs boundary criteria`);
     assert.equal("expected_reply" in scenario, false, `${scenario.id} must evaluate meaning rather than exact wording`);
   }
+});
+
+test("invites Looking visitors to write in any language", () => {
+  assert.match(lookingPage, /write in your own words—in any language/);
+  assert.doesNotMatch(lookingPage, /ask in your own words/);
 });
 
 test("documents conservative outcome-classification boundaries for human and model evals", () => {

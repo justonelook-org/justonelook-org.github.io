@@ -231,10 +231,10 @@ test("sends temporary context with storage disabled", async () => {
     assert.equal(openAIBody.input.length, 1);
     assert.match(openAIBody.instructions, /PILOT-SPECIFIC BOUNDARIES/);
     assert.match(openAIBody.instructions, /teaches Step One only/);
-    assert.match(openAIBody.instructions, /Good work\./);
-    assert.doesNotMatch(openAIBody.instructions, /\*\*Good work\.\*\*/);
-    assert.match(openAIBody.instructions, /Nothing special had to happen/);
-    assert.match(openAIBody.instructions, /returning to the act naturally/);
+    assert.match(openAIBody.instructions, /bring the Looking session to a natural close/i);
+    assert.match(openAIBody.instructions, /surrounding message should fit the conversation rather than repeat fixed completion wording/i);
+    assert.match(openAIBody.instructions, /respond naturally to the visitor's words rather than using fixed completion text/i);
+    assert.doesNotMatch(openAIBody.instructions, /provide this exact response/i);
     assert.match(openAIBody.instructions, /\[Just One Look website\]\(https:\/\/justonelook\.org\/\)/);
     assert.match(openAIBody.instructions, /link to the Just One Look homepage/);
     assert.match(openAIBody.instructions, /Do not send the visitor directly to another AI guide or a specific resource page/);
