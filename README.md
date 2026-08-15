@@ -25,7 +25,6 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `worker/zero/` — Cloudflare Worker backend shared by both Zero guides
 - `AGENTS.md` — repository instructions for coding agents that maintain the site
 - `scripts/` — maintenance and launch-checking utilities
-- `launch/` — launch protocol, reports, and supporting records
 - `legacy-site/` — preserved historical source material
 
 The `legacy-site/` directory is excluded from GitHub Pages publication by `_config.yml`. Do not edit or publish it as part of routine site maintenance.
