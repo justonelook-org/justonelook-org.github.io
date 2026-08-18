@@ -1,3 +1,5 @@
+import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from "./request-security.js";
+
 const MAX_DAYS = 366;
 const HOMEPAGE_ENTRANCES_STARTED_DAY = "2026-08-11";
 const EVENT_COLUMNS = Object.freeze({
@@ -21,6 +23,9 @@ export async function handleTrafficEvent(request, env) {
     : json({ error: "This request is not allowed." }, 403, cors);
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405, cors);
   if (!originAllowed(origin, env.ALLOWED_ORIGINS)) return json({ error: "This request is not allowed." }, 403, cors);
+  const clientAllowed = await rateLimitAccepted(env.TRAFFIC_RATE_LIMITER, `traffic:${requestClientKey(request)}`);
+  const globalAllowed = await rateLimitAccepted(env.TRAFFIC_GLOBAL_RATE_LIMITER, "traffic:global");
+  if (!clientAllowed || !globalAllowed) return json({ error: "Too many traffic events. Please wait before trying again." }, 429, cors);
 
   if (!trafficMeasurementAllowed(env.TRAFFIC_MEASUREMENT_ENABLED, origin, env.TRAFFIC_TEST_ORIGIN)) {
     return new Response(null, { status: 204, headers: cors });
@@ -82,7 +87,8 @@ export async function readTrafficMetrics(database, from, to) {
 }
 
 export async function handleTrafficDashboard(request, env) {
-  if (!authorized(request, env.ANALYTICS_ACCESS_TOKEN)) return unauthorized();
+  if (!await rateLimitAccepted(env.PRIVATE_RATE_LIMITER, `private:${requestClientKey(request)}`)) return tooManyRequests();
+  if (!await basicCredentialsAccepted(request, env.ANALYTICS_ACCESS_TOKEN)) return unauthorized();
   if (!env.OUTCOME_DB) return json({ error: "Traffic storage is not configured." }, 503);
   const url = new URL(request.url);
   if (url.pathname === "/private/website-traffic/api") {
@@ -101,8 +107,8 @@ function readRange(params) {
   if (toDate - fromDate > MAX_DAYS * 86_400_000) return { ok: false, error: `Select no more than ${MAX_DAYS} days.` };
   return { ok: true, from: startOfDay(fromDate).toISOString(), to: nextDayStart(toDate).toISOString() };
 }
-function authorized(request, expected) { const supplied=request.headers.get("Authorization")||""; if(!expected||expected.length<24||!supplied.startsWith("Basic "))return false; try{return atob(supplied.slice(6))===`analytics:${expected}`}catch{return false} }
 function unauthorized() { return json({ error: "Private analytics access was not accepted." }, 401, { "WWW-Authenticate": "Basic realm=\"Just One Look analytics\", charset=\"UTF-8\"" }); }
+function tooManyRequests() { return json({ error: "Too many private access attempts. Please wait before trying again." }, 429, { "Retry-After": "60" }); }
 function originAllowed(origin, configured="") { return configured.split(",").map(value=>value.trim()).filter(Boolean).includes(origin); }
 function trafficCorsHeaders(origin, configured) { const headers={"Access-Control-Allow-Headers":"Content-Type","Access-Control-Allow-Methods":"POST, OPTIONS","Cache-Control":"no-store","Vary":"Origin"}; if(originAllowed(origin,configured))headers["Access-Control-Allow-Origin"]=origin; return headers; }
 function parseDate(value) { if(!value||!/^\d{4}-\d{2}-\d{2}$/.test(value))return null;const date=new Date(`${value}T00:00:00.000Z`);return Number.isNaN(date.valueOf())?null:date; }

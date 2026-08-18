@@ -6,6 +6,8 @@ import { handleTrafficDashboard, handleTrafficEvent, incrementDailyCounter, read
 
 const productionOrigin = "https://justonelook.org";
 const testOrigin = "https://website-test-zero.pages.dev";
+const allowRateLimit = { limit: async () => ({ success: true }) };
+const allowTrafficLimits = { TRAFFIC_RATE_LIMITER: allowRateLimit, TRAFFIC_GLOBAL_RATE_LIMITER: allowRateLimit };
 
 test("production traffic excludes the exact team test origin", () => {
   assert.equal(trafficMeasurementAllowed("false", productionOrigin, testOrigin), false);
@@ -27,6 +29,7 @@ test("records only a closed event name into its daily aggregate column", async (
 
 test("traffic endpoint rejects extra properties and arbitrary events", async () => {
   const env = {
+    ...allowTrafficLimits,
     ALLOWED_ORIGINS: productionOrigin,
     TRAFFIC_MEASUREMENT_ENABLED: "true",
     TRAFFIC_TEST_ORIGIN: testOrigin,
@@ -38,9 +41,26 @@ test("traffic endpoint rejects extra properties and arbitrary events", async () 
   assert.equal(unknown.status, 400);
 });
 
+test("traffic endpoint rate-limits spoofed event submissions before storage", async () => {
+  let touched = false;
+  const env = {
+    ...allowTrafficLimits,
+    ALLOWED_ORIGINS: productionOrigin,
+    TRAFFIC_MEASUREMENT_ENABLED: "true",
+    TRAFFIC_TEST_ORIGIN: testOrigin,
+    TRAFFIC_RATE_LIMITER: { limit: async ({ key }) => ({ success: key !== "traffic:192.0.2.20" }) },
+    TRAFFIC_GLOBAL_RATE_LIMITER: { limit: async () => ({ success: true }) },
+    OUTCOME_DB: { prepare(){touched=true;throw new Error("Rate-limited traffic must not touch storage.")} }
+  };
+  const response = await handleTrafficEvent(eventRequest({ event: "homepage_view" }, productionOrigin, "192.0.2.20"), env);
+  assert.equal(response.status, 429);
+  assert.equal(touched, false);
+});
+
 test("team traffic returns quietly without touching production aggregates", async () => {
   let touched = false;
   const env = {
+    ...allowTrafficLimits,
     ALLOWED_ORIGINS: `${productionOrigin},${testOrigin}`,
     TRAFFIC_MEASUREMENT_ENABLED: "true",
     TRAFFIC_TEST_ORIGIN: testOrigin,
@@ -62,11 +82,18 @@ test("reads aggregate traffic totals with explicit denominators", async () => {
 
 test("private traffic dashboard uses the existing credentials and redirects to the unified page", async () => {
   const token = "a-private-analytics-token-longer-than-24";
-  const unauthorized = await handleTrafficDashboard(new Request("https://example.test/private/website-traffic"), {});
-  const authorized = await handleTrafficDashboard(new Request("https://example.test/private/website-traffic", { headers:{Authorization:`Basic ${btoa(`analytics:${token}`)}`} }), {ANALYTICS_ACCESS_TOKEN:token,OUTCOME_DB:{}});
+  const unauthorized = await handleTrafficDashboard(new Request("https://example.test/private/website-traffic"), {PRIVATE_RATE_LIMITER:allowRateLimit});
+  const authorized = await handleTrafficDashboard(new Request("https://example.test/private/website-traffic", { headers:{Authorization:`Basic ${btoa(`analytics:${token}`)}`} }), {ANALYTICS_ACCESS_TOKEN:token,OUTCOME_DB:{},PRIVATE_RATE_LIMITER:allowRateLimit});
   assert.equal(unauthorized.status, 401);
   assert.equal(authorized.status, 302);
   assert.equal(authorized.headers.get("Location"), "/private/looking-zero");
+});
+
+test("private traffic dashboard rate-limits repeated access attempts", async () => {
+  const request = new Request("https://example.test/private/website-traffic", { headers:{"CF-Connecting-IP":"192.0.2.30"} });
+  const response = await handleTrafficDashboard(request, {PRIVATE_RATE_LIMITER:{limit:async()=>({success:false})}});
+  assert.equal(response.status, 429);
+  assert.equal(response.headers.get("Retry-After"), "60");
 });
 
 test("browser instrumentation contains no visitor storage or fingerprinting", async () => {
@@ -101,6 +128,6 @@ test("homepage entrance excludes reloads and same-site navigation", async () => 
   assert.deepEqual(await eventsFor("https://justonelook.org/library/", "navigate"), [{event:"homepage_view"}]);
 });
 
-function eventRequest(body, origin=productionOrigin) {
-  return new Request("https://api.example/api/traffic", {method:"POST",headers:{"Content-Type":"application/json",Origin:origin},body:JSON.stringify(body)});
+function eventRequest(body, origin=productionOrigin, clientIp="192.0.2.1") {
+  return new Request("https://api.example/api/traffic", {method:"POST",headers:{"Content-Type":"application/json",Origin:origin,"CF-Connecting-IP":clientIp},body:JSON.stringify(body)});
 }

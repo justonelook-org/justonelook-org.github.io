@@ -1,8 +1,11 @@
+import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from "./request-security.js";
+
 const DEFAULT_DAYS = 30;
 const MAX_DAYS = 366;
 
 export async function handleAnalyticsRequest(request, env) {
-  if (!authorized(request, env.ANALYTICS_ACCESS_TOKEN)) return unauthorized();
+  if (!await rateLimitAccepted(env.PRIVATE_RATE_LIMITER, `private:${requestClientKey(request)}`)) return tooManyRequests();
+  if (!await basicCredentialsAccepted(request, env.ANALYTICS_ACCESS_TOKEN)) return unauthorized();
   if (!env.OUTCOME_DB) return json({ error: "Outcome storage is not configured." }, 503);
 
   const url = new URL(request.url);
@@ -104,19 +107,11 @@ function readRange(params) {
   return { ok: true, from: startOfDay(fromDate).toISOString(), to: nextDayStart(toDate).toISOString() };
 }
 
-function authorized(request, expected) {
-  if (!expected || expected.length < 24) return false;
-  const supplied = request.headers.get("Authorization") || "";
-  if (!supplied.startsWith("Basic ")) return false;
-  try {
-    const decoded = atob(supplied.slice(6));
-    return decoded === `analytics:${expected}`;
-  } catch { return false; }
-}
-
 function unauthorized() {
   return json({ error: "Private analytics access was not accepted." }, 401, { "WWW-Authenticate": "Basic realm=\"Looking Zero analytics\", charset=\"UTF-8\"" });
 }
+
+function tooManyRequests() { return json({ error: "Too many private access attempts. Please wait before trying again." }, 429, { "Retry-After": "60" }); }
 
 function dashboardHtml() {
   return `<!doctype html>

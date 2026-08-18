@@ -3,7 +3,7 @@ import test from "node:test";
 import { handleAnalyticsRequest, readMetrics } from "../src/analytics.js";
 
 test("private analytics fails closed without a configured secret", async () => {
-  const response = await handleAnalyticsRequest(new Request("https://example.test/private/looking-zero"), {});
+  const response = await handleAnalyticsRequest(new Request("https://example.test/private/looking-zero"), { PRIVATE_RATE_LIMITER: allowRateLimit });
   assert.equal(response.status, 401);
   assert.match(response.headers.get("WWW-Authenticate"), /Basic/);
 });
@@ -11,7 +11,7 @@ test("private analytics fails closed without a configured secret", async () => {
 test("private analytics accepts only the configured Basic credentials", async () => {
   const token = "a-private-analytics-token-longer-than-24";
   const headers = { Authorization: `Basic ${btoa(`analytics:${token}`)}` };
-  const response = await handleAnalyticsRequest(new Request("https://example.test/private/looking-zero", { headers }), { ANALYTICS_ACCESS_TOKEN: token, OUTCOME_DB: {} });
+  const response = await handleAnalyticsRequest(new Request("https://example.test/private/looking-zero", { headers }), { ANALYTICS_ACCESS_TOKEN: token, OUTCOME_DB: {}, PRIVATE_RATE_LIMITER: allowRateLimit });
   assert.equal(response.status, 200);
   assert.match(response.headers.get("Content-Security-Policy"), /frame-ancestors 'none'/);
   const html = await response.text();
@@ -25,6 +25,17 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /\/private\/looking-zero\/api/);
   assert.match(html, /Complete invitation delivered/);
   assert.match(html, /No attempt report/);
+});
+
+const allowRateLimit = { limit: async () => ({ success: true }) };
+
+test("private analytics rate-limits repeated access attempts", async () => {
+  const response = await handleAnalyticsRequest(
+    new Request("https://example.test/private/looking-zero", { headers: { "CF-Connecting-IP": "192.0.2.10" } }),
+    { PRIVATE_RATE_LIMITER: { limit: async ({ key }) => ({ success: key !== "private:192.0.2.10" }) } }
+  );
+  assert.equal(response.status, 429);
+  assert.equal(response.headers.get("Retry-After"), "60");
 });
 
 test("combines retained sessions and archived daily aggregates with clear denominators", async () => {
