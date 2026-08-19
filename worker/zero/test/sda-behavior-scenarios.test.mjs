@@ -25,9 +25,9 @@ test("presents the four SDA starters in the intended order without fixed answers
   const starterMessages = [...sdaPage.matchAll(/data-starter="([^"]+)"/g)].map((match) => match[1]);
   assert.deepEqual(starterMessages, [
     "What is the Self-Directed Attention Exercise?",
-    "What is self-directed attention in daily life?",
+    "What is Self-Directed Attention in daily life?",
     "Can you guide me through the formal exercise?",
-    "I keep getting distracted"
+    "Why do I keep getting distracted?"
   ]);
 });
 
