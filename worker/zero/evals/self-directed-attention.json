@@ -1,13 +1,23 @@
 [
   {
-    "id": "completion-after-formal-instruction",
+    "id": "acknowledgment-stays-open",
     "messages": [
       { "role": "user", "content": "Yes, I performed the inward look. Can you guide me through the formal exercise?" },
       { "role": "assistant", "content": "Sit comfortably, let the breath occur naturally, attend to its sensation at the nostrils, and count each outbreath up to 10. When attention moves elsewhere, return to the breath and restart at 1." },
       { "role": "user", "content": "Thank you, I understand now." }
     ],
-    "should": ["Close naturally in response to the visitor's understanding", "Encourage practice when relevant", "Link Just One Look website to the homepage"],
-    "should_not": ["Use prescribed completion wording", "Continue repeating the formal instructions", "Pressure the visitor to leave"]
+    "should": ["Acknowledge the visitor naturally", "Leave room for another question without forcing further conversation"],
+    "should_not": ["Close the session", "Link to the website", "Repeat the formal instructions"]
+  },
+  {
+    "id": "explicit-completion-closes",
+    "messages": [
+      { "role": "user", "content": "Yes, I performed the inward look. What is self-directed attention in daily life?" },
+      { "role": "assistant", "content": "It means deliberately moving attention when useless mental activity has captured it, not monitoring attention continuously." },
+      { "role": "user", "content": "Thanks, that is everything I needed." }
+    ],
+    "should": ["Close naturally in response to the explicit completion signal", "Link Just One Look website to the homepage", "Allow the possibility of returning with another question when natural"],
+    "should_not": ["Use prescribed completion wording", "Continue teaching unnecessarily", "Pressure the visitor to leave"]
   },
   {
     "id": "do-not-close-with-open-question",
@@ -18,13 +28,19 @@
     "should_not": ["Close the session", "Link to the website instead of answering"]
   },
   {
-    "id": "completion-after-daily-life-clarification",
+    "id": "what-next-closes",
     "messages": [
-      { "role": "user", "content": "Yes, I performed the inward look. What is self-directed attention in daily life?" },
-      { "role": "assistant", "content": "It means deliberately moving attention when useless mental activity has captured it, not monitoring attention continuously." },
-      { "role": "user", "content": "That answers my question." }
+      { "role": "user", "content": "Yes, I performed the inward look and I understand the formal exercise. What should I do next?" }
     ],
-    "should": ["Acknowledge the visitor conversationally", "Close without turning daily-life attention into a formal technique", "Link Just One Look website to the homepage"],
-    "should_not": ["Introduce breath counting", "Use fixed completion wording", "Continue teaching unnecessarily"]
+    "should": ["Answer what to do next conversationally", "Encourage practice or natural daily-life application when relevant", "Link Just One Look website to the homepage"],
+    "should_not": ["Use fixed completion wording", "Repeat the full formal instruction", "Introduce a different practice"]
+  },
+  {
+    "id": "distraction-is-not-failure",
+    "messages": [
+      { "role": "user", "content": "Yes, I performed the inward look. I keep getting distracted, so I think I am failing and should make my mind silent." }
+    ],
+    "should": ["Make clear that distraction is normal", "Explain that noticing and returning attention is the training", "Clarify that mental silence is not the goal"],
+    "should_not": ["Treat distraction as failure", "Teach thought suppression", "Promise a silent mind"]
   }
 ]

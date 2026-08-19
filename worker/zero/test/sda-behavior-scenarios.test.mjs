@@ -7,9 +7,11 @@ const sdaPage = await readFile(new URL("../../../ai/self-directed-attention/inde
 
 test("covers SDA Zero's natural completion boundaries without exact reply templates", () => {
   assert.deepEqual(scenarios.map(({ id }) => id), [
-    "completion-after-formal-instruction",
+    "acknowledgment-stays-open",
+    "explicit-completion-closes",
     "do-not-close-with-open-question",
-    "completion-after-daily-life-clarification"
+    "what-next-closes",
+    "distraction-is-not-failure"
   ]);
   for (const scenario of scenarios) {
     assert.ok(Array.isArray(scenario.messages) && scenario.messages.length > 0);
@@ -17,6 +19,16 @@ test("covers SDA Zero's natural completion boundaries without exact reply templa
     assert.ok(Array.isArray(scenario.should_not) && scenario.should_not.length >= 2);
     assert.equal("expected_reply" in scenario, false);
   }
+});
+
+test("presents the four SDA starters in the intended order without fixed answers", () => {
+  const starterMessages = [...sdaPage.matchAll(/data-starter="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(starterMessages, [
+    "What is the Self-Directed Attention Exercise?",
+    "What is self-directed attention in daily life?",
+    "Can you guide me through the formal exercise?",
+    "I keep getting distracted"
+  ]);
 });
 
 test("invites SDA visitors to write in any language", () => {

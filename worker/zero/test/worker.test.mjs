@@ -288,9 +288,9 @@ test("keeps the SDA guide on its separate route, key, and instructions", async (
     assert.match(openAIBody.instructions, /do not use fixed or exact starter replies/i);
     assert.match(openAIBody.instructions, /breath should be allowed to occur naturally/i);
     assert.match(openAIBody.instructions, /repeated distraction as part of the exercise/i);
-    assert.match(openAIBody.instructions, /bring the conversation to a natural close/i);
-    assert.match(openAIBody.instructions, /Do not close while the user still has a genuine question/i);
-    assert.match(openAIBody.instructions, /close naturally in response to their words rather than using fixed completion text/i);
+    assert.match(openAIBody.instructions, /Do not infer that the conversation is finished merely because you delivered an instruction or clarification/i);
+    assert.match(openAIBody.instructions, /brief thank-you, acknowledgment, or statement of understanding does not by itself mean the user wants to finish/i);
+    assert.match(openAIBody.instructions, /Close naturally only when the visitor clearly indicates they are finished/i);
     assert.match(openAIBody.instructions, /Always call it "the formal exercise," not "SDA/i);
     assert.match(openAIBody.instructions, /does not mean continuously controlling, monitoring, or supervising attention/i);
     assert.match(openAIBody.instructions, /Do not turn self-directed attention in daily life into another formal technique/i);
