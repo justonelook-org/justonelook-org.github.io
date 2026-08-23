@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://justonelook.org/</loc></url>
-  <url><loc>https://justonelook.org/try-it/</loc></url>
   <url><loc>https://justonelook.org/about.html</loc></url>
   <url><loc>https://justonelook.org/contact.html</loc></url>
-  <url><loc>https://justonelook.org/legal.html</loc></url>
   <url><loc>https://justonelook.org/forum.html</loc></url>
+  <url><loc>https://justonelook.org/legal.html</loc></url>
   <url><loc>https://justonelook.org/library.html</loc></url>
   <url><loc>https://justonelook.org/library/articles/</loc></url>
   <url><loc>https://justonelook.org/library/audio/</loc></url>
@@ -93,5 +92,7 @@
   <url><loc>https://justonelook.org/library/podcasts/episodes/you-can-change-your-mind/</loc></url>
   <url><loc>https://justonelook.org/library/podcasts/episodes/you-have-to-do-it/</loc></url>
   <url><loc>https://justonelook.org/library/videos/</loc></url>
+  <url><loc>https://justonelook.org/self-directed-attention/</loc></url>
+  <url><loc>https://justonelook.org/try-it/</loc></url>
   <url><loc>https://justonelook.org/what-now.html</loc></url>
 </urlset>

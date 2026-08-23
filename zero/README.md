@@ -11,4 +11,4 @@ Each guide has a single responsibility and intentionally avoids performing the r
 
 The shared backend in `worker/zero/` reads these files when it is checked, tested, or deployed. Any corresponding GPTs in ChatGPT should also be kept in sync with these canonical versions.
 
-Zero's public webpages live under `ai/` so their established public URLs remain stable.
+Zero's canonical public webpages are `/try-it/` for Look At Yourself and `/self-directed-attention/` for the Self-Directed Attention Exercise. Former paths under `ai/` are retained as compatibility redirects.

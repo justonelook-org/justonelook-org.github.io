@@ -20,7 +20,8 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `what-now.html`, `about.html`, and other root HTML files — primary site pages
 - `library/` — books, articles, blog posts, podcasts, audio reports, and videos
 - `assets/` — shared images, styles, and other site assets
-- `ai/` — public webpages for Zero's two guides; these paths are also stable public URLs
+- `try-it/` and `self-directed-attention/` — canonical public webpages for Zero's two guides
+- `ai/` — compatibility redirects for Zero's former public paths
 - `zero/` — canonical instructions for Zero's two guides
 - `worker/zero/` — Cloudflare Worker backend shared by both Zero guides
 - `AGENTS.md` — repository instructions for coding agents that maintain the site
@@ -43,7 +44,9 @@ zero/                  Canonical behavior and teaching instructions
    ↓
 worker/zero/           Generates runtime modules and serves both API routes
    ↓
-ai/                    Public browser interfaces at the stable /ai/... URLs
+try-it/ and self-directed-attention/
+                       Canonical public browser interfaces
+ai/                    Compatibility redirects for former guide URLs
 ```
 
 The public pages call separate Worker routes:

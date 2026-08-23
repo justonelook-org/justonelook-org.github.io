@@ -28,7 +28,7 @@ Never put either API key in a repository file or paste it into a webpage.
 
 ## Run only on this computer
 
-After `.dev.vars` contains both API keys, run `pnpm run local` from this folder. Then open `http://127.0.0.1:8000/try-it/` or `http://127.0.0.1:8000/ai/self-directed-attention/`. The local server holds the keys and serves both endpoints and webpages. Closing the local server stops access.
+After `.dev.vars` contains both API keys, run `pnpm run local` from this folder. Then open `http://127.0.0.1:8000/try-it/` or `http://127.0.0.1:8000/self-directed-attention/`. The local server holds the keys and serves both endpoints and webpages. Closing the local server stops access.
 
 ## Privacy and limits
 

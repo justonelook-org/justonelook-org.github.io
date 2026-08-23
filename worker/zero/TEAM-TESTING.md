@@ -4,7 +4,7 @@ The JOL team should test Zero on the separate test website:
 
 **Looking Zero:** <https://website-test-zero.pages.dev/try-it/>
 
-**Self-Directed Attention Zero:** <https://website-test-zero.pages.dev/ai/self-directed-attention/>
+**Self-Directed Attention Zero:** <https://website-test-zero.pages.dev/self-directed-attention/>
 
 Please use these links for team review, demonstrations, repeated tests, and experiments. Do not use the public Just One Look website for routine testing.
 

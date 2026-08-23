@@ -14,7 +14,7 @@ if ($normalizedBaseUrl -notmatch '^https://[^/]+$') {
 
 $pages = Get-ChildItem $repositoryRoot -Recurse -Filter *.html -File |
     Where-Object {
-        $_.FullName -notmatch '[\\/](legacy-site|tmp|\.git)[\\/]' -and
+        $_.FullName -notmatch '[\\/](legacy-site|node_modules|tmp|\.git)[\\/]' -and
         $_.Name -ne "404.html" -and
         $_.Name -ne "newsletter.html"
     }
