@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const scenarios = JSON.parse(await readFile(new URL("../evals/look-at-yourself.json", import.meta.url), "utf8"));
-const lookingPage = await readFile(new URL("../../../ai/look-at-yourself/index.html", import.meta.url), "utf8");
+const lookingPage = await readFile(new URL("../../../try-it/index.html", import.meta.url), "utf8");
 const outcomeScenarios = JSON.parse(await readFile(new URL("../evals/outcome-classification.json", import.meta.url), "utf8"));
 
 test("covers Looking Zero's behavioral evaluation scenarios without exact reply templates", () => {

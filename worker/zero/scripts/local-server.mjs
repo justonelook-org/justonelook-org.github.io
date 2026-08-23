@@ -40,7 +40,7 @@ const server = createServer(async (incoming, outgoing) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Local pilots ready at http://127.0.0.1:${port}/ai/look-at-yourself/ and /ai/self-directed-attention/`);
+  console.log(`Local pilots ready at http://127.0.0.1:${port}/try-it/ and /ai/self-directed-attention/`);
 });
 
 async function readSettings(url) {

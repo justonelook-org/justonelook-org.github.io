@@ -2,7 +2,7 @@
 
 The JOL team should test Zero on the separate test website:
 
-**Looking Zero:** <https://website-test-zero.pages.dev/ai/look-at-yourself/>
+**Looking Zero:** <https://website-test-zero.pages.dev/try-it/>
 
 **Self-Directed Attention Zero:** <https://website-test-zero.pages.dev/ai/self-directed-attention/>
 
