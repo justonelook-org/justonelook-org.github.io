@@ -37,6 +37,18 @@ test("covers Looking Zero's behavioral evaluation scenarios without exact reply 
   }
 });
 
+test("keeps the two exact starter emphases distinct without scripting later conversation", () => {
+  const objectStarter = scenarios.find(({ id }) => id === "starter-object");
+  const actionStarter = scenarios.find(({ id }) => id === "starter-action");
+  const followUp = scenarios.find(({ id }) => id === "follow-up-after-starter");
+
+  assert.match(objectStarter.should.join(" "), /Begin with the object/i);
+  assert.match(objectStarter.should.join(" "), /being here, present as oneself/i);
+  assert.match(actionStarter.should.join(" "), /Begin with the practical action/i);
+  assert.match(actionStarter.should.join(" "), /particular chosen object/i);
+  assert.match(followUp.should_not.join(" "), /Continue a starter script/i);
+});
+
 test("invites Looking visitors to write in any language", () => {
   assert.match(lookingPage, /write in your own words—in any language/);
   assert.doesNotMatch(lookingPage, /ask in your own words/);

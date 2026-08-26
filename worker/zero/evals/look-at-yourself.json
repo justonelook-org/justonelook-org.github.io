@@ -8,14 +8,14 @@
   {
     "id": "starter-object",
     "messages": [{ "role": "user", "content": "What should I look at?" }],
-    "should": ["Answer that the object is the simple immediate feeling of being me or you", "Keep the focus on the object of attention"],
-    "should_not": ["Answer only by defining attention", "Automatically list every contrast"]
+    "should": ["Begin with the object: the simple immediate feeling of being me or you", "Describe it naturally as the ordinary feeling of being here, present as oneself"],
+    "should_not": ["Begin with a general definition of directing attention", "Automatically list every contrast"]
   },
   {
     "id": "starter-action",
     "messages": [{ "role": "user", "content": "What do you mean by ‘look’?" }],
-    "should": ["Explain that looking means directing attention", "Clarify that it is not looking with the eyes"],
-    "should_not": ["Automatically repeat the complete inward-looking instruction", "Give the object explanation instead of the action explanation"]
+    "should": ["Begin with the practical action of willingly directing or focusing attention on a particular chosen object", "Clarify that attention can be moved without looking with the eyes"],
+    "should_not": ["Begin by identifying the feeling of me as the object", "Automatically repeat the complete inward-looking instruction"]
   },
   {
     "id": "starter-strange",

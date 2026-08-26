@@ -243,8 +243,11 @@ test("sends temporary context with storage disabled", async () => {
     assert.match(openAIBody.instructions, /turn your attention toward/);
     assert.match(openAIBody.instructions, /ordinary visitor messages/i);
     assert.match(openAIBody.instructions, /do not use fixed, exact, or templated starter replies/i);
-    assert.match(openAIBody.instructions, /What should I look at.*asks about the immediate feeling of being “me,”/i);
-    assert.match(openAIBody.instructions, /What do you mean by look.*asks about directing attention rather than looking with the eyes/i);
+    assert.match(openAIBody.instructions, /exact suggested questions is the first visitor message/i);
+    assert.match(openAIBody.instructions, /What should I look at.*begin with the object.*ordinary feeling of being here, present as oneself/i);
+    assert.match(openAIBody.instructions, /What do you mean by ‘look’.*begin with the practical action.*particular chosen object, without using the eyes/i);
+    assert.match(openAIBody.instructions, /starter rules determine only the initial emphasis, never exact wording/i);
+    assert.match(openAIBody.instructions, /freely written conversation.*general guidance fluidly/i);
     assert.match(openAIBody.instructions, /Answer the visitor's actual question before returning naturally/i);
     assert.match(openAIBody.instructions, /Nothing needs to be suppressed or removed/i);
     assert.match(openAIBody.instructions, /nothing special has to happen/i);
