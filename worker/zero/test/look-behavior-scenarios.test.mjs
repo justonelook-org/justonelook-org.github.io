@@ -7,7 +7,7 @@ const lookingPage = await readFile(new URL("../../../try-it/index.html", import.
 const outcomeScenarios = JSON.parse(await readFile(new URL("../evals/outcome-classification.json", import.meta.url), "utf8"));
 
 test("covers Looking Zero's behavioral evaluation scenarios without exact reply templates", () => {
-  assert.equal(scenarios.length, 15);
+  assert.equal(scenarios.length, 18);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
 
   const requiredIds = [
@@ -25,6 +25,9 @@ test("covers Looking Zero's behavioral evaluation scenarios without exact reply 
     "follow-up-repetition",
     "follow-up-after-starter",
     "step-one-boundary",
+    "effects-fear-boundary",
+    "effects-benefits-boundary",
+    "method-theory-boundary",
     "completion-transition"
   ];
 
@@ -45,8 +48,18 @@ test("keeps the two exact starter emphases distinct without scripting later conv
   assert.match(objectStarter.should.join(" "), /Begin with the object/i);
   assert.match(objectStarter.should.join(" "), /being here, present as oneself/i);
   assert.match(actionStarter.should.join(" "), /Begin with the practical action/i);
-  assert.match(actionStarter.should.join(" "), /particular chosen object/i);
+  assert.match(actionStarter.should.join(" "), /something one chooses/i);
+  assert.match(actionStarter.should.join(" "), /directly invite/i);
   assert.match(followUp.should_not.join(" "), /Continue a starter script/i);
+});
+
+test("keeps explanations of effects and wider Just One Look teaching outside Zero's role", () => {
+  const boundaryIds = ["effects-fear-boundary", "effects-benefits-boundary", "method-theory-boundary"];
+  for (const id of boundaryIds) {
+    const scenario = scenarios.find((candidate) => candidate.id === id);
+    assert.ok(scenario, `${id} must be covered`);
+    assert.match(scenario.should.join(" "), /Just One Look website/i);
+  }
 });
 
 test("invites Looking visitors to write in any language", () => {
