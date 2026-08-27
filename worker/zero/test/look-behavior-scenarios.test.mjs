@@ -7,7 +7,7 @@ const lookingPage = await readFile(new URL("../../../try-it/index.html", import.
 const outcomeScenarios = JSON.parse(await readFile(new URL("../evals/outcome-classification.json", import.meta.url), "utf8"));
 
 test("covers Looking Zero's behavioral evaluation scenarios without exact reply templates", () => {
-  assert.equal(scenarios.length, 18);
+  assert.equal(scenarios.length, 19);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
 
   const requiredIds = [
@@ -28,6 +28,7 @@ test("covers Looking Zero's behavioral evaluation scenarios without exact reply 
     "effects-fear-boundary",
     "effects-benefits-boundary",
     "method-theory-boundary",
+    "effects-follow-up-after-guidance",
     "completion-transition"
   ];
 
@@ -53,13 +54,16 @@ test("keeps the two exact starter emphases distinct without scripting later conv
   assert.match(followUp.should_not.join(" "), /Continue a starter script/i);
 });
 
-test("keeps explanations of effects and wider Just One Look teaching outside Zero's role", () => {
-  const boundaryIds = ["effects-fear-boundary", "effects-benefits-boundary", "method-theory-boundary"];
-  for (const id of boundaryIds) {
-    const scenario = scenarios.find((candidate) => candidate.id === id);
-    assert.ok(scenario, `${id} must be covered`);
-    assert.match(scenario.should.join(" "), /Just One Look website/i);
-  }
+test("keeps effects questions within the guidance until the inward look is understood or attempted", () => {
+  const fear = scenarios.find(({ id }) => id === "effects-fear-boundary");
+  const benefits = scenarios.find(({ id }) => id === "effects-benefits-boundary");
+  const theory = scenarios.find(({ id }) => id === "method-theory-boundary");
+  const followUp = scenarios.find(({ id }) => id === "effects-follow-up-after-guidance");
+
+  assert.match(fear.should_not.join(" "), /Abruptly end/i);
+  assert.match(benefits.should.join(" "), /practical inward-looking guidance/i);
+  assert.match(theory.should.join(" "), /Just One Look website/i);
+  assert.match(followUp.should.join(" "), /Just One Look website/i);
 });
 
 test("invites Looking visitors to write in any language", () => {

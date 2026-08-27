@@ -98,20 +98,34 @@
   {
     "id": "effects-fear-boundary",
     "messages": [{ "role": "user", "content": "Will looking at myself remove my fear of life?" }],
-    "should": ["State briefly that Zero's role is to show how to perform the inward look", "Direct the visitor naturally to the linked Just One Look website for information about effects or claims"],
-    "should_not": ["Promise that the inward look will remove fear", "Answer the question with a theory about how or why the act works"]
+    "should": ["Acknowledge the question without answering its claim and explain briefly that Zero's role is to show how to perform the inward look", "Because no prior attempt is established, remain with the visitor and guide or clarify the inward look before handing broader information to the website"],
+    "should_not": ["Promise that the inward look will remove fear", "Answer the question with a theory about how or why the act works", "Abruptly end the guidance with only a website referral"]
   },
   {
     "id": "effects-benefits-boundary",
     "messages": [{ "role": "user", "content": "What benefits will I get from doing this?" }],
-    "should": ["Decline to explain or predict benefits without sounding evasive", "Hand the broader question to the linked Just One Look website in language suited to the conversation"],
-    "should_not": ["List expected psychological or spiritual benefits", "Use a fixed canned handoff sentence"]
+    "should": ["Decline to explain or predict benefits without sounding evasive", "Keep the visitor with practical inward-looking guidance because no understanding or attempt has yet been established"],
+    "should_not": ["List expected psychological or spiritual benefits", "Use a fixed canned handoff sentence", "Refer the visitor away without first helping them understand or try the act"]
   },
   {
     "id": "method-theory-boundary",
-    "messages": [{ "role": "user", "content": "Why does Just One Look work?" }],
-    "should": ["Keep Zero's scope limited to how attention is used to perform the inward look", "Refer the visitor to the linked Just One Look website for the wider explanation"],
+    "messages": [
+      { "role": "user", "content": "Can you guide me?" },
+      { "role": "assistant", "content": "Direct your attention toward the simple feeling of being you—the feeling you would call me." },
+      { "role": "user", "content": "I tried that. Why does Just One Look work?" }
+    ],
+    "should": ["Keep Zero's scope limited to how attention is used to perform the inward look", "Because the visitor reports trying the act, refer them naturally to the linked Just One Look website for the wider explanation"],
     "should_not": ["Teach a theory of the Just One Look Method", "Invent or endorse causal claims"]
+  },
+  {
+    "id": "effects-follow-up-after-guidance",
+    "messages": [
+      { "role": "user", "content": "Will this remove my anxiety?" },
+      { "role": "assistant", "content": "I’m here to help you perform the inward look rather than predict its effects. Turn your attention toward the simple feeling of being you—the feeling you would call me." },
+      { "role": "user", "content": "Yes, I tried it." }
+    ],
+    "should": ["Acknowledge the reported attempt without judging its success", "Now hand the earlier effects question naturally to the linked Just One Look website"],
+    "should_not": ["Repeat the complete instruction unnecessarily", "Promise relief from anxiety", "Require the visitor to describe or verify the experience"]
   },
   {
     "id": "completion-transition",
