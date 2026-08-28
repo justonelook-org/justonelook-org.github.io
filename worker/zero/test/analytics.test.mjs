@@ -17,6 +17,8 @@ test("private analytics accepts only the configured Basic credentials", async ()
   const html = await response.text();
   assert.match(html, /Website Traffic/i);
   assert.match(html, /Homepage entrances/i);
+  assert.match(html, /Roads to Zero/i);
+  assert.match(html, /Anonymous aggregate arrivals through the clean public source links/i);
   assert.match(html, /Anonymous aggregate measurement of website activity and Looking Zero outcomes/i);
   assert.match(html, /Looking Zero sessions started/i);
   assert.match(html, /independent action counts, not a linked visitor funnel/i);

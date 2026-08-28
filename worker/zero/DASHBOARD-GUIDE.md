@@ -27,7 +27,7 @@ The selected range can be no longer than 366 days. **Through** includes the whol
 
 ## Website Traffic
 
-The first section shows homepage views, storage-free homepage entrances, Try It clicks, Looking Zero openings, and Looking Zero sessions started. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. The percentage shown on that card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
+The first section shows homepage views, storage-free homepage entrances, Try It clicks, Looking Zero openings, Looking Zero sessions started, and a compact **Roads to Zero** source summary. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. Source counts record only which implemented clean source path was opened and are not linked to later Zero events. The percentage shown on the entrance card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
 
 ## Looking Zero outcomes
 

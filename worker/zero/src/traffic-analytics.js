@@ -2,6 +2,8 @@ import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from ".
 
 const MAX_DAYS = 366;
 const HOMEPAGE_ENTRANCES_STARTED_DAY = "2026-08-11";
+const SOURCE_LABELS = Object.freeze({ x: "X", youtube: "YouTube", bluesky: "Bluesky" });
+const CAMPAIGN_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,62})$/;
 const EVENT_COLUMNS = Object.freeze({
   homepage_view: "homepage_views",
   homepage_entrance: "homepage_entrances",
@@ -35,7 +37,23 @@ export async function handleTrafficEvent(request, env) {
   let body;
   try { body = await request.json(); }
   catch { return json({ error: "The event could not be read." }, 400, cors); }
-  if (!body || typeof body !== "object" || Object.keys(body).length !== 1 || !EVENT_COLUMNS[body.event]) {
+  if (!body || typeof body !== "object") {
+    return json({ error: "The event is not recognized." }, 400, cors);
+  }
+
+  if (body.event === "zero_source") {
+    const keys = Object.keys(body);
+    const campaign = body.campaign === undefined ? "" : body.campaign;
+    if (!keys.every((key) => ["event", "source", "campaign"].includes(key)) || keys.length < 2 || keys.length > 3
+      || typeof body.source !== "string" || !Object.hasOwn(SOURCE_LABELS, body.source)
+      || typeof campaign !== "string" || (campaign && !CAMPAIGN_PATTERN.test(campaign))) {
+      return json({ error: "The source event is not recognized." }, 400, cors);
+    }
+    await incrementDailySource(env.OUTCOME_DB, body.source, campaign, new Date());
+    return new Response(null, { status: 204, headers: cors });
+  }
+
+  if (Object.keys(body).length !== 1 || !EVENT_COLUMNS[body.event]) {
     return json({ error: "The event is not recognized." }, 400, cors);
   }
 
@@ -53,6 +71,17 @@ export async function incrementDailyCounter(database, event, now = new Date()) {
   `).bind(day).run();
 }
 
+export async function incrementDailySource(database, source, campaign = "", now = new Date()) {
+  if (!Object.hasOwn(SOURCE_LABELS, source) || (campaign && !CAMPAIGN_PATTERN.test(campaign))) {
+    throw new Error("Unknown Zero source.");
+  }
+  const day = now.toISOString().slice(0, 10);
+  await database.prepare(`
+    INSERT INTO zero_source_daily (day, source, campaign, count) VALUES (?, ?, ?, 1)
+    ON CONFLICT(day, source, campaign) DO UPDATE SET count = count + 1
+  `).bind(day, source, campaign).run();
+}
+
 export async function readTrafficMetrics(database, from, to) {
   const totals = await database.prepare(`
     SELECT
@@ -65,6 +94,13 @@ export async function readTrafficMetrics(database, from, to) {
     FROM website_daily_traffic
     WHERE day >= substr(?, 1, 10) AND day < substr(?, 1, 10)
   `).bind(HOMEPAGE_ENTRANCES_STARTED_DAY, from, to).first();
+  const sourceRows = await database.prepare(`
+    SELECT source, campaign, COALESCE(SUM(count), 0) AS count
+    FROM zero_source_daily
+    WHERE day >= substr(?, 1, 10) AND day < substr(?, 1, 10)
+    GROUP BY source, campaign
+    ORDER BY source, campaign
+  `).bind(from, to).all();
   const counts = {
     homepage_views: number(totals?.homepage_views),
     homepage_entrances: number(totals?.homepage_entrances),
@@ -72,6 +108,14 @@ export async function readTrafficMetrics(database, from, to) {
     zero_opens: number(totals?.zero_opens),
     zero_session_starts: number(totals?.zero_session_starts)
   };
+  const sourceResults = sourceRows?.results || [];
+  const sourceTotals = new Map();
+  for (const row of sourceResults) sourceTotals.set(row.source, (sourceTotals.get(row.source) || 0) + number(row.count));
+  const sourceNames = [...new Set([...Object.keys(SOURCE_LABELS), ...sourceTotals.keys()])];
+  const sources = sourceNames.map((source) => ({ source, label: SOURCE_LABELS[source] || source, count: sourceTotals.get(source) || 0 }));
+  const campaigns = sourceResults
+    .filter((row) => row.campaign)
+    .map((row) => ({ source: row.source, campaign: row.campaign, count: number(row.count) }));
   return {
     range: { from, to },
     counts,
@@ -81,8 +125,10 @@ export async function readTrafficMetrics(database, from, to) {
       try_it_to_zero_open: percent(counts.zero_opens, counts.try_it_clicks),
       zero_open_to_start: percent(counts.zero_session_starts, counts.zero_opens)
     },
+    sources,
+    campaigns,
     homepage_entrances_started_day: HOMEPAGE_ENTRANCES_STARTED_DAY,
-    note: "Homepage entrances are storage-free estimates of direct or external arrivals, not visits or unique people. Only anonymous daily totals are retained; no analytics cookies, visitor identifiers, raw referrers, or linked visitor journeys are used."
+    note: "Homepage entrances are storage-free estimates of direct or external arrivals, not visits or unique people. Source links count only an approved source and optional campaign slug. Only anonymous daily totals are retained; no analytics cookies, visitor identifiers, raw referrers, or linked visitor journeys are used."
   };
 }
 

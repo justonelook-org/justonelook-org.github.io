@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
-import { handleTrafficDashboard, handleTrafficEvent, incrementDailyCounter, readTrafficMetrics, trafficMeasurementAllowed } from "../src/traffic-analytics.js";
+import { handleTrafficDashboard, handleTrafficEvent, incrementDailyCounter, incrementDailySource, readTrafficMetrics, trafficMeasurementAllowed } from "../src/traffic-analytics.js";
 
 const productionOrigin = "https://justonelook.org";
 const testOrigin = "https://website-test-zero.pages.dev";
@@ -41,6 +41,32 @@ test("traffic endpoint rejects extra properties and arbitrary events", async () 
   assert.equal(unknown.status, 400);
 });
 
+test("records only approved aggregate source and optional campaign values", async () => {
+  let sql = "", bound = [];
+  const database = { prepare(value) { sql=value; return { bind(...values){bound=values;return this}, async run(){return {success:true}} }; } };
+  await incrementDailySource(database, "youtube", "zero-short-01", new Date("2026-08-28T12:34:56.000Z"));
+  assert.match(sql, /zero_source_daily/);
+  assert.deepEqual(bound, ["2026-08-28", "youtube", "zero-short-01"]);
+  await assert.rejects(() => incrementDailySource(database, "unknown"), /Unknown Zero source/);
+  await assert.rejects(() => incrementDailySource(database, "youtube", "Personal Data"), /Unknown Zero source/);
+});
+
+test("traffic endpoint accepts clean source events and rejects unapproved attribution", async () => {
+  let bound = [];
+  const database = { prepare() { return { bind(...values){bound=values;return this}, async run(){return {success:true}} }; } };
+  const env = { ...allowTrafficLimits, ALLOWED_ORIGINS: productionOrigin, TRAFFIC_MEASUREMENT_ENABLED: "true", TRAFFIC_TEST_ORIGIN: testOrigin, OUTCOME_DB: database };
+  const accepted = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "x", campaign: "launch" }), env);
+  assert.equal(accepted.status, 204);
+  assert.equal(bound[1], "x");
+  assert.equal(bound[2], "launch");
+  const unknownSource = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "facebook" }), env);
+  const unsafeCampaign = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "x", campaign: "email@example.org" }), env);
+  const extra = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "x", visitor: "no" }), env);
+  assert.equal(unknownSource.status, 400);
+  assert.equal(unsafeCampaign.status, 400);
+  assert.equal(extra.status, 400);
+});
+
 test("traffic endpoint rate-limits spoofed event submissions before storage", async () => {
   let touched = false;
   const env = {
@@ -72,10 +98,13 @@ test("team traffic returns quietly without touching production aggregates", asyn
 });
 
 test("reads aggregate traffic totals with explicit denominators", async () => {
-  const database = { prepare(){return {bind(){return this},async first(){return {homepage_views:100,homepage_entrances:60,comparable_try_it_clicks:15,try_it_clicks:25,zero_opens:20,zero_session_starts:10}}};} };
+  let query = 0;
+  const database = { prepare(){query+=1;return {bind(){return this},async first(){return {homepage_views:100,homepage_entrances:60,comparable_try_it_clicks:15,try_it_clicks:25,zero_opens:20,zero_session_starts:10}},async all(){return {results:[{source:"youtube",campaign:"",count:7},{source:"youtube",campaign:"zero-short-01",count:3},{source:"x",campaign:"launch",count:4}]}}};} };
   const metrics = await readTrafficMetrics(database, "2026-08-01T00:00:00.000Z", "2026-08-11T00:00:00.000Z");
   assert.deepEqual(metrics.counts, { homepage_views:100, homepage_entrances:60, try_it_clicks:25, zero_opens:20, zero_session_starts:10 });
   assert.deepEqual(metrics.percentages, { views_to_try_it:25, entrances_to_try_it:25, try_it_to_zero_open:80, zero_open_to_start:50 });
+  assert.deepEqual(metrics.sources, [{source:"x",label:"X",count:4},{source:"youtube",label:"YouTube",count:10},{source:"bluesky",label:"Bluesky",count:0}]);
+  assert.deepEqual(metrics.campaigns, [{source:"youtube",campaign:"zero-short-01",count:3},{source:"x",campaign:"launch",count:4}]);
   assert.equal(metrics.homepage_entrances_started_day, "2026-08-11");
   assert.match(metrics.note, /not visits or unique people/i);
 });
@@ -101,6 +130,29 @@ test("browser instrumentation contains no visitor storage or fingerprinting", as
   assert.doesNotMatch(script, /localStorage|sessionStorage|document\.cookie|canvas|userAgent|fingerprint/i);
   assert.match(script, /credentials:\s*"omit"/);
   assert.match(script, /referrerPolicy:\s*"no-referrer"/);
+});
+
+test("clean source pages use one privacy-preserving source event and keep Try It canonical", async () => {
+  const script = await readFile(new URL("../../../assets/js/zero-source-entry.js", import.meta.url), "utf8");
+  assert.doesNotMatch(script, /localStorage|sessionStorage|document\.cookie|document\.referrer|canvas|userAgent|fingerprint/i);
+  assert.match(script, /credentials:\s*"omit"/);
+  assert.match(script, /referrerPolicy:\s*"no-referrer"/);
+  assert.match(script, /keepalive:\s*true/);
+  const events = [], redirects = [];
+  const fetch = async (_url, options) => { events.push(JSON.parse(options.body)); };
+  runInNewContext(script, { fetch, location:{pathname:"/youtube/zero-short-01/",replace(value){redirects.push(value)}}, Object });
+  assert.deepEqual(events, [{event:"zero_source",source:"youtube",campaign:"zero-short-01"}]);
+  assert.deepEqual(redirects, ["/try-it/"]);
+
+  for (const source of ["x", "youtube", "bluesky"]) {
+    const page = await readFile(new URL(`../../../${source}/index.html`, import.meta.url), "utf8");
+    assert.match(page, /rel="canonical" href="https:\/\/justonelook\.org\/try-it\/"/);
+    assert.match(page, /name="robots" content="noindex, follow"/);
+    assert.match(page, /zero-source-entry\.js/);
+    assert.doesNotMatch(page, /anonymous-traffic\.js|look-at-yourself\.js/);
+  }
+  const sitemap = await readFile(new URL("../../../sitemap.xml", import.meta.url), "utf8");
+  assert.doesNotMatch(sitemap, /justonelook\.org\/(?:x|youtube|bluesky)\//);
 });
 
 test("homepage entrance is inferred locally without sending a referrer or identifier", async () => {

@@ -51,7 +51,7 @@ The classifier receives temporary active conversation context through a separate
 1. Create a D1 database named `looking-zero-outcomes`.
 2. Add its `OUTCOME_DB` binding to `wrangler.jsonc` using the database ID returned by Wrangler.
 3. Apply `migrations/0001_looking_outcomes.sql` to that database.
-   Apply subsequent numbered migrations in order, including `0002_measurement_status.sql`.
+   Apply all subsequent numbered migrations in order. `0005_zero_sources.sql` adds anonymous daily source and optional campaign aggregates without visitor-level records.
 4. Add the outcome project's OpenAI key with `pnpm exec wrangler secret put OPENAI_OUTCOME_API_KEY`.
 5. Generate a long random HMAC secret and add it with `pnpm exec wrangler secret put OUTCOME_SESSION_SECRET`.
 6. Generate a separate random private-dashboard password and add it with `pnpm exec wrangler secret put ANALYTICS_ACCESS_TOKEN`.
