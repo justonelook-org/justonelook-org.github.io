@@ -18,13 +18,17 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /Website Traffic/i);
   assert.match(html, /Homepage entrances/i);
   assert.match(html, /Anonymous aggregate measurement of website activity and Looking Zero outcomes/i);
-  assert.match(html, /Looking Zero sessions started from the production website/i);
+  assert.match(html, /Looking Zero sessions started/i);
+  assert.match(html, /independent action counts, not a linked visitor funnel/i);
+  assert.match(html, /may differ slightly from Outcome Measurement sessions/i);
   assert.match(html, /Looking Zero — Outcome Measurement/i);
   assert.match(html, /do not determine whether the inward look succeeded/i);
   assert.match(html, /\/private\/website-traffic\/api/);
   assert.match(html, /\/private\/looking-zero\/api/);
   assert.match(html, /Complete invitation delivered/);
-  assert.match(html, /No attempt report/);
+  assert.match(html, /No recorded indication of trying/);
+  assert.match(html, /includes explicit reports/i);
+  assert.match(html, /Median visitor turn of first indication/i);
 });
 
 const allowRateLimit = { limit: async () => ({ success: true }) };
@@ -59,5 +63,6 @@ test("combines retained sessions and archived daily aggregates with clear denomi
   assert.equal(metrics.percentages.invitations_of_started, 80);
   assert.equal(metrics.percentages.explicit_of_invitations, 25);
   assert.equal(metrics.median_messages_before_attempt_report, 3);
+  assert.match(metrics.note, /Explicit reports are included within possible indications/i);
   assert.match(metrics.note, /does not mean the inward look did not occur/i);
 });

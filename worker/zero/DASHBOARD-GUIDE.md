@@ -27,19 +27,19 @@ The selected range can be no longer than 366 days. **Through** includes the whol
 
 ## Website Traffic
 
-The first section shows homepage views, storage-free homepage entrances, Try It clicks, Looking Zero openings, and Looking Zero sessions started. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. The percentage shown on that card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
+The first section shows homepage views, storage-free homepage entrances, Try It clicks, Looking Zero openings, and Looking Zero sessions started. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. The percentage shown on that card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
 
 ## Looking Zero outcomes
 
 | Figure | Meaning |
 | --- | --- |
-| Sessions started | Anonymous Looking Zero sessions begun during the selected period. |
+| Sessions started | Anonymous sessions recorded by the Worker when it accepts a valid first Looking Zero request during the selected period. This can differ slightly from the independent browser-recorded website start count. |
 | Complete invitation delivered | Sessions in which Zero gave a complete, actionable inward-looking invitation. The percentage uses sessions started as its denominator. |
 | Response after invitation | Sessions in which the visitor sent another message after receiving the complete invitation. The percentage uses complete invitations as its denominator. |
-| Possible indication of trying | Sessions whose visitor language weakly, ambiguously, or explicitly indicates an attempt. The percentage uses complete invitations as its denominator. |
-| Explicitly reported trying | Sessions in which the visitor directly reported trying the act. This is included within **Possible indication of trying**, not added to it. The percentage uses complete invitations as its denominator. |
-| No attempt report | Sessions containing neither an indicated nor explicit report of trying. This count includes sessions that ended before a complete invitation. It is not evidence that the inward look did not occur. |
-| Median messages before attempt report | The middle message count at which an attempt indication first appeared. A dash means no attempt was reported in the selected retained records. |
+| Possible indication of trying | Sessions whose visitor language weakly, ambiguously, or explicitly indicates an attempt. This includes **Explicitly reported trying**. The percentage uses complete invitations as its denominator. |
+| Explicitly reported trying | Sessions in which the visitor directly reported trying the act. This is a subset of **Possible indication of trying**, not an additional category. The percentage uses complete invitations as its denominator. |
+| No recorded indication of trying | Sessions containing neither an indicated nor explicit report of trying. Together with **Possible indication of trying**, this divides all started sessions. This count includes sessions that ended before a complete invitation. It is not evidence that the inward look did not occur. |
+| Median visitor turn of first indication | The middle visitor-message number on which an attempt indication first appeared, among sessions with a recorded indication. A dash means no indication was recorded in the selected retained records. |
 
 The attempt categories describe only what was reportable from the conversation. They do not determine success. According to the method, a person may perform the act simply upon hearing the invitation without recognizing, evaluating, or reporting it.
 

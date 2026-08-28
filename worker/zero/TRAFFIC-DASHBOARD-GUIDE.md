@@ -19,9 +19,9 @@ Use the same private credentials as the Looking Zero outcome dashboard:
 - **Homepage entrances:** direct or external arrivals at the homepage, excluding ordinary reloads and navigation from another Just One Look page. This is a storage-free estimate, not a visit or unique person.
 - **Try It clicks:** clicks on the homepage link leading to Looking Zero.
 - **Looking Zero opened:** loads of the Looking Zero page.
-- **Looking Zero sessions started:** first messages sent in Looking Zero, including a new first message after an intentional restart on the same open page.
+- **Looking Zero sessions started:** browser-recorded first-message events in Looking Zero, including a new first message after an intentional restart on the same open page. This independent event can differ slightly from the Worker-recorded sessions in Outcome Measurement.
 
-The first dashboard section shows aggregate ratios between these action counts. They are directional estimates, not records of linked personal journeys. The Looking Zero outcome section appears beneath it and keeps its existing cards and definitions.
+The first dashboard section shows aggregate ratios between these independent action counts. They are directional estimates, not a linked visitor funnel or records of personal journeys. The Looking Zero outcome section appears beneath it and keeps its existing cards and definitions.
 
 ## What is deliberately not collected
 
