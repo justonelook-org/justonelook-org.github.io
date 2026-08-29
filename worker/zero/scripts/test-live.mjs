@@ -16,7 +16,6 @@ const env = {
   OPENAI_SDA_API_KEY: settings.OPENAI_SDA_API_KEY,
   LOOK_MODEL: readFlag("model"),
   LOOK_REASONING_EFFORT: readFlag("effort"),
-  PILOT_ACCESS_CODE: settings.PILOT_ACCESS_CODE,
   SESSION_RATE_LIMITER: { limit: async () => ({ success: true }) },
   PILOT_RATE_LIMITER: { limit: async () => ({ success: true }) }
 };
@@ -27,10 +26,9 @@ const prompt = customPrompt || (guide === "self-directed-attention"
   ? "Yes, I have performed the inward look. I am new to the exercise."
   : "Hello");
 
-const request = new Request(`http://local-pilot.test/api/${guide}`, {
+const request = new Request(`http://local-zero.test/api/${guide}`, {
   method: "POST",
   headers: {
-    "Authorization": `Bearer ${settings.PILOT_ACCESS_CODE}`,
     "Content-Type": "application/json",
     "Origin": "http://localhost:8000"
   },

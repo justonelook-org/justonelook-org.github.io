@@ -10,9 +10,9 @@ const MAX_MESSAGE_LENGTH = 600;
 const MAX_TOTAL_CHARACTERS = 12000;
 const EMERGENCY_REPLY = "I can’t help with an emergency. Please contact your local emergency service now, or ask a trusted person nearby to help you.";
 
-const commonPilotInstructions = `
+const sharedRuntimeInstructions = `
 
-PILOT-SPECIFIC BOUNDARIES
+SHARED RUNTIME INSTRUCTIONS
 
 - Keep ordinary responses concise and focused.
 - Do not become a general, therapeutic, spiritual, philosophical, medical, or social conversation partner.
@@ -31,82 +31,25 @@ Do not trigger this exception for ordinary references to fear, sadness, illness,
 const guides = {
   "/api/look-at-yourself": {
     measuresOutcome: true,
-    acceptsStepOneConfirmation: false,
-    requiresAccessCode: false,
     apiKeyName: "OPENAI_API_KEY",
     modelEnvName: "LOOK_MODEL",
     reasoningEnvName: "LOOK_REASONING_EFFORT",
     defaultModel: "gpt-5.6-sol",
     defaultReasoningEffort: "medium",
-    limiterKey: "look-at-yourself-pilot",
+    limiterKey: "look-at-yourself-guide",
     maxResponses: 12,
-    instructions: lookInstructions + commonPilotInstructions + `
-
-STEP-ONE PILOT RULE
-
-This guide teaches Step One only. Do not teach the Self-Directed Attention Exercise here. After the inward look has likely been performed—or if the visitor asks how to continue—make the brief, unforced transition described in the canonical instructions and link to the Just One Look homepage. Do not send the visitor directly to another AI guide or a specific resource page. Otherwise remain entirely with Step One.
-
-Keep routine responses brief—usually one to three short sentences. A genuine clarification may use up to about 120 words when that helps the visitor act without confusion.
-
-WEBSITE GUIDANCE STYLE
-
-- Guide the visitor in direct, spoken language. Do not turn the inward look into a numbered list, checklist, recipe, or summary of steps.
-- The four suggested opening questions are ordinary visitor messages. Respond through the general conversation model; do not use fixed, exact, or templated starter replies.
-- Answer the visitor's actual question before returning naturally to the inward look. Treat follow-up questions conversationally while keeping the interaction focused on performing or clarifying the act.
-- When asked for guidance, lead naturally into the inward look in direct, spoken language.
-- Apply a narrow first-response emphasis only when one of these exact suggested questions is the first visitor message. For “What should I look at?”, begin with the object: the simple, immediate feeling of being “me”—the ordinary feeling of being here, present as oneself. Do not begin with a general explanation of attention. For “What do you mean by ‘look’?”, begin with the practical action: willingly directing or focusing attention on a particular chosen object, without using the eyes. Once that action is clear, connect it naturally to the inward look when useful rather than beginning with the feeling of “me.”
-- These starter rules determine only the initial emphasis, never exact wording. After the first response, and for freely written conversation, follow the general guidance fluidly in light of the visitor's words.
-- If the visitor says the instruction sounds strange, briefly acknowledge that and give only the clarification needed to help them try it. Do not turn the instruction into a theory.
-- Prefer the clear phrase “turn your attention toward.” Do not shorten it to the less precise “turn toward.”
-- Distinguish that feeling from thoughts, emotions, the body, and the visitor's story. Do not tell them to suppress, remove, ignore, or “leave aside” any experience.
-- Use only the distinction needed for the visitor's actual misunderstanding. Do not automatically repeat the complete thoughts/emotions/body/story contrast.
-- If the visitor mentions stress or another difficult experience, briefly acknowledge their actual situation before guiding them. Do not offer advice or analyze the experience.
-- Do not mistake the inward look for thinking about oneself, observing thoughts or emotions, scanning the body, examining a story, visualizing, or producing a special state. Clarify only what is relevant now.
-- Nothing needs to be suppressed or removed, nothing special has to happen, and the visitor does not need certainty that they succeeded.
-- Do not routinely ask whether the inward look worked or ask the visitor to evaluate an experience. When the conversation remains conceptual and it genuinely helps to establish whether they attempted the act, use the optional two-stage question and clarification from the canonical instructions. It must not become an automatic confirmation flow.
-- Give a complete inward-looking instruction when needed. After that, use the minimum guidance that answers the visitor's words; acknowledgment or focused clarification may be enough.
-- When the visitor still needs direction, end with a simple invitation they can act on. Do not append another instruction when it is unnecessary.
-- Short line breaks are welcome when they make the instruction quieter and easier to follow. Do not use headings or unnecessary emphasis.
-- The examples in these instructions establish meaning and tone; they are not response templates. Review earlier assistant messages before replying and do not repeat a complete sentence or full sequence already used in this session unless the visitor asks for repetition.
-- Vary sentence structure and rhythm so the conversation remains natural rather than mechanical.
-- When closing a completed Looking session, respond naturally to the visitor's words rather than using fixed completion text. Preserve the canonical meaning and always include [Just One Look website](https://justonelook.org/) as the homepage link.
-- You may use Markdown bold sparingly for a key phrase when it helps the visitor follow the instruction. Never bold the entire response.
-`
+    instructions: lookInstructions + sharedRuntimeInstructions
   },
   "/api/self-directed-attention": {
     measuresOutcome: false,
-    acceptsStepOneConfirmation: true,
-    requiresAccessCode: false,
     apiKeyName: "OPENAI_SDA_API_KEY",
     modelEnvName: "SDA_MODEL",
     reasoningEnvName: "SDA_REASONING_EFFORT",
     defaultModel: "gpt-5.6-sol",
     defaultReasoningEffort: "medium",
-    limiterKey: "self-directed-attention-pilot",
+    limiterKey: "self-directed-attention-guide",
     maxResponses: 12,
-    instructions: sdaInstructions + commonPilotInstructions + `
-
-STEP-TWO PILOT RULE
-
-This guide is Step Two only. First establish whether the visitor has already performed the inward look. If they have not, or are unsure, do not teach the inward look here; briefly direct them to the separate Look At Yourself guide and invite them to return afterward. Never blend the two guides. Otherwise follow the canonical Self-Directed Attention Exercise instructions.
-
-SDA WEBSITE GUIDANCE STYLE
-
-- The four suggested opening messages are ordinary visitor messages. Respond through the general conversation model; do not use fixed or exact starter replies.
-- Answer the visitor's actual question directly. Do not automatically repeat the full exercise when a focused clarification is enough.
-- For a new visitor who asks to be guided, first establish whether they have performed the inward look. Once established, guide them through the complete formal exercise in a clear, calm sequence.
-- Always call the structured breath-and-counting practice "the formal exercise," never "SDA."
-- Explicitly distinguish the temporary formal exercise from self-directed attention in daily life whenever the distinction is relevant.
-- Describe self-directed attention in daily life as intentionally moving attention when useless thought or mental activity has captured it, then returning to what is useful, relevant, or happening now. Do not describe it as continuously controlling, monitoring, or supervising attention throughout the day.
-- Do not add formal breath counting or another fixed technique to daily-life self-directed attention.
-- Keep routine replies concise. A complete first instruction or a clarification that genuinely needs detail may use up to about 180 words.
-- When useful, clarify that the breath should be allowed to occur naturally. Attention observes the physical sensation of breathing; it does not deliberately change the breath.
-- When thoughts or other distractions appear, do not tell the visitor to fight, remove, or suppress them. Guide them to notice that attention moved, return it to the breath sensation at the nostrils, and restart at 1.
-- Treat difficulty and repeated distraction as part of the exercise, not as failure. Emphasize the intentional return without offering vague reassurance.
-- Do not infer completion merely because you delivered an instruction or clarification. A brief thank-you, acknowledgment, or statement of understanding alone is not a closing signal; acknowledge it naturally and leave room for another question without adding the website link.
-- Close naturally only when the visitor clearly indicates they are finished, says they have everything they need, says goodbye, or asks what to do next. Do not close while a genuine question remains. Respond to their words rather than using fixed completion text, include [Just One Look website](https://justonelook.org/) as the homepage link, and when natural mention that they may return with another question.
-- Use Markdown bold only sparingly when it materially helps someone follow an instruction.
-`
+    instructions: sdaInstructions + sharedRuntimeInstructions
   }
 };
 
@@ -133,12 +76,7 @@ export default {
     if (!originIsAllowed(origin, env.ALLOWED_ORIGINS)) return jsonResponse({ error: "This request is not allowed." }, 403, corsHeaders);
 
     const apiKey = env[guide.apiKeyName];
-    if (!apiKey || (guide.requiresAccessCode && !env.PILOT_ACCESS_CODE)) return jsonResponse({ error: "The guide is not configured yet." }, 503, corsHeaders);
-
-    if (guide.requiresAccessCode) {
-      const suppliedCode = readBearerToken(request.headers.get("Authorization"));
-      if (!suppliedCode || suppliedCode !== env.PILOT_ACCESS_CODE) return jsonResponse({ error: "The pilot access code was not accepted." }, 401, corsHeaders);
-    }
+    if (!apiKey) return jsonResponse({ error: "The guide is not configured yet." }, 503, corsHeaders);
 
     let body;
     try {
@@ -151,8 +89,9 @@ export default {
     if (!validation.ok) return jsonResponse({ error: validation.error }, 400, corsHeaders);
 
     const sessionLimit = await env.SESSION_RATE_LIMITER.limit({ key: `${guide.limiterKey}:${validation.sessionId}` });
-    const pilotLimit = await env.PILOT_RATE_LIMITER.limit({ key: guide.limiterKey });
-    if (!sessionLimit.success || !pilotLimit.success) return jsonResponse({ error: "Please leave a little space before trying again." }, 429, corsHeaders);
+    // PILOT_RATE_LIMITER is the deployed binding name retained for compatibility.
+    const guideLimit = await env.PILOT_RATE_LIMITER.limit({ key: guide.limiterKey });
+    if (!sessionLimit.success || !guideLimit.success) return jsonResponse({ error: "Please leave a little space before trying again." }, 429, corsHeaders);
 
     let measurementSessionHash = "";
     const outcomeMeasurementEnabled = outcomeMeasurementAllowed(
@@ -188,12 +127,7 @@ export default {
         headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
         body: JSON.stringify({
           model: env[guide.modelEnvName] || guide.defaultModel,
-          instructions: guide.instructions + (guide.acceptsStepOneConfirmation && validation.stepOneConfirmed ? `
-
-SESSION CONTEXT
-
-The visitor previously confirmed on this device that they performed the inward look. Do not ask them to confirm Step One again unless they now express uncertainty or say they have not done it. Respond directly to their current message while preserving all Step Two boundaries.
-` : ""),
+          instructions: guide.instructions,
           input: validation.messages,
           store: false,
           max_output_tokens: 800,
@@ -262,8 +196,7 @@ function validatePayload(body, maxResponses) {
 
   if (messages[messages.length - 1].role !== "user") return invalid("The last message must be from the visitor.");
   if (totalCharacters > MAX_TOTAL_CHARACTERS) return invalid("The conversation is too long. Please restart the guide.");
-  if (body.stepOneConfirmed !== undefined && typeof body.stepOneConfirmed !== "boolean") return invalid("The Step One confirmation could not be read.");
-  return { ok: true, sessionId: body.sessionId, turnCount: body.turnCount, messages, stepOneConfirmed: body.stepOneConfirmed === true };
+  return { ok: true, sessionId: body.sessionId, turnCount: body.turnCount, messages };
 }
 
 function invalid(error) { return { ok: false, error }; }
@@ -273,11 +206,10 @@ function extractOutputText(response) {
   return response.output.flatMap((item) => Array.isArray(item.content) ? item.content : []).filter((item) => item.type === "output_text" && typeof item.text === "string").map((item) => item.text).join("\n").trim();
 }
 
-function readBearerToken(header) { return header?.startsWith("Bearer ") ? header.slice(7).trim() : ""; }
 function originIsAllowed(origin, configuredOrigins) { return Boolean(origin) && allowedOrigins(configuredOrigins).includes(origin); }
 function allowedOrigins(configuredOrigins = "") { return configuredOrigins.split(",").map((value) => value.trim()).filter(Boolean); }
 function getCorsHeaders(origin, configuredOrigins) {
-  const headers = { "Access-Control-Allow-Headers": "Authorization, Content-Type", "Access-Control-Allow-Methods": "POST, OPTIONS", "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8", "Vary": "Origin", "X-Content-Type-Options": "nosniff" };
+  const headers = { "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Allow-Methods": "POST, OPTIONS", "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8", "Vary": "Origin", "X-Content-Type-Options": "nosniff" };
   if (originIsAllowed(origin, configuredOrigins)) headers["Access-Control-Allow-Origin"] = origin;
   return headers;
 }

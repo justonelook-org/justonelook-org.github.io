@@ -1,4 +1,4 @@
-# Zero private service
+# Zero service
 
 This small Cloudflare Worker connects the Look At Yourself and Self-Directed Attention Exercise guides to OpenAI. It contains no conversation database and does not intentionally log message content.
 
@@ -10,7 +10,7 @@ For the privacy-first website traffic section, event definitions, and maintenanc
 
 The repository also contains an optional, disabled-by-default anonymous outcome-measurement layer for Looking Zero. It does not apply to Self-Directed Attention Zero. It remains inactive unless its dedicated D1 binding and secrets are configured. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins.
 
-## Before the pilot can run
+## Before the Zero service can run
 
 The site owner needs a Cloudflare account and a separate OpenAI API project with a low monthly budget alert.
 
@@ -73,10 +73,12 @@ Do not place any of these secrets in `.dev.vars` unless local API testing is spe
 
 Attempt signals are monotonic: a session retains its highest report level. They do not classify success. A visitor may perform the inward look without recognizing, understanding, evaluating, or reporting it, so no attempt report must never be presented as evidence that the inward look did not occur.
 
-Cloudflare's rate-limit counters are approximate and location-based. Before wider public access, review actual usage and add stronger daily cost protection if the pilot demonstrates a need for it.
+Cloudflare's rate-limit counters are approximate and location-based. Before wider public access, review actual usage and add stronger daily cost protection if the service demonstrates a need for it.
+
+The deployed `PILOT_RATE_LIMITER` binding retains its historical external name to avoid an unnecessary Cloudflare resource migration. In code and documentation it is the guide-level rate limit.
 
 ## Source of truth
 
-The preparation script reads both canonical files in `zero/` whenever the Worker is checked, tested, or published. It creates temporary generated modules that Git ignores. This keeps each guide's repository instruction file as its source of truth. The additional instructions in `src/index.js` contain only website-specific boundaries, response guidance, transparency rules, and the narrow emergency exception.
+The preparation script reads both canonical files in `zero/` whenever the Worker is checked, tested, or published. It creates temporary generated modules that Git ignores. This keeps each guide's repository instruction file as its source of truth. The shared runtime instructions in `src/index.js` contain only response concision, AI transparency, and the narrow emergency exception. Teaching behavior and guide-specific website handoffs live in the canonical Markdown files.
 
 The deployed Worker retains the historical `look-at-yourself-api` name because its workers.dev address is used by both public guide pages.
