@@ -7,7 +7,6 @@ const baseEnv = {
   ALLOWED_ORIGINS: allowedOrigin,
   OPENAI_API_KEY: "test-openai-key",
   OPENAI_SDA_API_KEY: "test-sda-key",
-  PILOT_ACCESS_CODE: "test-pilot-code",
   OUTCOME_MEASUREMENT_ENABLED: "false",
   SESSION_RATE_LIMITER: { limit: async () => ({ success: true }) },
   PILOT_RATE_LIMITER: { limit: async () => ({ success: true }) }
@@ -33,7 +32,6 @@ test("keeps outcome measurement disabled unless explicitly enabled", async () =>
     globalThis.fetch = originalFetch;
   }
 });
-
 test("limits test measurement to the exact configured test origin", () => {
   assert.equal(outcomeMeasurementAllowed("false", "https://website-test-zero.pages.dev", "https://website-test-zero.pages.dev"), false);
   assert.equal(outcomeMeasurementAllowed("test", "https://justonelook.org", "https://website-test-zero.pages.dev"), false);
@@ -68,7 +66,6 @@ test("excludes the team test origin from production measurement", async () => {
     globalThis.fetch = originalFetch;
   }
 });
-
 test("does not expose the test-only measurement diagnostic to production origins", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () => new Response(JSON.stringify({
@@ -91,8 +88,7 @@ function request(body, options = {}) {
     "Content-Type": "application/json",
     "Origin": options.origin || allowedOrigin
   };
-  if (!options.omitAuthorization) headers.Authorization = `Bearer ${options.accessCode || "test-pilot-code"}`;
-  return new Request(`https://pilot-api.example${options.path || "/api/look-at-yourself"}`, {
+  return new Request(`https://zero-api.example${options.path || "/api/look-at-yourself"}`, {
     method: options.method || "POST",
     headers,
     body: options.method === "OPTIONS" ? undefined : JSON.stringify(body)
@@ -229,41 +225,40 @@ test("sends temporary context with storage disabled", async () => {
     assert.equal(openAIBody.model, "gpt-5.6-sol");
     assert.equal(openAIBody.reasoning.effort, "medium");
     assert.equal(openAIBody.input.length, 1);
-    assert.match(openAIBody.instructions, /PILOT-SPECIFIC BOUNDARIES/);
-    assert.match(openAIBody.instructions, /teaches Step One only/);
+    assert.match(openAIBody.instructions, /SHARED RUNTIME INSTRUCTIONS/);
+    assert.match(openAIBody.instructions, /Step One of the Just One Look Method/);
     assert.match(openAIBody.instructions, /bring the Looking session to a natural close/i);
     assert.match(openAIBody.instructions, /surrounding message should fit the conversation rather than repeat fixed completion wording/i);
-    assert.match(openAIBody.instructions, /respond naturally to the visitor's words rather than using fixed completion text/i);
+    assert.match(openAIBody.instructions, /surrounding message should fit the conversation rather than repeat fixed completion wording/i);
     assert.doesNotMatch(openAIBody.instructions, /provide this exact response/i);
     assert.match(openAIBody.instructions, /\[Just One Look website\]\(https:\/\/justonelook\.org\/\)/);
-    assert.match(openAIBody.instructions, /link to the Just One Look homepage/);
-    assert.match(openAIBody.instructions, /Do not send the visitor directly to another AI guide or a specific resource page/);
-    assert.match(openAIBody.instructions, /Do not turn the inward look into a numbered list/);
+    assert.match(openAIBody.instructions, /homepage—not another AI guide or a specific resource page—is the default next step/i);
+    assert.match(openAIBody.instructions, /Do not send the user directly to the Self-Directed Attention AI guide/);
+    assert.match(openAIBody.instructions, /rather than a numbered list, checklist, recipe, or summary of steps/);
     assert.match(openAIBody.instructions, /do not need to be suppressed, removed, ignored, or fought/i);
     assert.match(openAIBody.instructions, /turn your attention toward/);
-    assert.match(openAIBody.instructions, /ordinary visitor messages/i);
+    assert.match(openAIBody.instructions, /ordinary user messages/i);
     assert.match(openAIBody.instructions, /do not use fixed, exact, or templated starter replies/i);
-    assert.match(openAIBody.instructions, /exact suggested questions is the first visitor message/i);
-    assert.match(openAIBody.instructions, /What should I look at.*begin with the object.*ordinary feeling of being here, present as oneself/i);
-    assert.match(openAIBody.instructions, /What do you mean by ‘look’.*begin with the practical action.*particular chosen object, without using the eyes/i);
-    assert.match(openAIBody.instructions, /starter rules determine only the initial emphasis, never exact wording/i);
-    assert.match(openAIBody.instructions, /freely written conversation.*general guidance fluidly/i);
-    assert.match(openAIBody.instructions, /Answer the visitor's actual question before returning naturally/i);
-    assert.match(openAIBody.instructions, /Nothing needs to be suppressed or removed/i);
+    assert.match(openAIBody.instructions, /exact suggested opening message and the first user message/i);
+    assert.match(openAIBody.instructions, /What should I look at.*begin with the object.*ordinary feeling of being here, present as themselves/i);
+    assert.match(openAIBody.instructions, /What do you mean by ‘look’.*begin with the practical action.*directing attention toward something one chooses/i);
+    assert.match(openAIBody.instructions, /first-response emphasis rules apply only to those exact suggested opening messages/i);
+    assert.match(openAIBody.instructions, /freely written conversation.*general instructions fluidly/i);
+    assert.match(openAIBody.instructions, /Answer the user's actual question first/i);
     assert.match(openAIBody.instructions, /nothing special has to happen/i);
     assert.match(openAIBody.instructions, /does not need certainty that they succeeded/i);
     assert.match(openAIBody.instructions, /Did you try looking at yourself just now\?/);
     assert.match(openAIBody.instructions, /By looking, I mean turning your attention toward the simple feeling of being you—not thinking about yourself\./);
     assert.match(openAIBody.instructions, /not an automatic questionnaire or confirmation flow/i);
-    assert.match(openAIBody.instructions, /Do not routinely ask whether the inward look worked/i);
+    assert.match(openAIBody.instructions, /Do not routinely ask the user to confirm whether the inward look worked/i);
     assert.match(openAIBody.instructions, /up to about 120 words/i);
     assert.doesNotMatch(openAIBody.instructions, /reply exactly/i);
     assert.doesNotMatch(openAIBody.instructions, /defined first responses/i);
     assert.doesNotMatch(openAIBody.instructions, /exact-response rule/i);
     assert.match(openAIBody.instructions, /Markdown bold sparingly/);
-    assert.match(openAIBody.instructions, /not response templates/i);
+    assert.match(openAIBody.instructions, /not as scripts to copy/i);
     assert.match(openAIBody.instructions, /do not repeat a complete sentence or full sequence/i);
-    assert.match(openAIBody.instructions, /Do not automatically repeat the complete thoughts\/emotions\/body\/story contrast/i);
+    assert.match(openAIBody.instructions, /full thoughts\/emotions\/body\/story distinction unless repetition is genuinely useful/i);
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -285,15 +280,15 @@ test("keeps the SDA guide on its separate route, key, and instructions", async (
     assert.equal(openAIBody.model, "gpt-5.6-sol");
     assert.equal(openAIBody.reasoning.effort, "medium");
     assert.match(openAIBody.instructions, /Self-Directed Attention Exercise/);
-    assert.match(openAIBody.instructions, /Step Two only/i);
-    assert.match(openAIBody.instructions, /Never blend the two guides/i);
-    assert.match(openAIBody.instructions, /ordinary visitor messages/i);
-    assert.match(openAIBody.instructions, /do not use fixed or exact starter replies/i);
+    assert.match(openAIBody.instructions, /Step Two of the Just One Look Method/i);
+    assert.match(openAIBody.instructions, /Do not mix the inward look with the Self-Directed Attention Exercise/i);
+    assert.match(openAIBody.instructions, /ordinary user messages/i);
+    assert.match(openAIBody.instructions, /without fixed or exact starter replies/i);
     assert.match(openAIBody.instructions, /breath should be allowed to occur naturally/i);
     assert.match(openAIBody.instructions, /repeated distraction as part of the exercise/i);
     assert.match(openAIBody.instructions, /Do not infer that the conversation is finished merely because you delivered an instruction or clarification/i);
     assert.match(openAIBody.instructions, /brief thank-you, acknowledgment, or statement of understanding does not by itself mean the user wants to finish/i);
-    assert.match(openAIBody.instructions, /Close naturally only when the visitor clearly indicates they are finished/i);
+    assert.match(openAIBody.instructions, /bring the conversation to a natural close when the user clearly indicates that they are finished/i);
     assert.match(openAIBody.instructions, /Always call it "the formal exercise," not "SDA/i);
     assert.match(openAIBody.instructions, /does not mean continuously controlling, monitoring, or supervising attention/i);
     assert.match(openAIBody.instructions, /Do not turn self-directed attention in daily life into another formal technique/i);
@@ -302,21 +297,3 @@ test("keeps the SDA guide on its separate route, key, and instructions", async (
   }
 });
 
-test("lets returning SDA visitors skip repeating the Step One confirmation", async () => {
-  const originalFetch = globalThis.fetch;
-  let openAIBody;
-  globalThis.fetch = async (_url, options) => {
-    openAIBody = JSON.parse(options.body);
-    return new Response(JSON.stringify({ output: [{ content: [{ type: "output_text", text: "Let’s continue with your question." }] }] }), { status: 200, headers: { "Content-Type": "application/json" } });
-  };
-  try {
-    const body = validBody();
-    body.stepOneConfirmed = true;
-    const response = await worker.fetch(request(body, { path: "/api/self-directed-attention", omitAuthorization: true }), baseEnv);
-    assert.equal(response.status, 200);
-    assert.match(openAIBody.instructions, /previously confirmed on this device/i);
-    assert.match(openAIBody.instructions, /Do not ask them to confirm Step One again/i);
-  } finally {
-    globalThis.fetch = originalFetch;
-  }
-});

@@ -16,7 +16,6 @@ const env = {
   ALLOWED_ORIGINS: `http://localhost:${port},http://127.0.0.1:${port}`,
   OPENAI_API_KEY: settings.OPENAI_API_KEY,
   OPENAI_SDA_API_KEY: settings.OPENAI_SDA_API_KEY,
-  PILOT_ACCESS_CODE: settings.PILOT_ACCESS_CODE,
   SESSION_RATE_LIMITER: createLocalRateLimiter(8, 60_000),
   PILOT_RATE_LIMITER: createLocalRateLimiter(60, 60_000)
 };
@@ -35,12 +34,12 @@ const server = createServer(async (incoming, outgoing) => {
     await serveStaticFile(url.pathname, outgoing);
   } catch {
     outgoing.writeHead(500, { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" });
-    outgoing.end("The local pilot encountered an error.");
+    outgoing.end("The local Zero service encountered an error.");
   }
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Local pilots ready at http://127.0.0.1:${port}/try-it/ and /self-directed-attention/`);
+  console.log(`Local Zero guides ready at http://127.0.0.1:${port}/try-it/ and /self-directed-attention/`);
 });
 
 async function readSettings(url) {

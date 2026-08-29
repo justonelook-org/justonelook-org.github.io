@@ -39,19 +39,9 @@ textarea:focus-visible {
   outline-offset: 3px;
 }
 
-.pilot-header,
 .guide {
   width: min(100% - 40px, 760px);
   margin-inline: auto;
-}
-
-.pilot-header { padding-top: 28px; }
-
-.pilot-brand {
-  color: var(--blue);
-  font: 700 1.15rem/1 Arial, sans-serif;
-  letter-spacing: .12em;
-  text-decoration: none;
 }
 
 .guide { padding: 28px 0 40px; }
@@ -70,32 +60,15 @@ h1 {
 
 h2 { margin-top: 0; }
 
-.entry { max-width: 620px; }
-
-.access-form { margin-top: 34px; }
-
 label,
 legend { color: var(--blue); }
 
-input[type="password"],
 textarea {
   display: block;
   width: 100%;
   border: 1px solid #9aa5ab;
   background: #fff;
   color: var(--ink);
-}
-
-input[type="password"] {
-  max-width: 340px;
-  margin: 7px 0 28px;
-  padding: 9px 11px;
-}
-
-fieldset {
-  margin: 0;
-  padding: 0;
-  border: 0;
 }
 
 .choice {
@@ -105,21 +78,6 @@ fieldset {
 }
 
 .choice input { margin-right: 8px; }
-
-.age-note {
-  margin: 14px 0 0;
-  color: var(--muted);
-  font-size: .86rem;
-}
-
-.guardian-note {
-  margin: 22px 0;
-  padding: 18px 20px;
-  border-left: 3px solid var(--accent);
-  background: var(--soft);
-}
-
-.guardian-note p { margin-top: 0; }
 
 button[type="submit"],
 #send {
@@ -372,9 +330,7 @@ dialog::backdrop { background: rgba(20, 31, 38, .34); }
 
 @media (max-width: 600px) {
   body { font-size: 17px; }
-  .pilot-header,
   .guide { width: min(100% - 32px, 760px); }
-  .pilot-header { padding-top: 22px; }
   .guide { padding: 12px 0; }
   .guide-panel { height: calc(100dvh - 24px); min-height: 460px; gap: 6px; padding-top: 0; }
   .guide-panel > .guide-welcome-title { display: flex; flex-direction: column; font-size: clamp(.8rem, 3.8vw, .98rem); white-space: normal; }
