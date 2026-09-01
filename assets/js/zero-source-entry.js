@@ -5,10 +5,11 @@
   const sourceLabels = Object.freeze({ x: "X", youtube: "YouTube", bluesky: "Bluesky" });
   const campaignPattern = /^[a-z0-9](?:[a-z0-9-]{0,62})$/;
   const parts = location.pathname.split("/").filter(Boolean);
-  const source = parts[0] || "";
-  const campaign = parts[1] || "";
+  const sourceOffset = parts[0] === "try-it" ? 1 : 0;
+  const source = parts[sourceOffset] || "";
+  const campaign = parts[sourceOffset + 1] || "";
 
-  if (Object.hasOwn(sourceLabels, source) && parts.length <= 2 && (!campaign || campaignPattern.test(campaign))) {
+  if (Object.hasOwn(sourceLabels, source) && parts.length <= sourceOffset + 2 && (!campaign || campaignPattern.test(campaign))) {
     const body = { event: "zero_source", source };
     if (campaign) body.campaign = campaign;
     fetch(endpoint, {

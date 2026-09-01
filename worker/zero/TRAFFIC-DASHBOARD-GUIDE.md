@@ -20,7 +20,7 @@ Use the same private credentials as the Looking Zero outcome dashboard:
 - **Try It clicks:** clicks on the homepage link leading to Looking Zero.
 - **Looking Zero opened:** loads of the Looking Zero page.
 - **Looking Zero sessions started:** browser-recorded first-message events in Looking Zero, including a new first message after an intentional restart on the same open page. This independent event can differ slightly from the Worker-recorded sessions in Outcome Measurement.
-- **Roads to Zero:** arrivals through implemented clean source paths. The first version supports `/x/`, `/youtube/`, and `/bluesky/`. Each path records one approved source count and immediately continues to canonical `/try-it/`.
+- **Roads to Zero:** arrivals through implemented clean source paths. X uses `/try-it/x/`, with `/x/` retained for compatibility; YouTube and Bluesky currently use `/youtube/` and `/bluesky/`. Each path records one approved source count and immediately continues to canonical `/try-it/`.
 
 The first dashboard section shows aggregate ratios between these independent action counts. They are directional estimates, not a linked visitor funnel or records of personal journeys. The Looking Zero outcome section appears beneath it and keeps its existing cards and definitions.
 

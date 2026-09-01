@@ -22,7 +22,8 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `assets/` — shared images, styles, and other site assets
 - `try-it/` and `self-directed-attention/` — canonical public webpages for Zero's two guides
 - `ai/` — compatibility redirects for Zero's former public paths
-- `x/`, `youtube/`, and `bluesky/` — intentionally root-level Roads to Zero route stubs for clean public URLs; do not move them beneath another directory
+- `try-it/x/` — canonical X road to Zero; the older root-level `x/` route remains available for compatibility
+- `youtube/` and `bluesky/` — existing root-level Roads to Zero route stubs
 - `zero/` — canonical instructions for Zero's two guides
 - `worker/zero/` — Cloudflare Worker backend shared by both Zero guides
 - `AGENTS.md` — repository instructions for coding agents that maintain the site
@@ -59,7 +60,7 @@ The public pages call separate Worker routes:
 
 The Worker keeps separate instructions, API keys, model settings, and guide-specific behavior for those routes. Its deployed Cloudflare name remains `look-at-yourself-api` for compatibility with the existing public endpoint.
 
-The Roads to Zero entry stubs remain at the repository root so `/x/`, `/youtube/`, and `/bluesky/` stay simple public URLs. They share the existing source-entry script and aggregate-only Worker analytics; three explicit stubs are intentionally simpler than introducing a generator or routing system.
+The canonical X road is `/try-it/x/`, reflecting its destination at `/try-it/`. The older `/x/` entry remains working for compatibility. YouTube and Bluesky currently retain their root-level source paths. These pages share the existing source-entry script and aggregate-only Worker analytics.
 
 The Markdown files under `zero/` are the source of truth. Worker preparation generates temporary JavaScript instruction modules from them; those generated files are ignored by Git and should not be edited directly. Corresponding custom GPTs in ChatGPT should be kept in sync manually when their instructions change.
 

@@ -144,6 +144,12 @@ test("clean source pages use one privacy-preserving source event and keep Try It
   assert.deepEqual(events, [{event:"zero_source",source:"youtube",campaign:"zero-short-01"}]);
   assert.deepEqual(redirects, ["/try-it/"]);
 
+  events.length = 0;
+  redirects.length = 0;
+  runInNewContext(script, { fetch, location:{pathname:"/try-it/x/",replace(value){redirects.push(value)}}, Object });
+  assert.deepEqual(events, [{event:"zero_source",source:"x"}]);
+  assert.deepEqual(redirects, ["/try-it/"]);
+
   for (const source of ["x", "youtube", "bluesky"]) {
     const page = await readFile(new URL(`../../../${source}/index.html`, import.meta.url), "utf8");
     assert.match(page, /rel="canonical" href="https:\/\/justonelook\.org\/try-it\/"/);
@@ -151,6 +157,10 @@ test("clean source pages use one privacy-preserving source event and keep Try It
     assert.match(page, /zero-source-entry\.js/);
     assert.doesNotMatch(page, /anonymous-traffic\.js|look-at-yourself\.js/);
   }
+  const nestedXPage = await readFile(new URL("../../../try-it/x/index.html", import.meta.url), "utf8");
+  assert.match(nestedXPage, /rel="canonical" href="https:\/\/justonelook\.org\/try-it\/"/);
+  assert.match(nestedXPage, /name="robots" content="noindex, follow"/);
+  assert.match(nestedXPage, /zero-source-entry\.js/);
   const sitemap = await readFile(new URL("../../../sitemap.xml", import.meta.url), "utf8");
   assert.doesNotMatch(sitemap, /justonelook\.org\/(?:x|youtube|bluesky)\//);
 });
