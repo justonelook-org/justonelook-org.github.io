@@ -5,7 +5,7 @@
 This is the production repository for the static Just One Look website at `justonelook.org`.
 
 - `try-it/` and `self-directed-attention/` contain Zero's canonical public webpages.
-- `ai/` contains compatibility redirects for Zero's former public URLs; keep those redirects working.
+- `try-it/x/` is the only social source-entry route currently published for Zero.
 - `zero/` contains the canonical instructions for Zero's two guides.
 - `worker/zero/` contains the shared Cloudflare Worker backend for both Zero guides.
 - `library/` and the root HTML files contain the published site content.
@@ -13,7 +13,7 @@ This is the production repository for the static Just One Look website at `justo
 
 ## Working rules
 
-- Preserve existing public URLs unless a requested migration includes redirects and link updates.
+- Keep public Zero links limited to the canonical guide routes and explicitly published source-entry routes.
 - Keep the Look At Yourself and Self-Directed Attention Exercise guides behaviorally separate.
 - Treat the Markdown instruction files under `zero/` as the source of truth. Generated instruction modules are temporary and ignored by Git.
 - Never commit API keys, `.dev.vars`, credentials, or other secrets.

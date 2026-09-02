@@ -2,7 +2,7 @@ import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from ".
 
 const MAX_DAYS = 366;
 const HOMEPAGE_ENTRANCES_STARTED_DAY = "2026-08-11";
-const SOURCE_LABELS = Object.freeze({ x: "X", youtube: "YouTube", bluesky: "Bluesky" });
+const SOURCE_LABELS = Object.freeze({ x: "X" });
 const CAMPAIGN_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,62})$/;
 const EVENT_COLUMNS = Object.freeze({
   homepage_view: "homepage_views",
@@ -108,7 +108,7 @@ export async function readTrafficMetrics(database, from, to) {
     zero_opens: number(totals?.zero_opens),
     zero_session_starts: number(totals?.zero_session_starts)
   };
-  const sourceResults = sourceRows?.results || [];
+  const sourceResults = (sourceRows?.results || []).filter((row) => Object.hasOwn(SOURCE_LABELS, row.source));
   const sourceTotals = new Map();
   for (const row of sourceResults) sourceTotals.set(row.source, (sourceTotals.get(row.source) || 0) + number(row.count));
   const sourceNames = [...new Set([...Object.keys(SOURCE_LABELS), ...sourceTotals.keys()])];

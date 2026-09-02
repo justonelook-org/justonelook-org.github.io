@@ -20,7 +20,7 @@ Use the same private credentials as the Looking Zero outcome dashboard:
 - **Try It clicks:** clicks on the homepage link leading to Looking Zero.
 - **Looking Zero opened:** loads of the Looking Zero page.
 - **Looking Zero sessions started:** browser-recorded first-message events in Looking Zero, including a new first message after an intentional restart on the same open page. This independent event can differ slightly from the Worker-recorded sessions in Outcome Measurement.
-- **Roads to Zero:** arrivals through the implemented social-media source paths: X `/try-it/x/`, YouTube `/try-it/youtube/`, and Bluesky `/try-it/bluesky/`. Each path records one approved source count and immediately continues to canonical `/try-it/`.
+- **Roads to Zero:** arrivals through implemented clean source paths. The currently published route is `/try-it/x/`. It records one approved X source count and immediately continues to canonical `/try-it/`.
 
 The first dashboard section shows aggregate ratios between these independent action counts. They are directional estimates, not a linked visitor funnel or records of personal journeys. The Looking Zero outcome section appears beneath it and keeps its existing cards and definitions.
 
@@ -40,13 +40,13 @@ The system does not use or retain:
 
 The browser checks only the current page's navigation type and whether its referrer is from the same site. It sends the fixed `homepage_entrance` event when the arrival is direct or external and is not an ordinary reload. The referrer itself is never sent or stored.
 
-The social-media source paths send only a fixed approved source slug. They do not send or store a referrer. Source totals are not joined to page openings, sessions, conversations, or outcomes. `/try-it/` remains the canonical Looking Zero URL, and the source-entry pages are excluded from search indexing.
+The X source path sends only the fixed approved source slug `x`. It does not send or store a referrer. Source totals are not joined to page openings, sessions, conversations, or outcomes. `/try-it/` remains the canonical Looking Zero URL, and the source-entry page is excluded from search indexing.
 
 Because people are not identified, homepage entrances must never be labelled as visits or unique visitors. The same person returning later or using another device can create additional entrances, and some browser behavior may undercount or overcount them.
 
 ## Storage
 
-The D1 table `website_daily_traffic` contains one row per UTC day and five integer counters. The `zero_source_daily` table stores anonymous daily source totals. Current public source-entry pages use only the approved source slugs `x`, `youtube`, and `bluesky`. Browser events increment these totals directly; there are no event-level traffic records to archive. Homepage-entrance measurement began on August 11, 2026, so its comparisons exclude earlier Try It clicks.
+The D1 table `website_daily_traffic` contains one row per UTC day and five integer counters. The `zero_source_daily` table stores anonymous daily source totals. The current public source-entry page uses only the approved source slug `x`. Browser events increment these totals directly; there are no event-level traffic records to archive. Homepage-entrance measurement began on August 11, 2026, so its comparisons exclude earlier Try It clicks.
 
 `TRAFFIC_MEASUREMENT_ENABLED` supports:
 
@@ -60,7 +60,7 @@ Team activity at `https://website-test-zero.pages.dev` is excluded in production
 
 Use the figures to ask whether the website is helping people reach and begin Looking Zero. Homepage entrances reduce inflation from ordinary reloads without recognizing browsers, but they do not measure visits or distinct people. Do not claim that an identified visitor moved through every step.
 
-Source counts answer only which social-media road was opened. They do not show whether those arrivals became Zero openings, sessions, invitations, or indications of trying.
+Source counts answer only whether the X road was opened. They do not show whether those arrivals became Zero openings, sessions, invitations, or indications of trying.
 
 The Looking Zero outcome section remains the source for invitation delivery and conversational reports of trying. Although both sections share one page and date selector, traffic and outcomes must still be discussed as separate aggregate layers.
 
