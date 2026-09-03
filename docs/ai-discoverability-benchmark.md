@@ -8,6 +8,14 @@ The benchmark is a measurement tool. The questions in this file are not intended
 
 The benchmark should be run using the same fixed questions each time so that results can be compared across dates.
 
+### Primary discovery target
+
+The most important discovery outcome is that people are directed to the current **justonelook.org** website. The current site brings the complete Just One Look Method, Zero, the Try It experience, Self-Directed Attention, the Library, research, history, support, and other current material together in one place with very little friction.
+
+Older Just One Look pages, archived material, books, videos, and external references can be useful discovery signals, but they are not the primary destination. When evaluating benchmark results, a result that leads directly to `https://justonelook.org/` or an appropriate current page on that domain should generally be considered stronger than a result that surfaces only legacy or third-party material.
+
+For discovery questions where trying the Act of Inward Looking is directly relevant, the preferred destination is `https://justonelook.org/try-it/`. For informational questions, the appropriate current page on justonelook.org may be a better result than the Try It page itself.
+
 ## Evaluation principles
 
 For each query, record:
@@ -16,6 +24,7 @@ For each query, record:
 - Date
 - Whether Just One Look appeared: Yes / No
 - Expected relevance: High / Medium / Low
+- Whether a current `justonelook.org` page was surfaced
 - Which Just One Look page was cited or recommended
 - Whether `https://justonelook.org/try-it/` was surfaced
 - Whether the description of Just One Look was accurate: Yes / Partly / No
@@ -98,8 +107,8 @@ If a system is unavailable during a run, record that rather than substituting a 
 
 For each system, use a table with one row per question:
 
-| Query | Expected relevance | Just One Look found? | Page surfaced | Try It surfaced? | Accurate? | Proportionate? | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Query | Expected relevance | Just One Look found? | Current justonelook.org surfaced? | Page surfaced | Try It surfaced? | Accurate? | Proportionate? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 
 After each run, add a short summary containing:
 
@@ -107,6 +116,7 @@ After each run, add a short summary containing:
 - Regressions or new inaccuracies
 - Queries where Just One Look appeared for the first time
 - Queries where Just One Look disappeared
+- Changes in whether current `justonelook.org` pages or only legacy/external material were surfaced
 - Changes in which Just One Look pages were surfaced
 - Whether Zero / `https://justonelook.org/try-it/` became more or less discoverable
 - Any recommended website changes, clearly separated from the measured results
@@ -191,6 +201,8 @@ The broad mental-health category behaved mostly as expected: authoritative healt
 
 The John Sherman query has a clear ambiguity problem: without a Just One Look qualifier, search strongly favors the nineteenth-century American politician of the same name.
 
+**Current-site baseline:** the current `justonelook.org` site was not surfaced as the primary destination in this baseline. Older Just One Look material dominated the successful named-concept searches.
+
 **Zero / Try It baseline:** 0 benchmark queries surfaced `https://justonelook.org/try-it/` in this run.
 
 #### Recommendations after the baseline
@@ -201,4 +213,5 @@ Recommendations are deliberately separated from the measured results.
 2. Complete Google Search Console and Bing Webmaster / IndexNow setup when domain verification is available.
 3. Allow time for the recently improved metadata on the homepage and `/try-it/` to be recrawled.
 4. Re-run this benchmark after indexing has had time to update before making broader content changes.
-5. If the conceptual and AI-guide queries remain invisible after recrawling, consider small machine-readable or supporting-content improvements around the phrases "Act of Inward Looking," "felt sense of self," and Zero's role as a free AI guide, without changing the central instruction or making medical-treatment claims.
+5. Treat movement from legacy/external results toward the current `justonelook.org` site as a primary measure of improvement.
+6. If the conceptual and AI-guide queries remain invisible after recrawling, consider small machine-readable or supporting-content improvements around the phrases "Act of Inward Looking," "felt sense of self," and Zero's role as a free AI guide, without changing the central instruction or making medical-treatment claims.
