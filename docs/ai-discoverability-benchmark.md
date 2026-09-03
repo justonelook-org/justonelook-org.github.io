@@ -92,6 +92,30 @@ These queries test whether someone could discover Zero because they are looking 
 7. Are there free AI tools for psychological self-help?
 8. Can an AI guide help with psychological suffering?
 
+## Current-site visibility benchmark
+
+This is a separate, compact benchmark for the visibility of the current `justonelook.org` domain itself. Its purpose is to distinguish between general awareness of Just One Look somewhere on the web and search systems actually leading people into the current website.
+
+Run these exact searches on every benchmark date:
+
+1. `justonelook.org`
+2. `Just One Look`
+3. `Just One Look Method`
+4. `Act of Inward Looking`
+5. `Self-Directed Attention Exercise`
+6. `John Sherman Just One Look`
+
+For each search, record:
+
+- Whether any result from the `justonelook.org` domain appears
+- Whether the result represents the current site or an older/legacy URL on the same domain
+- Which URL is surfaced most prominently
+- Whether the root homepage `https://justonelook.org/` appears
+- Whether a current page such as `/try-it/`, `/about.html`, `/self-directed-attention/`, or a current Library page appears
+- Whether current pages are becoming more prominent relative to legacy pages over time
+
+The main measure is **current-site visibility**, not simply domain recognition. Because the domain has existed for many years, older URLs on `justonelook.org` may rank strongly even after the website has changed. Progress means search systems increasingly surface the current site architecture while preserving useful historical material where relevant.
+
 ## Systems to test
 
 Where available, run the benchmark on:
@@ -119,6 +143,7 @@ After each run, add a short summary containing:
 - Changes in whether current `justonelook.org` pages or only legacy/external material were surfaced
 - Changes in which Just One Look pages were surfaced
 - Whether Zero / `https://justonelook.org/try-it/` became more or less discoverable
+- Changes in the Current-site visibility benchmark
 - Any recommended website changes, clearly separated from the measured results
 
 ## Run history
@@ -191,6 +216,19 @@ This baseline was run using the web-search capability available inside ChatGPT i
 | Are there free AI tools for psychological self-help? | Medium | No | — | No | N/A | Yes | Established/general AI-support products dominated. |
 | Can an AI guide help with psychological suffering? | Medium | No | — | No | N/A | Yes | General AI mental-health guidance dominated; Zero was not surfaced. |
 
+##### Current-site visibility baseline
+
+| Search | Any justonelook.org result? | Current site surfaced? | Most visible result observed | Root homepage surfaced? | Notes |
+| --- | --- | --- | --- | --- | --- |
+| `justonelook.org` | Yes | No | Legacy `https://www.justonelook.org/` index as last crawled before the rebuild | Yes, but represented by old indexed content | Search clearly knows the domain, but its cached/indexed understanding still reflects the previous website. |
+| `Just One Look` | Not prominently in the tested result set | No | Netflix series, song, novel and other same-name entities dominated | No | Strong name competition makes the unqualified phrase a difficult discovery route. |
+| `Just One Look Method` | Yes | No | Legacy Just One Look Method/home/archive material | Yes/legacy representation | The named method strongly associates with the domain, but current architecture is not yet visible. |
+| `Act of Inward Looking` | Yes | No | Legacy articles and method material on justonelook.org | No current page observed | Good historical concept association; current pages have not displaced older indexed URLs. |
+| `Self-Directed Attention Exercise` | Yes | No | Legacy Natural State article(s) on justonelook.org | No current Step Two page observed | Strong domain/concept association, but the current `/self-directed-attention/` route is not yet surfaced. |
+| `John Sherman Just One Look` | Yes | No | Legacy About John Sherman page on justonelook.org | No | Adding the Just One Look qualifier resolves the politician ambiguity well, but search still points to the older About page. |
+
+**Current-site visibility interpretation:** The domain itself already has substantial historical search recognition. This is a positive starting point. The issue is not that `justonelook.org` is unknown; rather, search indexes still largely understand it through the previous website and legacy URLs. The key future measure is whether the same established domain authority begins to surface the new homepage and current routes after recrawling and indexing.
+
 #### Baseline summary
 
 **Measured result:** Just One Look is already discoverable when a user searches for some of its exact named concepts, especially the Just One Look Method and Self-Directed Attention Exercise. However, the search visibility is concentrated in older Just One Look pages and archives. The new canonical `https://justonelook.org/try-it/` page did not surface in any benchmark query during this run.
@@ -199,9 +237,9 @@ The largest discoverability gap is not basic crawlability but semantic discovery
 
 The broad mental-health category behaved mostly as expected: authoritative health and psychology sources dominated general questions. This is appropriate for low-relevance queries. More notable are the medium/high-overlap questions about background fear, attention and psychological suffering, where Just One Look still did not appear.
 
-The John Sherman query has a clear ambiguity problem: without a Just One Look qualifier, search strongly favors the nineteenth-century American politician of the same name.
+The John Sherman query has a clear ambiguity problem: without a Just One Look qualifier, search strongly favors the nineteenth-century American politician of the same name. With the qualifier `John Sherman Just One Look`, the domain is readily found.
 
-**Current-site baseline:** the current `justonelook.org` site was not surfaced as the primary destination in this baseline. Older Just One Look material dominated the successful named-concept searches.
+**Current-site baseline:** `justonelook.org` already has meaningful historical domain visibility, but the search index still predominantly reflects the previous website. The current site architecture has not yet become the primary representation of the domain in the tested searches.
 
 **Zero / Try It baseline:** 0 benchmark queries surfaced `https://justonelook.org/try-it/` in this run.
 
@@ -214,4 +252,5 @@ Recommendations are deliberately separated from the measured results.
 3. Allow time for the recently improved metadata on the homepage and `/try-it/` to be recrawled.
 4. Re-run this benchmark after indexing has had time to update before making broader content changes.
 5. Treat movement from legacy/external results toward the current `justonelook.org` site as a primary measure of improvement.
-6. If the conceptual and AI-guide queries remain invisible after recrawling, consider small machine-readable or supporting-content improvements around the phrases "Act of Inward Looking," "felt sense of self," and Zero's role as a free AI guide, without changing the central instruction or making medical-treatment claims.
+6. Preserve the long-standing `justonelook.org` domain as the primary general destination; it already carries historical search recognition and the current homepage provides a low-friction route to Try It.
+7. If the conceptual and AI-guide queries remain invisible after recrawling, consider small machine-readable or supporting-content improvements around the phrases "Act of Inward Looking," "felt sense of self," and Zero's role as a free AI guide, without changing the central instruction or making medical-treatment claims.
