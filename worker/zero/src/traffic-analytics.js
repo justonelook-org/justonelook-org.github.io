@@ -2,7 +2,7 @@ import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from ".
 
 const MAX_DAYS = 366;
 const HOMEPAGE_ENTRANCES_STARTED_DAY = "2026-08-11";
-const SOURCE_LABELS = Object.freeze({ x: "X" });
+const SOURCE_LABELS = Object.freeze({ x: "X", bluesky: "Bluesky" });
 const CAMPAIGN_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,62})$/;
 const EVENT_COLUMNS = Object.freeze({
   homepage_view: "homepage_views",

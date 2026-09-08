@@ -47,6 +47,8 @@ test("records only approved aggregate source and optional campaign values", asyn
   await incrementDailySource(database, "x", "zero-short-01", new Date("2026-08-28T12:34:56.000Z"));
   assert.match(sql, /zero_source_daily/);
   assert.deepEqual(bound, ["2026-08-28", "x", "zero-short-01"]);
+  await incrementDailySource(database, "bluesky", "", new Date("2026-09-08T12:34:56.000Z"));
+  assert.deepEqual(bound, ["2026-09-08", "bluesky", ""]);
   await assert.rejects(() => incrementDailySource(database, "unknown"), /Unknown Zero source/);
   await assert.rejects(() => incrementDailySource(database, "x", "Personal Data"), /Unknown Zero source/);
 });
@@ -59,6 +61,10 @@ test("traffic endpoint accepts clean source events and rejects unapproved attrib
   assert.equal(accepted.status, 204);
   assert.equal(bound[1], "x");
   assert.equal(bound[2], "launch");
+  const acceptedBluesky = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "bluesky" }), env);
+  assert.equal(acceptedBluesky.status, 204);
+  assert.equal(bound[1], "bluesky");
+  assert.equal(bound[2], "");
   const unknownSource = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "facebook" }), env);
   const unsafeCampaign = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "x", campaign: "email@example.org" }), env);
   const extra = await handleTrafficEvent(eventRequest({ event: "zero_source", source: "x", visitor: "no" }), env);
@@ -99,11 +105,11 @@ test("team traffic returns quietly without touching production aggregates", asyn
 
 test("reads aggregate traffic totals with explicit denominators", async () => {
   let query = 0;
-  const database = { prepare(){query+=1;return {bind(){return this},async first(){return {homepage_views:100,homepage_entrances:60,comparable_try_it_clicks:15,try_it_clicks:25,zero_opens:20,zero_session_starts:10}},async all(){return {results:[{source:"youtube",campaign:"",count:7},{source:"x",campaign:"zero-short-01",count:3},{source:"x",campaign:"launch",count:4}]}}};} };
+  const database = { prepare(){query+=1;return {bind(){return this},async first(){return {homepage_views:100,homepage_entrances:60,comparable_try_it_clicks:15,try_it_clicks:25,zero_opens:20,zero_session_starts:10}},async all(){return {results:[{source:"youtube",campaign:"",count:7},{source:"bluesky",campaign:"",count:2},{source:"x",campaign:"zero-short-01",count:3},{source:"x",campaign:"launch",count:4}]}}};} };
   const metrics = await readTrafficMetrics(database, "2026-08-01T00:00:00.000Z", "2026-08-11T00:00:00.000Z");
   assert.deepEqual(metrics.counts, { homepage_views:100, homepage_entrances:60, try_it_clicks:25, zero_opens:20, zero_session_starts:10 });
   assert.deepEqual(metrics.percentages, { views_to_try_it:25, entrances_to_try_it:25, try_it_to_zero_open:80, zero_open_to_start:50 });
-  assert.deepEqual(metrics.sources, [{source:"x",label:"X",count:7}]);
+  assert.deepEqual(metrics.sources, [{source:"x",label:"X",count:7},{source:"bluesky",label:"Bluesky",count:2}]);
   assert.deepEqual(metrics.campaigns, [{source:"x",campaign:"zero-short-01",count:3},{source:"x",campaign:"launch",count:4}]);
   assert.equal(metrics.homepage_entrances_started_day, "2026-08-11");
   assert.match(metrics.note, /not visits or unique people/i);
@@ -141,14 +147,18 @@ test("clean source pages use one privacy-preserving source event and keep Try It
   const events = [], redirects = [];
   const fetch = async (_url, options) => { events.push(JSON.parse(options.body)); };
   runInNewContext(script, { fetch, location:{pathname:"/try-it/x/",replace(value){redirects.push(value)}}, Object });
-  assert.deepEqual(events, [{event:"zero_source",source:"x"}]);
-  assert.deepEqual(redirects, ["/try-it/"]);
+  runInNewContext(script, { fetch, location:{pathname:"/try-it/bluesky/",replace(value){redirects.push(value)}}, Object });
+  assert.deepEqual(events, [{event:"zero_source",source:"x"},{event:"zero_source",source:"bluesky"}]);
+  assert.deepEqual(redirects, ["/try-it/","/try-it/"]);
 
   const nestedXPage = await readFile(new URL("../../../try-it/x/index.html", import.meta.url), "utf8");
-  assert.match(nestedXPage, /rel="canonical" href="https:\/\/justonelook\.org\/try-it\/"/);
-  assert.match(nestedXPage, /name="robots" content="noindex, follow"/);
-  assert.match(nestedXPage, /zero-source-entry\.js/);
-  assert.doesNotMatch(nestedXPage, /anonymous-traffic\.js|look-at-yourself\.js/);
+  const nestedBlueskyPage = await readFile(new URL("../../../try-it/bluesky/index.html", import.meta.url), "utf8");
+  for (const sourcePage of [nestedXPage, nestedBlueskyPage]) {
+    assert.match(sourcePage, /rel="canonical" href="https:\/\/justonelook\.org\/try-it\/"/);
+    assert.match(sourcePage, /name="robots" content="noindex, follow"/);
+    assert.match(sourcePage, /zero-source-entry\.js/);
+    assert.doesNotMatch(sourcePage, /anonymous-traffic\.js|look-at-yourself\.js/);
+  }
   const sitemap = await readFile(new URL("../../../sitemap.xml", import.meta.url), "utf8");
   assert.doesNotMatch(sitemap, /justonelook\.org\/(?:try-it\/x|x|youtube|bluesky)\//);
 
