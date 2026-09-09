@@ -1,2 +1,8 @@
 exclude:
   - legacy-site/
+  - docs/
+  - scripts/
+  - worker/
+  - zero/
+  - AGENTS.md
+  - README.md

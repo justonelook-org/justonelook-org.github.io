@@ -8,7 +8,7 @@ For the short internal note telling the JOL team where to test without affecting
 
 For the privacy-first website traffic section, event definitions, and maintenance boundaries, see [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md).
 
-The repository also contains an optional, disabled-by-default anonymous outcome-measurement layer for Looking Zero. It does not apply to Self-Directed Attention Zero. It remains inactive unless its dedicated D1 binding and secrets are configured. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins.
+The production service includes an anonymous outcome-measurement layer for Looking Zero. It does not apply to Self-Directed Attention Zero. The deployed configuration currently enables it for allowed production origins. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins.
 
 ## Before the Zero service can run
 
@@ -42,11 +42,11 @@ After `.dev.vars` contains both API keys, run `pnpm run local` from this folder.
 
 ## Looking Zero outcome measurement
 
-The optional measurement layer records what happened in an anonymous Looking Zero session, never who used it. The existing browser UUID is HMAC-hashed before storage. D1 stores timestamps, whether a complete invitation and a later response occurred, the highest conservative attempt-report signal, and message counts; it never stores conversation text, IP addresses, user agents, names, accounts, or cross-session identifiers.
+The measurement layer records what happened in an anonymous Looking Zero session, never who used it. The browser-generated session ID is HMAC-hashed before storage. D1 stores timestamps, whether a complete invitation and a later response occurred, the highest conservative attempt-report signal, and message counts; it never stores conversation text, IP addresses, user agents, names, accounts, or cross-session identifiers.
 
 The classifier receives temporary active conversation context through a separate OpenAI project and returns strict structured data. It is called only for Looking Zero, uses `store: false`, defaults to `gpt-5.6-luna`, and cannot affect the user-visible Zero response. Measurement errors are deliberately ignored by the guide path.
 
-### Private setup (do not deploy until reviewed)
+### Production setup and maintenance
 
 1. Create a D1 database named `looking-zero-outcomes`.
 2. Add its `OUTCOME_DB` binding to `wrangler.jsonc` using the database ID returned by Wrangler.
@@ -55,9 +55,9 @@ The classifier receives temporary active conversation context through a separate
 4. Add the outcome project's OpenAI key with `pnpm exec wrangler secret put OPENAI_OUTCOME_API_KEY`.
 5. Generate a long random HMAC secret and add it with `pnpm exec wrangler secret put OUTCOME_SESSION_SECRET`.
 6. Generate a separate random private-dashboard password and add it with `pnpm exec wrangler secret put ANALYTICS_ACCESS_TOKEN`.
-7. Protect `/private/looking-zero*` with Cloudflare Access before production use. The built-in HTTP Basic check is defense in depth and is not a substitute for Access on a public deployment.
+7. Confirm that the private dashboard's HTTP Basic authentication and private-route rate limiting are working. Cloudflare Access can be added later as a stronger outer authentication layer.
 8. Open `/private/looking-zero` and sign in with username `analytics` and the private-dashboard password.
-9. Keep `OUTCOME_MEASUREMENT_ENABLED` set to `"false"` through the first deployment and private dashboard checks. Use `"test"` with the exact controlled `OUTCOME_TEST_ORIGIN` for the limited evaluation. Set it to `"true"` only after the criteria, privacy disclosure, authentication, and evaluation are approved.
+9. Use `OUTCOME_MEASUREMENT_ENABLED: "test"` with the exact controlled `OUTCOME_TEST_ORIGIN` when a limited evaluation is needed. Use `"false"` to disable collection and `"true"` only for approved production measurement.
 
 The daily Cron Trigger archives session rows after 90 days into anonymous daily totals, then deletes the session rows. Historical aggregates remain available; median-message calculations cover only retained session rows.
 

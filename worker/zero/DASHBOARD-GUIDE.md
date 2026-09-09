@@ -114,6 +114,6 @@ Small wording and classification refinements are expected, but changes can make 
 5. Deploy only after reviewing privacy and dashboard wording.
 6. Record the activation date so later comparisons account for the change.
 
-The technical implementation, setup steps, and measurement definitions are documented in [README.md](README.md). The draft public-facing privacy language is in [PRIVACY-DISCLOSURE-DRAFT.md](PRIVACY-DISCLOSURE-DRAFT.md).
+The technical implementation, setup steps, and measurement definitions are documented in [README.md](README.md). The privacy review checklist is in [PRIVACY-NOTES.md](PRIVACY-NOTES.md).
 
 The short access note that can be shared internally is [TEAM-TESTING.md](TEAM-TESTING.md).

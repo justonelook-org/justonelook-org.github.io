@@ -21,14 +21,14 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `library/` — books, articles, blog posts, podcasts, audio reports, and videos
 - `assets/` — shared images, styles, and other site assets
 - `try-it/` and `self-directed-attention/` — canonical public webpages for Zero's two guides
-- `try-it/x/` — the currently published X road to Zero
+- `try-it/x/` and `try-it/bluesky/` — the currently published social source-entry routes to Zero
 - `zero/` — canonical instructions for Zero's two guides
 - `worker/zero/` — Cloudflare Worker backend shared by both Zero guides
 - `AGENTS.md` — repository instructions for coding agents that maintain the site
-- `scripts/` — maintenance and launch-checking utilities
+- `scripts/` — maintenance utilities
 - `legacy-site/` — preserved historical source material
 
-The `legacy-site/` directory is excluded from GitHub Pages publication by `_config.yml`. Do not edit or publish it as part of routine site maintenance.
+Internal maintenance directories and files, including `legacy-site/`, `docs/`, `scripts/`, `worker/`, `zero/`, `AGENTS.md`, and this README, are excluded from GitHub Pages publication by `_config.yml`. Do not edit or publish `legacy-site/` as part of routine site maintenance.
 
 ## How Zero is organized
 
@@ -46,7 +46,6 @@ worker/zero/           Generates runtime modules and serves both API routes
    ↓
 try-it/ and self-directed-attention/
                        Canonical public browser interfaces
-ai/                    Compatibility redirects for former guide URLs
 ```
 
 The public pages call separate Worker routes:
@@ -58,7 +57,7 @@ The public pages call separate Worker routes:
 
 The Worker keeps separate instructions, API keys, model settings, and guide-specific behavior for those routes. Its deployed Cloudflare name remains `look-at-yourself-api` for compatibility with the existing public endpoint.
 
-The only currently published Road to Zero is `/try-it/x/`. It records an anonymous aggregate X source count and immediately continues to `/try-it/`. Additional source routes should be added only when a corresponding public link is ready to use.
+The currently published Roads to Zero are `/try-it/x/` and `/try-it/bluesky/`. Each records an anonymous aggregate source-link opening and immediately continues to `/try-it/`. Additional source routes should be added only when a corresponding public link is ready to use.
 
 The Markdown files under `zero/` are the source of truth. Worker preparation generates temporary JavaScript instruction modules from them; those generated files are ignored by Git and should not be edited directly. Corresponding custom GPTs in ChatGPT should be kept in sync manually when their instructions change.
 
