@@ -248,7 +248,8 @@ test("sends temporary context with storage disabled", async () => {
     assert.match(openAIBody.instructions, /nothing special has to happen/i);
     assert.match(openAIBody.instructions, /does not need certainty that they succeeded/i);
     assert.match(openAIBody.instructions, /Did you try looking at yourself just now\?/);
-    assert.match(openAIBody.instructions, /By looking, I mean turning your attention toward the simple feeling of being you—not thinking about yourself\./);
+    assert.match(openAIBody.instructions, /By looking, I mean turning your attention toward the simple feeling of being .*what you would call .*me.*not thinking about yourself/i);
+    assert.match(openAIBody.instructions, /Do not leave .*the feeling of you.* standing alone/i);
     assert.match(openAIBody.instructions, /not an automatic questionnaire or confirmation flow/i);
     assert.match(openAIBody.instructions, /Do not routinely ask the user to confirm whether the inward look worked/i);
     assert.match(openAIBody.instructions, /up to about 120 words/i);

@@ -48,10 +48,20 @@ test("keeps the two exact starter emphases distinct without scripting later conv
 
   assert.match(objectStarter.should.join(" "), /Begin with the object/i);
   assert.match(objectStarter.should.join(" "), /being here, present as oneself/i);
+  assert.match(objectStarter.should.join(" "), /call me|feeling of me/i);
+  assert.match(objectStarter.should_not.join(" "), /you standing alone/i);
   assert.match(actionStarter.should.join(" "), /Begin with the practical action/i);
   assert.match(actionStarter.should.join(" "), /something one chooses/i);
   assert.match(actionStarter.should.join(" "), /directly invite/i);
+  assert.match(actionStarter.should_not.join(" "), /you standing alone/i);
   assert.match(followUp.should_not.join(" "), /Continue a starter script/i);
+});
+
+test("keeps me attached whenever evaluation examples identify the inward-look object", () => {
+  const assistantExamples = scenarios.flatMap(({ messages }) => messages.filter(({ role }) => role === "assistant"));
+  for (const { content } of assistantExamples) {
+    if (/feeling of being you/i.test(content)) assert.match(content, /\bme\b/i);
+  }
 });
 
 test("keeps effects questions within the guidance until the inward look is understood or attempted", () => {

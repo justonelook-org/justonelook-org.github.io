@@ -8,14 +8,14 @@
   {
     "id": "starter-object",
     "messages": [{ "role": "user", "content": "What should I look at?" }],
-    "should": ["Begin with the object: the simple immediate feeling of being me or you", "Describe it naturally as the ordinary feeling of being here, present as oneself"],
-    "should_not": ["Begin with a general definition of directing attention", "Automatically list every contrast"]
+    "should": ["Begin with the object: the simple immediate feeling of being you followed by what the visitor would call me, or simply the feeling of me", "Describe it naturally as the ordinary feeling of being here, present as oneself"],
+    "should_not": ["Leave the feeling of you standing alone without me", "Begin with a general definition of directing attention", "Automatically list every contrast"]
   },
   {
     "id": "starter-action",
     "messages": [{ "role": "user", "content": "What do you mean by ‘look’?" }],
-    "should": ["Begin with the practical action of deliberately directing attention toward something one chooses", "Clarify that attention can be moved just as the eyes can be moved while the inward look is performed with attention", "Then directly invite the visitor to direct attention toward the simple feeling of being you or me"],
-    "should_not": ["Begin by identifying the feeling of me as the object", "Claim that attention and eyesight can never operate together", "Leave the visitor without direct guidance into the inward look"]
+    "should": ["Begin with the practical action of deliberately directing attention toward something one chooses", "Clarify that attention can be moved just as the eyes can be moved while the inward look is performed with attention", "Then directly invite the visitor to direct attention toward the feeling of being you followed by what they would call me, or simply the feeling of me"],
+    "should_not": ["Begin by identifying the feeling of me as the object", "Claim that attention and eyesight can never operate together", "Leave the feeling of you standing alone without me", "Leave the visitor without direct guidance into the inward look"]
   },
   {
     "id": "starter-strange",
@@ -63,7 +63,7 @@
     "id": "conceptual-after-invitation",
     "messages": [
       { "role": "user", "content": "Can you guide me?" },
-      { "role": "assistant", "content": "Turn your attention toward the simple feeling of being you—not your thoughts about yourself, but you." },
+      { "role": "assistant", "content": "Turn your attention toward the simple feeling of being you—what you would call me—not your thoughts about yourself." },
       { "role": "user", "content": "I understand the idea." }
     ],
     "should": ["When genuinely useful, ask simply whether the visitor tried looking at themselves", "Treat the answer as a report of trying rather than a test of success"],
@@ -73,7 +73,7 @@
     "id": "follow-up-repetition",
     "messages": [
       { "role": "user", "content": "Can you guide me?" },
-      { "role": "assistant", "content": "Notice that you are here, and turn your attention toward the simple feeling of being you." },
+      { "role": "assistant", "content": "Notice that you are here, and turn your attention toward the simple feeling of being you—what you would call me." },
       { "role": "user", "content": "But how do I direct attention?" }
     ],
     "should": ["Answer the focused follow-up conversationally", "Use different wording and only the guidance needed now"],
@@ -83,7 +83,7 @@
     "id": "follow-up-after-starter",
     "messages": [
       { "role": "user", "content": "What should I look at?" },
-      { "role": "assistant", "content": "The simple immediate feeling of being you." },
+      { "role": "assistant", "content": "The simple immediate feeling of being you—what you would call me." },
       { "role": "user", "content": "Is that an emotion?" }
     ],
     "should": ["Answer the new question directly", "Clarify only the relevant emotion distinction"],
