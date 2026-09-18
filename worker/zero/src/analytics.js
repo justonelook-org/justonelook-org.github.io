@@ -2,6 +2,7 @@ import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from ".
 
 const DEFAULT_DAYS = 30;
 const MAX_DAYS = 366;
+const MEASUREMENT_STARTED_DAY = "2026-08-10";
 
 export async function handleAnalyticsRequest(request, env) {
   if (!await rateLimitAccepted(env.PRIVATE_RATE_LIMITER, `private:${requestClientKey(request)}`)) return tooManyRequests();
@@ -124,7 +125,7 @@ button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-colum
 @media(prefers-color-scheme:dark){.detail{color:#bbb}}#status{min-height:1.5rem}.dashboard-section{margin:2.5rem 0}.section-intro{margin:.4rem 0 1.25rem}.note{margin-top:1.5rem;max-width:48rem}.divider{border:0;border-top:1px solid #8886;margin:3rem 0}
 </style></head><body><main><h1>Just One Look — Measurement Dashboard</h1>
 <p>Anonymous aggregate measurement of website activity and Looking Zero outcomes.</p>
-<form class="controls" id="range"><label>From<input type="date" name="from" required></label><label>Through<input type="date" name="to" required></label><button>Update</button></form>
+<form class="controls" id="range" autocomplete="off"><label>From<input type="date" name="from" value="${MEASUREMENT_STARTED_DAY}" required></label><label>Through<input type="date" name="to" required></label><button>Update</button></form>
 <p id="status" role="status"></p>
 <section class="dashboard-section" aria-labelledby="traffic-heading"><h2 id="traffic-heading">Website Traffic</h2>
 <p class="section-intro">Anonymous aggregate views and actions. These are independent action counts, not a linked visitor funnel, and they do not identify or follow visitors.</p>
@@ -137,7 +138,8 @@ button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-colum
 <div class="cards" id="outcome-cards" aria-live="polite"></div><p class="note" id="outcome-note"></p></section>
 <script>
 const form=document.querySelector('#range'),status=document.querySelector('#status'),trafficCards=document.querySelector('#traffic-cards'),sourceSection=document.querySelector('#source-section'),sourceCards=document.querySelector('#source-cards'),trafficNote=document.querySelector('#traffic-note'),outcomeCards=document.querySelector('#outcome-cards'),outcomeNote=document.querySelector('#outcome-note');
-const today=new Date(),from=new Date(today.getTime()-30*86400000);form.to.value=today.toISOString().slice(0,10);form.from.value=from.toISOString().slice(0,10);
+function setDefaultRange(){const today=new Date();form.from.value='${MEASUREMENT_STARTED_DAY}';form.to.value=today.toISOString().slice(0,10)}
+setDefaultRange();window.addEventListener('pageshow',setDefaultRange);
 form.addEventListener('submit',e=>{e.preventDefault();load()});
 async function load(){status.textContent='Loading…';trafficCards.replaceChildren();outcomeCards.replaceChildren();const q=new URLSearchParams(new FormData(form));try{const [tr,or]=await Promise.all([fetch('/private/website-traffic/api?'+q,{cache:'no-store'}),fetch('/private/looking-zero/api?'+q,{cache:'no-store'})]);const [td,od]=await Promise.all([tr.json(),or.json()]);if(!tr.ok)throw new Error(td.error||'Unable to load website traffic.');if(!or.ok)throw new Error(od.error||'Unable to load Looking Zero outcomes.');renderTraffic(td);renderOutcome(od);status.textContent='';}catch(e){status.textContent=e.message}}
 function renderTraffic(d){const c=d.counts,p=d.percentages,started=new Date(d.homepage_entrances_started_day+'T00:00:00Z').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});renderCards(trafficCards,[['Homepage views',c.homepage_views,'Page loads, not unique people'],['Homepage entrances',c.homepage_entrances,p.entrances_to_try_it+'% produced a Try It click since '+started+'; not unique people'],['Try It clicks',c.try_it_clicks,p.views_to_try_it+'% of homepage views'],['Looking Zero opened',c.zero_opens,p.try_it_to_zero_open+'% of Try It clicks'],['Looking Zero sessions started',c.zero_session_starts,'Browser-recorded first-message events; may differ slightly from Outcome Measurement sessions']]);const sources=(d.sources||[]).filter(s=>s.implemented!==false||s.count>0);sourceCards.replaceChildren();sourceSection.hidden=!sources.length;if(sources.length)renderCards(sourceCards,sources.map(s=>[s.label,s.count,'Anonymous source-link arrivals']));trafficNote.textContent=d.note}

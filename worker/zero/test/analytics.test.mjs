@@ -31,6 +31,9 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /No recorded indication of trying/);
   assert.match(html, /includes explicit reports/i);
   assert.match(html, /Median visitor turn of first indication/i);
+  assert.match(html, /form\.from\.value='2026-08-10'/);
+  assert.match(html, /name="from" value="2026-08-10"/);
+  assert.match(html, /window\.addEventListener\('pageshow',setDefaultRange\)/);
 });
 
 const allowRateLimit = { limit: async () => ({ success: true }) };
