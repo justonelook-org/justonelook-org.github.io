@@ -12,7 +12,8 @@ The currently published social source-entry links are:
 - X: `https://justonelook.org/try-it/x/`
 - Bluesky: `https://justonelook.org/try-it/bluesky/`
 - Reddit: `https://justonelook.org/try-it/reddit/`
+- TikTok: `https://justonelook.org/try-it/tiktok/`
 
-These links take the visitor directly to Zero’s Look At Yourself guide. Their openings appear on the private dashboard as separate anonymous X, Bluesky, and Reddit totals. Additional social sources or campaign routes should be implemented only when their public links are ready to use.
+These links take the visitor directly to Zero’s Look At Yourself guide. Their openings appear on the private dashboard as separate anonymous X, Bluesky, Reddit, and TikTok totals. Additional social sources or campaign routes should be implemented only when their public links are ready to use.
 
 The tracking is aggregate and anonymous. It does not identify individual visitors, save their conversations, or connect a source-link opening to a Zero session. Its purpose is to provide a simple picture of where traffic to Zero is coming from so that future social media outreach can be planned more thoughtfully.
