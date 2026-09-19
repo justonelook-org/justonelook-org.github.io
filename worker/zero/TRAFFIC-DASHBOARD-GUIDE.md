@@ -20,7 +20,7 @@ Use the same private credentials as the Looking Zero outcome dashboard:
 - **Try It clicks:** clicks on the homepage link leading to Looking Zero.
 - **Looking Zero opened:** loads of the Looking Zero page.
 - **Looking Zero sessions started:** browser-recorded first-message events in Looking Zero, including a new first message after an intentional restart on the same open page. This independent event can differ slightly from the Worker-recorded sessions in Outcome Measurement.
-- **Roads to Zero:** arrivals through implemented clean source paths. The currently published routes are `/try-it/x/`, `/try-it/bluesky/`, `/try-it/reddit/`, `/try-it/tiktok/`, and `/try-it/tumblr/`. Each records one approved source count and immediately continues to canonical `/try-it/`.
+- **Roads to Zero:** arrivals through implemented clean source paths. The currently published routes are `/try-it/x/`, `/try-it/bluesky/`, `/try-it/reddit/`, `/try-it/tiktok/`, `/try-it/tumblr/`, and `/try-it/pinterest/`. Each records one approved source count and immediately continues to canonical `/try-it/`.
 
 The first dashboard section shows aggregate ratios between these independent action counts. They are directional estimates, not a linked visitor funnel or records of personal journeys. The Looking Zero outcome section appears beneath it and keeps its existing cards and definitions.
 
@@ -40,13 +40,13 @@ The system does not use or retain:
 
 The browser checks only the current page's navigation type and whether its referrer is from the same site. It sends the fixed `homepage_entrance` event when the arrival is direct or external and is not an ordinary reload. The referrer itself is never sent or stored.
 
-Each source path sends only its fixed approved source slug: `x`, `bluesky`, `reddit`, `tiktok`, or `tumblr`. It does not send or store a referrer. Source totals are not joined to page openings, sessions, conversations, or outcomes. `/try-it/` remains the canonical Looking Zero URL, and the source-entry pages are excluded from search indexing.
+Each source path sends only its fixed approved source slug: `x`, `bluesky`, `reddit`, `tiktok`, `tumblr`, or `pinterest`. It does not send or store a referrer. Source totals are not joined to page openings, sessions, conversations, or outcomes. `/try-it/` remains the canonical Looking Zero URL, and the source-entry pages are excluded from search indexing.
 
 Because people are not identified, homepage entrances must never be labelled as visits or unique visitors. The same person returning later or using another device can create additional entrances, and some browser behavior may undercount or overcount them.
 
 ## Storage
 
-The D1 table `website_daily_traffic` contains one row per UTC day and five integer counters. The `zero_source_daily` table stores anonymous daily source totals. The public source-entry pages use only the approved source slugs `x`, `bluesky`, `reddit`, `tiktok`, and `tumblr`. Browser events increment these totals directly; there are no event-level traffic records to archive. Homepage-entrance measurement began on August 11, 2026, so its comparisons exclude earlier Try It clicks.
+The D1 table `website_daily_traffic` contains one row per UTC day and five integer counters. The `zero_source_daily` table stores anonymous daily source totals. The public source-entry pages use only the approved source slugs `x`, `bluesky`, `reddit`, `tiktok`, `tumblr`, and `pinterest`. Browser events increment these totals directly; there are no event-level traffic records to archive. Homepage-entrance measurement began on August 11, 2026, so its comparisons exclude earlier Try It clicks.
 
 `TRAFFIC_MEASUREMENT_ENABLED` supports:
 
