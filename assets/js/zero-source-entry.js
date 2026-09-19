@@ -3,7 +3,7 @@
 
   const endpoint = "https://look-at-yourself-api.look-at-yourself-worker.workers.dev/api/traffic";
   const parts = location.pathname.split("/").filter(Boolean);
-  const sources = Object.freeze({ x: "x", bluesky: "bluesky", reddit: "reddit", tiktok: "tiktok" });
+  const sources = Object.freeze({ x: "x", bluesky: "bluesky", reddit: "reddit", tiktok: "tiktok", tumblr: "tumblr" });
   const source = parts.length === 2 && parts[0] === "try-it" ? sources[parts[1]] : undefined;
 
   if (!source) return;

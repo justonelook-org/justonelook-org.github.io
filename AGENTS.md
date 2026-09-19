@@ -5,7 +5,7 @@
 This is the production repository for the static Just One Look website at `justonelook.org`.
 
 - `try-it/` and `self-directed-attention/` contain Zero's canonical public webpages.
-- `try-it/x/`, `try-it/bluesky/`, `try-it/reddit/`, and `try-it/tiktok/` are the social source-entry routes currently published for Zero.
+- `try-it/x/`, `try-it/bluesky/`, `try-it/reddit/`, `try-it/tiktok/`, and `try-it/tumblr/` are the social source-entry routes currently published for Zero.
 - `zero/` contains the canonical instructions for Zero's two guides.
 - `worker/zero/` contains the shared Cloudflare Worker backend for both Zero guides.
 - `library/` and the root HTML files contain the published site content.
