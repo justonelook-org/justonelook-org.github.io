@@ -254,3 +254,50 @@ Recommendations are deliberately separated from the measured results.
 5. Treat movement from legacy/external results toward the current `justonelook.org` site as a primary measure of improvement.
 6. Preserve the long-standing `justonelook.org` domain as the primary general destination; it already carries historical search recognition and the current homepage provides a low-friction route to Try It.
 7. If the conceptual and AI-guide queries remain invisible after recrawling, consider small machine-readable or supporting-content improvements around the phrases "Act of Inward Looking," "felt sense of self," and Zero's role as a free AI guide, without changing the central instruction or making medical-treatment claims.
+
+### Follow-up — October 1, 2026
+
+#### Systems tested and record scope
+
+- ChatGPT Search: tested in the scheduled October 1 benchmark run.
+- Google Search / Google AI search: unavailable for direct controlled testing in that run.
+- Bing / Copilot search: unavailable for direct controlled testing in that run.
+- Perplexity: unavailable for direct controlled testing in that run.
+
+This entry preserves the completed run's reported findings. The original query-by-query search output and citation identifiers are not included in the available report, so no individual-query scores, rankings, counts, or additional observations have been reconstructed. This documentation update does not constitute a new search run.
+
+#### Measured results reported by the run
+
+**Meaningful improvement since September 3:** ChatGPT Search has begun surfacing the rebuilt current Just One Look website rather than primarily representing the domain through its older architecture. The clearest gain is current-site visibility; broad semantic discovery remains limited.
+
+| Discovery area | October 1 finding | Change from September 3 |
+| --- | --- | --- |
+| Homepage | The current [homepage](https://justonelook.org/) surfaced with its present “Look at Yourself — Try It” presentation. | The homepage is now represented by current content, whereas the baseline largely reflected the old site. |
+| Named method and exercises | “Just One Look Method,” “Act of Inward Looking,” and “Self-Directed Attention Exercise” showed substantial movement toward current-site discovery. The current [About page](https://justonelook.org/about.html) was particularly strong and accurately described both exercises. | Movement from legacy-first discovery toward current pages. |
+| Other current destinations | The current [What Now page](https://justonelook.org/what-now.html) and [Library](https://justonelook.org/library.html) were searchable. | Additional evidence that search recognizes the rebuilt architecture. |
+| Conceptual discovery | High-overlap searches about directing attention toward oneself, directly experiencing the sense of self, and the background feeling of fear still did not reliably lead to Just One Look. | Little improvement reported. |
+| AI-guide discovery | The fixed AI-guide searches still did not reliably lead to Just One Look or Zero. | Little improvement reported. |
+| Unqualified John Sherman query | The name-ambiguity problem remained. | No meaningful improvement reported. |
+| Unqualified “Just One Look” | Song, Netflix series, novel, and other same-name entities remained strong competitors. | Name competition persists without methodological context. |
+
+The report does not provide a complete six-row Current-site visibility result set. The findings above therefore document the reported structural improvement without assigning unsupported results to each exact search.
+
+#### Zero and the guide destinations
+
+The canonical [Zero / Try It page](https://justonelook.org/try-it/) did **not** surface directly in the fixed searches. The current [Self-Directed Attention page](https://justonelook.org/self-directed-attention/) likewise did not directly surface.
+
+Zero became more discoverable **indirectly**: search now surfaces the current homepage, which immediately offers the Try It route. The September baseline lacked that current-homepage pathway. This is a useful improvement in access, but it does not establish that either canonical guide page has begun ranking directly.
+
+#### Regressions, inaccuracies, and comparison limits
+
+The run reported no meaningful new inaccuracies and no clear regression. It did not supply a query-by-query list of first appearances or disappearances, so those changes cannot be enumerated from this summary.
+
+The strongest documented improvement is the shift from legacy-site visibility toward the current homepage, About page, What Now page, and Library. The remaining gaps are direct visibility of the guide destinations and reliable discovery through relevant conceptual or AI-guide queries.
+
+#### Recommendations after the follow-up
+
+These recommendations are separate from the measured results.
+
+1. Preserve the current homepage and About structure; the observed indexing movement suggests they are serving their purpose.
+2. Make recognition of `/try-it/` and `/self-directed-attention/` as destinations in their own right the next narrow target, while preserving the instruction-first design.
+3. Continue using the same fixed questions in future runs and retain the individual-query results alongside the summary whenever available.
