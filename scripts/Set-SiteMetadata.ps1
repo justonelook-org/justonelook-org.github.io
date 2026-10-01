@@ -46,7 +46,7 @@ foreach ($page in $pages) {
 $beginMarker
   <link rel="canonical" href="$canonical">
   <meta property="og:url" content="$canonical">
-  <meta property="og:site_name" content="Just One Look">
+  <meta property="og:site_name" content="Just One Look Method">
   <meta property="og:image" content="$normalizedBaseUrl$ShareImagePath">
   <meta property="og:image:alt" content="Just One Look">
   <meta name="twitter:card" content="summary">
