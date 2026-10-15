@@ -15,6 +15,8 @@ This is the production repository for the static Just One Look website at `justo
 
 - Keep public Zero links limited to the canonical guide routes and explicitly published source-entry routes.
 - Keep the Look At Yourself and Self-Directed Attention Exercise guides behaviorally separate.
+- Keep Looking Zero outcome measurement and Self-Directed Attention Zero usage measurement in separate tables, classifiers, and dashboard sections. SDA milestones describe guidance delivery and continuation, not whether the exercise worked or attention skills improved.
+- Preserve the measurement privacy model: no conversation text, visitor IDs, cookies, fingerprints, profiles, raw referrers, or linked journeys. Session metadata is converted to anonymous daily totals after 90 days.
 - Treat the Markdown instruction files under `zero/` as the source of truth. Generated instruction modules are temporary and ignored by Git.
 - Never commit API keys, `.dev.vars`, credentials, or other secrets.
 - Do not deploy the Worker, change DNS, or publish external changes without explicit approval.
