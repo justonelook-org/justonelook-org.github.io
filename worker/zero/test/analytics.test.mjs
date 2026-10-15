@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handleAnalyticsRequest, readMetrics } from "../src/analytics.js";
+import { handleAnalyticsRequest, readMetrics, readSdaMetrics } from "../src/analytics.js";
 
 test("private analytics fails closed without a configured secret", async () => {
   const response = await handleAnalyticsRequest(new Request("https://example.test/private/looking-zero"), { PRIVATE_RATE_LIMITER: allowRateLimit });
@@ -19,7 +19,7 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /Homepage entrances/i);
   assert.match(html, /Roads to Zero/i);
   assert.match(html, /Anonymous aggregate arrivals through the clean public source links/i);
-  assert.match(html, /Anonymous aggregate measurement of website activity and Looking Zero outcomes/i);
+  assert.match(html, /Anonymous aggregate measurement of website activity and both Zero guides/i);
   assert.match(html, /Looking Zero sessions started/i);
   assert.match(html, /independent action counts, not a linked visitor funnel/i);
   assert.match(html, /may differ slightly from Outcome Measurement sessions/i);
@@ -31,9 +31,31 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /No recorded indication of trying/);
   assert.match(html, /includes explicit reports/i);
   assert.match(html, /Median visitor turn of first indication/i);
+  assert.match(html, /Self-Directed Attention Zero — Usage/i);
+  assert.match(html, /do not determine whether attention skills improved/i);
+  assert.ok(html.includes("/private/self-directed-attention/api"));
+  assert.match(html, /Formal exercise guidance delivered/);
+  assert.match(html, /Daily-life guidance delivered/);
   assert.match(html, /form\.from\.value='2026-08-10'/);
   assert.match(html, /name="from" value="2026-08-10"/);
   assert.match(html, /window\.addEventListener\('pageshow',setDefaultRange\)/);
+});
+
+test("combines retained and archived SDA delivery milestones without treating them as success", async () => {
+  let query = 0;
+  const database = { prepare() { query += 1; return {
+    bind() { return this; },
+    async first() { return query === 1
+      ? { sessions: 8, redirected: 2, formal: 3, daily_life: 2, guidance: 4, post_responses: 3, completions: 1 }
+      : { sessions: 2, redirected: 0, formal: 1, daily_life: 0, guidance: 1, post_responses: 1, completions: 1 }; },
+    async all() { return { results: [{ value: 2 }, { value: 3 }, { value: 4 }] }; }
+  }; } };
+  const metrics = await readSdaMetrics(database, "2026-08-10T00:00:00.000Z", "2026-09-01T00:00:00.000Z");
+  assert.deepEqual(metrics.counts, { sessions: 10, redirected: 2, formal: 4, daily_life: 2, guidance: 5, post_responses: 4, completions: 2 });
+  assert.equal(metrics.percentages.guidance_of_started, 50);
+  assert.equal(metrics.percentages.post_responses_of_guidance, 80);
+  assert.equal(metrics.median_turn_of_first_guidance, 3);
+  assert.match(metrics.note, /not whether attention skills improved/i);
 });
 
 const allowRateLimit = { limit: async () => ({ success: true }) };

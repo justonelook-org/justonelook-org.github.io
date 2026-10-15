@@ -1,6 +1,10 @@
 # Just One Look measurement dashboard guide
 
-This guide is for the owner of the unified private measurement dashboard. The page presents website traffic and Looking Zero outcomes as two clearly separated sections without combining their data or interpretations.
+This guide is for the owner of the unified private measurement dashboard. The page presents website traffic, Looking Zero outcomes, and Self-Directed Attention Zero usage as clearly separated sections without combining their data or interpretations.
+
+The SDA section records only observable delivery milestones: sessions started, direction to the Look At Yourself guide, formal exercise guidance, daily-life guidance, a later visitor response, and natural completion. These overlapping milestones do not measure whether the exercise worked or whether attention skills improved.
+
+Looking and SDA records remain in separate tables and use guide-specific classifiers. Both retain only keyed session hashes and milestone metadata for 90 days before conversion to anonymous daily totals. Conversation text, IP addresses, referrers, cookies, profiles, and linked journeys are not stored by outcome measurement.
 
 ## Open the dashboard
 

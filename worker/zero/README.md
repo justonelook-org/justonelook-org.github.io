@@ -8,7 +8,7 @@ For the short internal note telling the JOL team where to test without affecting
 
 For the privacy-first website traffic section, event definitions, and maintenance boundaries, see [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md).
 
-The production service includes an anonymous outcome-measurement layer for Looking Zero. It does not apply to Self-Directed Attention Zero. The deployed configuration currently enables it for allowed production origins. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins.
+The service code includes separate anonymous measurement layers for Looking Zero and Self-Directed Attention Zero. The deployed configuration enables measurement for allowed production origins after the corresponding database migrations are applied. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins.
 
 ## Before the Zero service can run
 
@@ -40,18 +40,20 @@ After `.dev.vars` contains both API keys, run `pnpm run local` from this folder.
 - Worker observability is disabled so message bodies are not intentionally recorded in Worker logs.
 - No automatic API retry is made.
 
-## Looking Zero outcome measurement
+## Zero measurement
 
 The measurement layer records what happened in an anonymous Looking Zero session, never who used it. The browser-generated session ID is HMAC-hashed before storage. D1 stores timestamps, whether a complete invitation and a later response occurred, the highest conservative attempt-report signal, and message counts; it never stores conversation text, IP addresses, user agents, names, accounts, or cross-session identifiers.
 
-The classifier receives temporary active conversation context through a separate OpenAI project and returns strict structured data. It is called only for Looking Zero, uses `store: false`, defaults to `gpt-5.6-luna`, and cannot affect the user-visible Zero response. Measurement errors are deliberately ignored by the guide path.
+Each guide has a separate classifier and database table. The classifiers receive temporary active conversation context through a separate OpenAI project and return strict structured data. They use `store: false`, default to `gpt-5.6-luna`, and cannot affect the user-visible Zero response. Measurement errors are deliberately ignored by the guide path.
+
+SDA measurement records only observable delivery milestones: direction to the Look At Yourself guide, formal exercise guidance, daily-life guidance, a response after guidance, and natural completion. It does not classify whether the exercise worked or whether attention skills improved.
 
 ### Production setup and maintenance
 
 1. Create a D1 database named `looking-zero-outcomes`.
 2. Add its `OUTCOME_DB` binding to `wrangler.jsonc` using the database ID returned by Wrangler.
 3. Apply `migrations/0001_looking_outcomes.sql` to that database.
-   Apply all subsequent numbered migrations in order. `0005_zero_sources.sql` adds anonymous daily source and optional campaign aggregates without visitor-level records.
+   Apply all subsequent numbered migrations in order. `0005_zero_sources.sql` adds anonymous daily source and optional campaign aggregates without visitor-level records. `0006_sda_measurement.sql` adds the separate SDA session and daily aggregate tables.
 4. Add the outcome project's OpenAI key with `pnpm exec wrangler secret put OPENAI_OUTCOME_API_KEY`.
 5. Generate a long random HMAC secret and add it with `pnpm exec wrangler secret put OUTCOME_SESSION_SECRET`.
 6. Generate a separate random private-dashboard password and add it with `pnpm exec wrangler secret put ANALYTICS_ACCESS_TOKEN`.
@@ -72,6 +74,8 @@ Do not place any of these secrets in `.dev.vars` unless local API testing is spe
 - `attempt_explicitly_reported`: the visitor explicitly says they tried or describes trying the canonical act.
 
 Attempt signals are monotonic: a session retains its highest report level. They do not classify success. A visitor may perform the inward look without recognizing, understanding, evaluating, or reporting it, so no attempt report must never be presented as evidence that the inward look did not occur.
+
+SDA milestones are also monotonic and may overlap. Formal and daily-life guidance can both occur in one session. `post_guidance_response` means only that a later visitor message followed actionable guidance; `natural_completion` means that the visitor clearly finished and the guide closed naturally. Neither is an effectiveness judgment.
 
 Cloudflare's rate-limit counters are approximate and location-based. Before wider public access, review actual usage and add stronger daily cost protection if the service demonstrates a need for it.
 

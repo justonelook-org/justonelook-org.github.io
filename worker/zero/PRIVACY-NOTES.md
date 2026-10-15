@@ -11,5 +11,6 @@ The current disclosure states that:
 - Individual anonymous outcome records are aggregated and deleted after 90 days; aggregate totals may be retained longer.
 - `attempt_indicated` and `attempt_explicitly_reported` describe only evidence that the visitor tried. They do not determine success or independently verify that an internal act occurred. Absence of a report does not mean the inward look did not occur.
 - Clean source paths retain only daily aggregate counts for an approved source slug and optional campaign slug. They do not retain referrers or link the source opening to later website actions, conversations, or outcomes.
+- Self-Directed Attention measurement, when activated, uses a separate keyed session hash and retains only delivery milestones, message counts, and classifier status. It does not classify whether the exercise worked or whether attention skills improved.
 
 Recheck both the AI-guide dialog and the “Look At Yourself AI guide” and retention sections of `legal.html` before activating a new measurement category or materially changing retention, authentication, or data flow.

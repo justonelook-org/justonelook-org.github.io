@@ -2,6 +2,7 @@ import lookInstructions from "./generated-instructions.js";
 import sdaInstructions from "./generated-sda-instructions.js";
 import { archiveExpiredSessions, handleAnalyticsRequest } from "./analytics.js";
 import { hashSessionId, measureConversation, recordMeasurementError, recordSessionStart } from "./outcome-measurement.js";
+import { measureSdaConversation, recordSdaMeasurementError, recordSdaSessionStart } from "./sda-measurement.js";
 import { handleTrafficDashboard, handleTrafficEvent } from "./traffic-analytics.js";
 
 const OPENAI_URL = "https://api.openai.com/v1/responses";
@@ -30,7 +31,7 @@ Do not trigger this exception for ordinary references to fear, sadness, illness,
 
 const guides = {
   "/api/look-at-yourself": {
-    measuresOutcome: true,
+    measurementType: "looking",
     apiKeyName: "OPENAI_API_KEY",
     modelEnvName: "LOOK_MODEL",
     reasoningEnvName: "LOOK_REASONING_EFFORT",
@@ -41,7 +42,7 @@ const guides = {
     instructions: lookInstructions + sharedRuntimeInstructions
   },
   "/api/self-directed-attention": {
-    measuresOutcome: false,
+    measurementType: "sda",
     apiKeyName: "OPENAI_SDA_API_KEY",
     modelEnvName: "SDA_MODEL",
     reasoningEnvName: "SDA_REASONING_EFFORT",
@@ -60,7 +61,7 @@ export default {
       if (request.method !== "GET") return jsonResponse({ error: "Method not allowed." }, 405, { "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8" });
       return handleTrafficDashboard(request, env);
     }
-    if (pathname.startsWith("/private/looking-zero")) {
+    if (pathname.startsWith("/private/looking-zero") || pathname.startsWith("/private/self-directed-attention")) {
       if (request.method !== "GET") return jsonResponse({ error: "Method not allowed." }, 405, { "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8" });
       return handleAnalyticsRequest(request, env);
     }
@@ -100,13 +101,16 @@ export default {
     const diagnosticHeaderEnabled = env.OUTCOME_MEASUREMENT_ENABLED === "test" && origin === env.OUTCOME_TEST_ORIGIN;
     let measurementStatus = outcomeMeasurementEnabled ? "eligible" : "disabled";
     let measurementError = "";
-    if (guide.measuresOutcome && outcomeMeasurementEnabled && env.OUTCOME_DB && env.OUTCOME_SESSION_SECRET) {
+    if (guide.measurementType && outcomeMeasurementEnabled && env.OUTCOME_DB && env.OUTCOME_SESSION_SECRET) {
       try {
-        measurementSessionHash = await hashSessionId(validation.sessionId, env.OUTCOME_SESSION_SECRET);
-        await recordSessionStart(env.OUTCOME_DB, measurementSessionHash, new Date().toISOString(), validation.turnCount);
+        const scopedSessionId = guide.measurementType === "sda" ? `sda:${validation.sessionId}` : validation.sessionId;
+        measurementSessionHash = await hashSessionId(scopedSessionId, env.OUTCOME_SESSION_SECRET);
+        const recordStart = guide.measurementType === "sda" ? recordSdaSessionStart : recordSessionStart;
+        await recordStart(env.OUTCOME_DB, measurementSessionHash, new Date().toISOString(), validation.turnCount);
         if (diagnosticHeaderEnabled) {
+          const table = guide.measurementType === "sda" ? "sda_sessions" : "looking_sessions";
           const recorded = await env.OUTCOME_DB.prepare(
-            "SELECT COUNT(*) AS count FROM looking_sessions WHERE session_hash = ?"
+            `SELECT COUNT(*) AS count FROM ${table} WHERE session_hash = ?`
           ).bind(measurementSessionHash).first();
           measurementStatus = Number(recorded?.count) === 1 ? "session-recorded" : "session-missing";
         } else {
@@ -144,9 +148,11 @@ export default {
     const result = await openAIResponse.json();
     const message = extractOutputText(result);
     if (!message || message.length > 1200) return jsonResponse({ error: "The guide could not give a short response. Please try again." }, 502, corsHeaders);
-    if (guide.measuresOutcome && outcomeMeasurementEnabled && measurementSessionHash && env.OPENAI_OUTCOME_API_KEY) {
+    if (guide.measurementType && outcomeMeasurementEnabled && measurementSessionHash && env.OPENAI_OUTCOME_API_KEY) {
       const measuredMessages = [...validation.messages, { role: "assistant", content: message }];
-      const measurement = measureConversation({
+      const measure = guide.measurementType === "sda" ? measureSdaConversation : measureConversation;
+      const recordError = guide.measurementType === "sda" ? recordSdaMeasurementError : recordMeasurementError;
+      const measurement = measure({
         database: env.OUTCOME_DB,
         apiKey: env.OPENAI_OUTCOME_API_KEY,
         model: env.OUTCOME_MODEL || "gpt-5.6-luna",
@@ -159,11 +165,11 @@ export default {
           const result = await measurement;
           measurementStatus = `${result.skipped ? "skipped" : "classified"}-${measurementStatus}`;
         } catch (error) {
-          const code = await recordMeasurementError(env.OUTCOME_DB, measurementSessionHash, error).catch(() => "classifier_status_write_error");
+          const code = await recordError(env.OUTCOME_DB, measurementSessionHash, error).catch(() => "classifier_status_write_error");
           measurementStatus = `${code}-${measurementStatus}`;
         }
       } else {
-        ctx.waitUntil(measurement.catch((error) => recordMeasurementError(env.OUTCOME_DB, measurementSessionHash, error).catch(() => {})));
+        ctx.waitUntil(measurement.catch((error) => recordError(env.OUTCOME_DB, measurementSessionHash, error).catch(() => {})));
         measurementStatus = `scheduled-${measurementStatus}`;
       }
     }
