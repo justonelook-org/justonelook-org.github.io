@@ -1,6 +1,6 @@
 # Unified Zero Measurement Design
 
-**Status:** Implemented behind the disabled unified endpoint; migration not applied and no production behavior changed
+**Status:** Implemented behind the disabled unified endpoint; migration applied October 17, 2026; no production behavior changed
 **Working date:** October 17, 2026
 **Applies to:** The future public unified Zero guide at `/try-it/`
 
@@ -128,7 +128,7 @@ Measurement activation belongs in the same reviewed release as the public unifie
 7. Enable production unified measurement and record the activation date.
 8. Verify dashboard totals, classifier status, retention, and team exclusion.
 
-The implementation remains inert unless the migration is applied and the unified endpoint is explicitly enabled. Worker deployment, database migration, test activation, and public website publication each require explicit approval.
+Migration `0007_unified_zero_measurement.sql` was applied to the production D1 database on October 17, 2026, creating empty `unified_sessions` and `unified_daily_aggregates` tables. The implementation remains inert unless the unified endpoint and its independent measurement mode are explicitly enabled. Worker deployment, test activation, and public website publication each require explicit approval.
 
 ## Required implementation validation
 
