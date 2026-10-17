@@ -216,6 +216,25 @@ test("keeps the unified prototype endpoint unavailable unless explicitly enabled
   assert.deepEqual(await response.json(), { error: "Not found." });
 });
 
+test("limits the unified endpoint itself to the exact test origin in test mode", async () => {
+  const teamOrigin = "https://website-test-zero.pages.dev";
+  const production = await worker.fetch(request(validBody(), { path: "/api/unified-zero", origin: "https://justonelook.org" }), {
+    ...baseEnv, ALLOWED_ORIGINS: `${allowedOrigin},https://justonelook.org,${teamOrigin}`,
+    UNIFIED_ZERO_ENABLED: "test", OUTCOME_TEST_ORIGIN: teamOrigin
+  });
+  assert.equal(production.status, 404);
+
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ output: [{ content: [{ type: "output_text", text: "Notice the feeling of me." }] }] }), { status: 200 });
+  try {
+    const testResponse = await worker.fetch(request(validBody(), { path: "/api/unified-zero", origin: teamOrigin }), {
+      ...baseEnv, ALLOWED_ORIGINS: `${allowedOrigin},https://justonelook.org,${teamOrigin}`,
+      UNIFIED_ZERO_ENABLED: "test", OUTCOME_TEST_ORIGIN: teamOrigin
+    });
+    assert.equal(testResponse.status, 200);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
 test("keeps unified measurement disabled while legacy production measurement remains enabled", async () => {
   const originalFetch = globalThis.fetch;
   let authorization;

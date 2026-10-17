@@ -12,7 +12,8 @@
     "ALLOWED_ORIGINS": "https://justonelook.org,https://www.justonelook.org,https://website-test-zero.pages.dev,http://localhost:8000,http://127.0.0.1:8000",
     "OUTCOME_MODEL": "gpt-5.6-luna",
     "OUTCOME_MEASUREMENT_ENABLED": "true",
-    "UNIFIED_MEASUREMENT_ENABLED": "false",
+    "UNIFIED_ZERO_ENABLED": "test",
+    "UNIFIED_MEASUREMENT_ENABLED": "test",
     "OUTCOME_TEST_ORIGIN": "https://website-test-zero.pages.dev",
     "TRAFFIC_MEASUREMENT_ENABLED": "true",
     "TRAFFIC_TEST_ORIGIN": "https://website-test-zero.pages.dev"
