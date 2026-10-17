@@ -602,4 +602,4 @@ This document owns the approved direction, safeguards, scope, and unresolved des
 
 ## Next action
 
-Implement the separately documented measurement design behind tests and a test-only activation mode. After that, prepare the public transition: `/try-it/` as the unified entrance, an updated `what-now.html`, and a temporary compatibility period for `/self-directed-attention/`. A public page, test-site deployment, production measurement, or replacement of either live guide requires separate implementation, review, and explicit deployment approval.
+Review and merge the implemented measurement layer, then apply its migration and activate it only in a controlled test environment. After that, prepare the public transition: `/try-it/` as the unified entrance, an updated `what-now.html`, and a temporary compatibility period for `/self-directed-attention/`. A public page, test-site deployment, production measurement, or replacement of either live guide requires separate implementation, review, and explicit deployment approval.

@@ -1,10 +1,10 @@
 # Just One Look measurement dashboard guide
 
-This guide is for the owner of the unified private measurement dashboard. The page presents website traffic, Looking Zero outcomes, and Self-Directed Attention Zero usage as clearly separated sections without combining their data or interpretations.
+This guide is for the owner of the private measurement dashboard. The page presents website traffic, historical Looking Zero outcomes, Self-Directed Attention Zero usage, and feature-gated unified Zero measurement as clearly separated sections without combining their data or interpretations.
 
 The SDA section records only observable delivery milestones: sessions started, direction to the Look At Yourself guide, formal exercise guidance, daily-life guidance, a later visitor response, and natural completion. These overlapping milestones do not measure whether the exercise worked or whether attention skills improved.
 
-Looking and SDA records remain in separate tables and use guide-specific classifiers. Both retain only keyed session hashes and milestone metadata for 90 days before conversion to anonymous daily totals. Conversation text, IP addresses, referrers, cookies, profiles, and linked journeys are not stored by outcome measurement.
+Looking, SDA, and unified records remain in separate tables. Unified Zero uses one combined milestone classifier without rewriting the historical guide records. All retain only keyed session hashes and milestone metadata for 90 days before conversion to anonymous daily totals. Conversation text, IP addresses, referrers, cookies, profiles, and linked journeys are not stored by outcome measurement.
 
 ## Open the dashboard
 
@@ -27,7 +27,7 @@ The dashboard opens with the most recent 30 days selected.
 2. Choose the last included date under **Through**.
 3. Select **Update**.
 
-The selected range can be no longer than 366 days. **Through** includes the whole date shown. One selection updates both dashboard sections. Traffic is grouped by UTC day, while Looking Zero outcomes are selected by session start date.
+The selected range can be no longer than 366 days. **Through** includes the whole date shown. One selection updates every dashboard section. Traffic is grouped by UTC day, while guide measurements are selected by session start date.
 
 ## Website Traffic
 
@@ -47,6 +47,12 @@ The first section shows homepage views, storage-free homepage entrances, Try It 
 
 The attempt categories describe only what was reportable from the conversation. They do not determine success. According to the method, a person may perform the act simply upon hearing the invitation without recognizing, evaluating, or reporting it.
 
+## Unified Zero guidance and reports
+
+The Unified Zero section combines observable inward-looking reports and attention-guidance delivery milestones only for sessions using the feature-gated unified endpoint. Its figures overlap and do not form a required funnel. It does not determine whether the inward look succeeded, whether an exercise was completed, or whether attention skills improved. Until the endpoint is explicitly enabled in a controlled environment and migration `0007_unified_zero_measurement.sql` is applied, this section has no production data.
+
+The dashboard preserves the historical Looking and SDA sections unchanged. Unified sessions use their own table and a `unified:`-scoped keyed hash input, so new records cannot be mistaken for or joined to sessions in either historical table.
+
 ## Useful ways to review the dashboard
 
 For ordinary monitoring, look at a recent 30-day range. For a pilot or campaign, select its exact dates. Compare periods only when they are long enough to contain a reasonable number of sessions; percentages from very small samples can change sharply after one session.
@@ -64,7 +70,7 @@ Do not use the dashboard to decide whether a particular person looked, whether t
 
 The measurement system does not retain conversation text. It stores an HMAC-hashed session identifier, timestamps, message counts, delivery and response milestones, the highest conservative attempt-report category, and a closed operational status code. It does not store names, accounts, IP addresses for analytics, user agents, device fingerprints, or cross-session profiles.
 
-The classifier temporarily receives the active Looking Zero conversation through the dedicated OpenAI outcome-measurement project with storage disabled. It cannot alter the reply shown to the visitor. Self-Directed Attention Zero is not measured by this system.
+The classifiers temporarily receive the active guide conversation through the dedicated OpenAI outcome-measurement project with storage disabled. They cannot alter the reply shown to the visitor. Looking, SDA, and unified measurement retain separate records and guide-appropriate milestone definitions.
 
 Individual anonymous session rows are converted to daily aggregates after 90 days and then deleted. Aggregate totals remain available. When a selected range includes archived data, the median card is marked **retained session records only**, because daily aggregates cannot preserve a median.
 

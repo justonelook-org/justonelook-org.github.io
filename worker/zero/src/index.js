@@ -4,6 +4,7 @@ import unifiedInstructions from "./generated-unified-instructions.js";
 import { archiveExpiredSessions, handleAnalyticsRequest } from "./analytics.js";
 import { hashSessionId, measureConversation, recordMeasurementError, recordSessionStart } from "./outcome-measurement.js";
 import { measureSdaConversation, recordSdaMeasurementError, recordSdaSessionStart } from "./sda-measurement.js";
+import { measureUnifiedConversation, recordUnifiedMeasurementError, recordUnifiedSessionStart } from "./unified-measurement.js";
 import { handleTrafficDashboard, handleTrafficEvent } from "./traffic-analytics.js";
 
 const OPENAI_URL = "https://api.openai.com/v1/responses";
@@ -57,7 +58,7 @@ const guides = {
   },
   "/api/unified-zero": {
     experienceType: "unified",
-    measurementType: null,
+    measurementType: "unified",
     prototypeFlag: "UNIFIED_ZERO_ENABLED",
     apiKeyName: "OPENAI_UNIFIED_API_KEY",
     modelEnvName: "UNIFIED_MODEL",
@@ -77,7 +78,7 @@ export default {
       if (request.method !== "GET") return jsonResponse({ error: "Method not allowed." }, 405, { "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8" });
       return handleTrafficDashboard(request, env);
     }
-    if (pathname.startsWith("/private/looking-zero") || pathname.startsWith("/private/self-directed-attention")) {
+    if (pathname.startsWith("/private/looking-zero") || pathname.startsWith("/private/self-directed-attention") || pathname.startsWith("/private/unified-zero")) {
       if (request.method !== "GET") return jsonResponse({ error: "Method not allowed." }, 405, { "Cache-Control": "no-store", "Content-Type": "application/json; charset=utf-8" });
       return handleAnalyticsRequest(request, env);
     }
@@ -120,12 +121,20 @@ export default {
     let measurementError = "";
     if (guide.measurementType && outcomeMeasurementEnabled && env.OUTCOME_DB && env.OUTCOME_SESSION_SECRET) {
       try {
-        const scopedSessionId = guide.measurementType === "sda" ? `sda:${validation.sessionId}` : validation.sessionId;
+        const scopedSessionId = guide.measurementType === "looking" ? validation.sessionId : `${guide.measurementType}:${validation.sessionId}`;
         measurementSessionHash = await hashSessionId(scopedSessionId, env.OUTCOME_SESSION_SECRET);
-        const recordStart = guide.measurementType === "sda" ? recordSdaSessionStart : recordSessionStart;
+        const recordStart = {
+          looking: recordSessionStart,
+          sda: recordSdaSessionStart,
+          unified: recordUnifiedSessionStart
+        }[guide.measurementType];
         await recordStart(env.OUTCOME_DB, measurementSessionHash, new Date().toISOString(), validation.turnCount);
         if (diagnosticHeaderEnabled) {
-          const table = guide.measurementType === "sda" ? "sda_sessions" : "looking_sessions";
+          const table = {
+            looking: "looking_sessions",
+            sda: "sda_sessions",
+            unified: "unified_sessions"
+          }[guide.measurementType];
           const recorded = await env.OUTCOME_DB.prepare(
             `SELECT COUNT(*) AS count FROM ${table} WHERE session_hash = ?`
           ).bind(measurementSessionHash).first();
@@ -167,8 +176,16 @@ export default {
     if (!message || message.length > 1200) return jsonResponse({ error: "The guide could not give a short response. Please try again." }, 502, corsHeaders);
     if (guide.measurementType && outcomeMeasurementEnabled && measurementSessionHash && env.OPENAI_OUTCOME_API_KEY) {
       const measuredMessages = [...validation.messages, { role: "assistant", content: message }];
-      const measure = guide.measurementType === "sda" ? measureSdaConversation : measureConversation;
-      const recordError = guide.measurementType === "sda" ? recordSdaMeasurementError : recordMeasurementError;
+      const measure = {
+        looking: measureConversation,
+        sda: measureSdaConversation,
+        unified: measureUnifiedConversation
+      }[guide.measurementType];
+      const recordError = {
+        looking: recordMeasurementError,
+        sda: recordSdaMeasurementError,
+        unified: recordUnifiedMeasurementError
+      }[guide.measurementType];
       const measurement = measure({
         database: env.OUTCOME_DB,
         apiKey: env.OPENAI_OUTCOME_API_KEY,
