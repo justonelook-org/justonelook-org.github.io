@@ -81,10 +81,12 @@ test("provides a credential-safe full behavioral evaluation harness", () => {
   assert.doesNotMatch(evaluator, /OPENAI_[A-Z_]+\s*[:=]\s*["'][A-Za-z0-9_-]{20,}/);
 });
 
-test("keeps the human prototype local, ephemeral, and measurement-free", () => {
+test("keeps the human prototype private, ephemeral, and explicit about test measurement", () => {
   assert.match(localServer, /\/__local\/unified-zero/);
   assert.match(localServer, /X-Robots-Tag.*noindex, nofollow, noarchive/);
   assert.match(localPage, /Nothing here is measured or saved/);
+  assert.match(localPage, /Anonymous guidance milestones are measured; conversation text is not stored/);
+  assert.match(localPage, /website-test-zero\.pages\.dev/);
   assert.match(localPage, /\/api\/unified-zero/);
   assert.match(localPage, /crypto\.randomUUID\(\)/);
   assert.match(localPage, /node\.textContent=content/);
