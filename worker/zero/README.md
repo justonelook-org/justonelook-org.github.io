@@ -56,6 +56,7 @@ Unified measurement retains the conservative inward-look report categories and t
 2. Add its `OUTCOME_DB` binding to `wrangler.jsonc` using the database ID returned by Wrangler.
 3. Apply `migrations/0001_looking_outcomes.sql` to that database.
    Apply all subsequent numbered migrations in order. `0005_zero_sources.sql` adds anonymous daily source and optional campaign aggregates without visitor-level records. `0006_sda_measurement.sql` adds the separate SDA session and daily aggregate tables. `0007_unified_zero_measurement.sql` adds separate unified session and daily aggregate tables without changing historical data.
+   Migration `0007` was applied to the production D1 database on October 17, 2026; its unified tables remain empty until separately activated.
 4. Add the outcome project's OpenAI key with `pnpm exec wrangler secret put OPENAI_OUTCOME_API_KEY`.
 5. Generate a long random HMAC secret and add it with `pnpm exec wrangler secret put OUTCOME_SESSION_SECRET`.
 6. Generate a separate random private-dashboard password and add it with `pnpm exec wrangler secret put ANALYTICS_ACCESS_TOKEN`.
