@@ -3,7 +3,8 @@ import { fileURLToPath } from "node:url";
 
 const sources = [
   ["../../../zero/look-at-yourself/instructions.md", "../src/generated-instructions.js"],
-  ["../../../zero/self-directed-attention-exercise/instructions.md", "../src/generated-sda-instructions.js"]
+  ["../../../zero/self-directed-attention-exercise/instructions.md", "../src/generated-sda-instructions.js"],
+  ["../../../zero/unified/instructions.md", "../src/generated-unified-instructions.js"]
 ];
 
 for (const [source, target] of sources) {

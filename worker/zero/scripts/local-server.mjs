@@ -3,19 +3,22 @@ import { readFile, stat } from "node:fs/promises";
 import { extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import worker from "../src/index.js";
+import { localUnifiedPage } from "./local-unified-page.mjs";
 
 const port = 8000;
 const repositoryRoot = resolve(fileURLToPath(new URL("../../../", import.meta.url)));
 const settings = await readSettings(new URL("../.dev.vars", import.meta.url));
 
-if (!settings.OPENAI_API_KEY || !settings.OPENAI_SDA_API_KEY) {
-  throw new Error("The local secret file is incomplete.");
+if (!settings.OPENAI_API_KEY && !settings.OPENAI_SDA_API_KEY && !settings.OPENAI_UNIFIED_API_KEY) {
+  throw new Error("The local secret file has no supported OpenAI key.");
 }
 
 const env = {
   ALLOWED_ORIGINS: `http://localhost:${port},http://127.0.0.1:${port}`,
   OPENAI_API_KEY: settings.OPENAI_API_KEY,
   OPENAI_SDA_API_KEY: settings.OPENAI_SDA_API_KEY,
+  OPENAI_UNIFIED_API_KEY: settings.OPENAI_UNIFIED_API_KEY || settings.OPENAI_API_KEY,
+  UNIFIED_ZERO_ENABLED: "true",
   SESSION_RATE_LIMITER: createLocalRateLimiter(8, 60_000),
   PILOT_RATE_LIMITER: createLocalRateLimiter(60, 60_000)
 };
@@ -24,7 +27,13 @@ const server = createServer(async (incoming, outgoing) => {
   try {
     const url = new URL(incoming.url || "/", `http://${incoming.headers.host || `127.0.0.1:${port}`}`);
 
-    if (["/api/look-at-yourself", "/api/self-directed-attention"].includes(url.pathname)) {
+    if (url.pathname === "/__local/unified-zero" || url.pathname === "/__local/unified-zero/") {
+      outgoing.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Robots-Tag": "noindex, nofollow, noarchive", "X-Content-Type-Options": "nosniff" });
+      outgoing.end(localUnifiedPage);
+      return;
+    }
+
+    if (["/api/look-at-yourself", "/api/self-directed-attention", "/api/unified-zero"].includes(url.pathname)) {
       const request = await toWebRequest(incoming, url);
       const response = await worker.fetch(request, env);
       await sendWebResponse(response, outgoing);
@@ -39,7 +48,7 @@ const server = createServer(async (incoming, outgoing) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Local Zero guides ready at http://127.0.0.1:${port}/try-it/ and /self-directed-attention/`);
+  console.log(`Unified Zero local test ready at http://127.0.0.1:${port}/__local/unified-zero/`);
 });
 
 async function readSettings(url) {
