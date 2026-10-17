@@ -132,6 +132,8 @@ The unified Zero should remain quiet, direct, grounded, concise, and practical.
 
 The dashboard should be extended, not rebuilt.
 
+The concrete storage, classifier, dashboard, denominator, retention, and cutover design is maintained in [UNIFIED-ZERO-MEASUREMENT.md](UNIFIED-ZERO-MEASUREMENT.md).
+
 - Preserve the existing Looking Zero and SDA historical data.
 - Keep Looking and SDA milestone definitions distinct even when they occur within one unified conversation.
 - Add an experience or measurement version and record the production transition date.
@@ -600,4 +602,4 @@ This document owns the approved direction, safeguards, scope, and unresolved des
 
 ## Next action
 
-Preserve the completed prototype in a non-public-behavior pull request. Then design measurement continuity before preparing the public transition: `/try-it/` as the unified entrance, an updated `what-now.html`, and a temporary compatibility period for `/self-directed-attention/`. A public page, test-site deployment, production measurement, or replacement of either live guide requires separate implementation, review, and explicit deployment approval.
+Implement the separately documented measurement design behind tests and a test-only activation mode. After that, prepare the public transition: `/try-it/` as the unified entrance, an updated `what-now.html`, and a temporary compatibility period for `/self-directed-attention/`. A public page, test-site deployment, production measurement, or replacement of either live guide requires separate implementation, review, and explicit deployment approval.
