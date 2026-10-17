@@ -86,7 +86,7 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const corsHeaders = getCorsHeaders(origin, env.ALLOWED_ORIGINS);
     const guide = guides[pathname];
-    const guideEnabled = Boolean(guide) && (!guide.prototypeFlag || env[guide.prototypeFlag] === "true");
+    const guideEnabled = guideAccessAllowed(guide, env, origin);
 
     if (request.method === "OPTIONS") {
       return guideEnabled ? new Response(null, { status: 204, headers: corsHeaders }) : jsonResponse({ error: "Not found." }, 404, corsHeaders);
@@ -257,6 +257,13 @@ function getCorsHeaders(origin, configuredOrigins) {
   return headers;
 }
 function jsonResponse(body, status, headers) { return new Response(JSON.stringify(body), { status, headers }); }
+function guideAccessAllowed(guide, env, origin) {
+  if (!guide) return false;
+  if (!guide.prototypeFlag) return true;
+  const mode = env[guide.prototypeFlag];
+  if (mode === "true") return true;
+  return mode === "test" && Boolean(env.OUTCOME_TEST_ORIGIN) && origin === env.OUTCOME_TEST_ORIGIN;
+}
 export function outcomeMeasurementAllowed(mode, origin, testOrigin) {
   if (mode === "true") return !testOrigin || origin !== testOrigin;
   return mode === "test" && Boolean(testOrigin) && origin === testOrigin;

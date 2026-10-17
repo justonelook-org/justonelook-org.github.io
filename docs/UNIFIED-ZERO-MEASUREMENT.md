@@ -1,6 +1,6 @@
 # Unified Zero Measurement Design
 
-**Status:** Implemented behind the disabled unified endpoint; migration applied October 17, 2026; no production behavior changed
+**Status:** Implemented for controlled test-origin activation; migration applied October 17, 2026; public production behavior unchanged
 **Working date:** October 17, 2026
 **Applies to:** The future public unified Zero guide at `/try-it/`
 
