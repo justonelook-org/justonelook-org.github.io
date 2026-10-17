@@ -45,10 +45,10 @@ test("routes an SDA request through one non-evaluative prerequisite", () => {
   assert.match(instructions, /do not answer an effects question merely by asking whether they have looked/i);
   assert.match(instructions, /first introduction.*simple attention exercise for learning to direct attention deliberately/is);
   assert.match(instructions, /Do not introduce it merely as [“"]the formal exercise/is);
-  assert.match(instructions, /builds on the same ability they used when looking at themselves/i);
-  assert.match(instructions, /short, structured practice intended to make that movement easier to use in daily life/i);
+  assert.match(instructions, /working with attention has two connected forms/i);
+  assert.match(instructions, /formal exercise is training for that everyday use/i);
   assert.match(instructions, /do not ask them to choose between formal practice and daily-life use/i);
-  assert.match(instructions, /offer to guide them through it/i);
+  assert.match(instructions, /offer to explain or guide the exercise when they are ready/i);
 });
 
 test("retains the complete formal exercise and its daily-life distinction", () => {
@@ -96,10 +96,10 @@ test("keeps the human prototype private, ephemeral, and explicit about test meas
   assert.match(localPage, /node\.textContent=content/);
   assert.doesNotMatch(localPage, /localStorage|sessionStorage|document\.cookie|indexedDB/);
   assert.doesNotMatch(localPage, /analytics|\/api\/traffic/);
-  for (const starter of ["How do I look at myself?", "Learn the attention exercise"]) {
+  for (const starter of ["Try looking at yourself", "Try the attention exercise"]) {
     assert.match(localPage, new RegExp(`data-starter="${starter.replace(/[?]/g, "\\?")}"`));
   }
-  for (const removedStarter of ["Guide me", "How do I look with attention?", "What do I look at?", "I’ve looked. Then what?"]) {
+  for (const removedStarter of ["Guide me", "How do I look with attention?", "How do I look at myself?", "Learn the attention exercise", "What do I look at?", "I’ve looked. Then what?"]) {
     assert.doesNotMatch(localPage, new RegExp(`data-starter="${removedStarter.replace(/[?]/g, "\\?")}"`));
   }
   assert.doesNotMatch(localPage, />Teach me the formal exercise</);
