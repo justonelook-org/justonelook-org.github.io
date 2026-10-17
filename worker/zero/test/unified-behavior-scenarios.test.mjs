@@ -5,7 +5,7 @@ import test from "node:test";
 const scenarios = JSON.parse(await readFile(new URL("../evals/unified-zero.json", import.meta.url), "utf8"));
 
 test("defines the approved unified Zero routing scenarios without exact replies", () => {
-  assert.equal(scenarios.length, 24);
+  assert.equal(scenarios.length, 25);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
   for (const scenario of scenarios) {
     assert.match(scenario.id, /^[a-z0-9-]+$/);
@@ -41,4 +41,15 @@ test("allows experienced visitors to bypass unnecessary introductory guidance", 
   assert.match(directFormal.should.join(" "), /Accept the report without testing/i);
   assert.match(refresh.should.join(" "), /concise refresher/i);
   assert.match(daily.should_not.join(" "), /Require the formal exercise first/i);
+});
+
+test("protects the two-starter routing and bridges attention without rushing", () => {
+  const lookingStarter = scenarios.find(({ id }) => id === "direct-guidance-new-visitor");
+  const attentionStarter = scenarios.find(({ id }) => id === "formal-exercise-prerequisite-unknown");
+  const bridge = scenarios.find(({ id }) => id === "general-attention-request-after-prerequisite-yes");
+  assert.equal(lookingStarter.messages[0].content, "How do I look at myself?");
+  assert.equal(attentionStarter.messages[0].content, "Learn the attention exercise");
+  assert.match(attentionStarter.should.join(" "), /Before explaining.*ask/i);
+  assert.match(bridge.should.join(" "), /same ability to direct attention/i);
+  assert.match(bridge.should_not.join(" "), /directly into the complete formal exercise/i);
 });

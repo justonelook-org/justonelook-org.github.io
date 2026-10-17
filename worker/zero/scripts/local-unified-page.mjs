@@ -16,10 +16,8 @@ export const localUnifiedPage = `<!doctype html>
     <span class="badge" id="prototype-badge">Local test only</span>
   </header>
   <div class="starters" aria-label="Suggested messages">
-    <button type="button" data-starter="Guide me">Guide me</button>
-    <button type="button" data-starter="How do I look with attention?">How do I look with attention?</button>
-    <button type="button" data-starter="What do I look at?">What do I look at?</button>
-    <button type="button" data-starter="I’ve looked. Then what?">I’ve looked. Then what?</button>
+    <button type="button" data-starter="How do I look at myself?">How do I look at myself?</button>
+    <button type="button" data-starter="Learn the attention exercise">Learn the attention exercise</button>
   </div>
   <section class="messages" id="messages" aria-live="polite" aria-label="Conversation"></section>
   <form id="composer">

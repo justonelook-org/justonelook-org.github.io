@@ -2,8 +2,8 @@
   {
     "id": "direct-guidance-new-visitor",
     "expected_focus": "inward_look",
-    "messages": [{ "role": "user", "content": "Can you guide me?" }],
-    "should": ["Guide naturally and promptly toward the immediate feeling of me", "Use only enough language to make the inward movement of attention possible"],
+    "messages": [{ "role": "user", "content": "How do I look at myself?" }],
+    "should": ["Show briefly and concretely what deliberately moving attention means", "Connect that movement promptly to the immediate feeling of me"],
     "should_not": ["Require a preliminary attention lesson", "Explain the whole method", "Give the formal Self-Directed Attention Exercise"]
   },
   {
@@ -37,9 +37,20 @@
   {
     "id": "formal-exercise-prerequisite-unknown",
     "expected_focus": "prerequisite_question",
-    "messages": [{ "role": "user", "content": "Can you teach me the formal exercise?" }],
-    "should": ["Ask one brief natural question about whether the visitor has already looked at the feeling of me", "Keep the prerequisite question non-evaluative"],
-    "should_not": ["Start the formal exercise without establishing Step One", "Send the visitor to another guide", "Ask them to prove or describe success"]
+    "messages": [{ "role": "user", "content": "Learn the attention exercise" }],
+    "should": ["Before explaining the attention exercise, ask one brief natural question about whether the visitor has already tried looking at the feeling of me", "Keep the prerequisite question non-evaluative"],
+    "should_not": ["Explain or start self-directed attention before asking about the inward look", "Send the visitor to another guide", "Ask them to prove or describe success"]
+  },
+  {
+    "id": "general-attention-request-after-prerequisite-yes",
+    "expected_focus": "transition_to_sda",
+    "messages": [
+      { "role": "user", "content": "Learn the attention exercise" },
+      { "role": "assistant", "content": "Have you already tried looking directly at the feeling of me?" },
+      { "role": "user", "content": "Yes, I have tried it." }
+    ],
+    "should": ["Accept the report without evaluating it", "Explain briefly that looking at yourself and working with attention use the same ability to direct attention", "Distinguish loosely between the structured exercise and ordinary daily-life use before asking which is useful"],
+    "should_not": ["Throw the visitor directly into the complete formal exercise", "Reduce the inward look to an ordinary attention exercise", "Give both complete forms at once"]
   },
   {
     "id": "formal-exercise-prior-look-reported",

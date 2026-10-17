@@ -18,8 +18,8 @@ const liveProbe = await readFile(liveProbeUrl, "utf8");
 const evaluator = await readFile(evaluatorUrl, "utf8");
 const localPage = await readFile(localPageUrl, "utf8");
 
-test("keeps the unified instructor explicitly local and non-production", () => {
-  assert.match(instructions, /Local prototype draft; not deployed/);
+test("keeps the unified instructor explicitly non-production", () => {
+  assert.match(instructions, /Non-production team-test prototype/);
   assert.match(instructions, /one instruction at a time/i);
   assert.match(instructions, /Do not give both complete practices in one response/i);
 });
@@ -35,7 +35,7 @@ test("preserves the inward look as the pivotal first act", () => {
 });
 
 test("routes an SDA request through one non-evaluative prerequisite", () => {
-  assert.match(instructions, /prior experience is unknown, ask one brief, natural question/i);
+  assert.match(instructions, /prior experience is unknown, first ask one brief, natural question/i);
   assert.match(instructions, /accept the report without testing it/i);
   assert.match(instructions, /Do not ask visitors to prove that they looked/);
   assert.match(instructions, /Do not send them to another guide/i);
@@ -45,6 +45,9 @@ test("routes an SDA request through one non-evaluative prerequisite", () => {
   assert.match(instructions, /do not answer an effects question merely by asking whether they have looked/i);
   assert.match(instructions, /first introduction.*simple attention exercise for learning to direct attention deliberately/is);
   assert.match(instructions, /Do not introduce it merely as [“"]the formal exercise/is);
+  assert.match(instructions, /same natural ability to direct attention deliberately/i);
+  assert.match(instructions, /two related forms—a structured exercise.*ordinary daily life/is);
+  assert.match(instructions, /Do not throw a visitor directly into the complete formal exercise/i);
 });
 
 test("retains the complete formal exercise and its daily-life distinction", () => {
@@ -92,8 +95,11 @@ test("keeps the human prototype private, ephemeral, and explicit about test meas
   assert.match(localPage, /node\.textContent=content/);
   assert.doesNotMatch(localPage, /localStorage|sessionStorage|document\.cookie|indexedDB/);
   assert.doesNotMatch(localPage, /analytics|\/api\/traffic/);
-  for (const starter of ["Guide me", "How do I look with attention?", "What do I look at?", "I’ve looked. Then what?"]) {
+  for (const starter of ["How do I look at myself?", "Learn the attention exercise"]) {
     assert.match(localPage, new RegExp(`data-starter="${starter.replace(/[?]/g, "\\?")}"`));
+  }
+  for (const removedStarter of ["Guide me", "How do I look with attention?", "What do I look at?", "I’ve looked. Then what?"]) {
+    assert.doesNotMatch(localPage, new RegExp(`data-starter="${removedStarter.replace(/[?]/g, "\\?")}"`));
   }
   assert.doesNotMatch(localPage, />Teach me the formal exercise</);
 });

@@ -440,7 +440,7 @@ The source of truth for the first unified behavioral evaluation set is:
 
 - `worker/zero/evals/unified-zero.json`
 
-It contains 24 semantic scenarios covering:
+It contains 25 semantic scenarios covering:
 
 - direct guidance for new visitors;
 - optional clarification of attention and the inward-looking object;
@@ -505,7 +505,7 @@ Its isolation is explicit:
 - it is unavailable unless `UNIFIED_ZERO_ENABLED` equals `true`;
 - the production Worker configuration does not set that flag;
 - it has no measurement type and therefore cannot write to Looking Zero or SDA Zero measurement;
-- it has no public page, canonical URL, sitemap entry, navigation link, source-attribution road, or redirect.
+- it has no production public page, canonical URL, sitemap entry, navigation link, source-attribution road, or redirect.
 
 The local server enables the prototype deliberately. When a separate local unified key is absent, it may reuse the existing local Looking key without copying or committing that secret. The command-line live probe can exercise a single prompt without a browser:
 
@@ -522,7 +522,7 @@ The full local evaluator is:
 
 - `worker/zero/scripts/evaluate-unified.mjs`
 
-It loads the 24 approved cases, sends each case's complete conversation to the locally enabled unified endpoint, and writes the response beside that case's semantic `should` and `should_not` criteria. It disables outcome measurement explicitly. It accepts a local `OPENAI_UNIFIED_API_KEY` or falls back to a local `OPENAI_API_KEY`; credentials may come from the process environment or ignored `.dev.vars` file and are never written to the report.
+It loads the 25 approved cases, sends each case's complete conversation to the locally enabled unified endpoint, and writes the response beside that case's semantic `should` and `should_not` criteria. It disables outcome measurement explicitly. It accepts a local `OPENAI_UNIFIED_API_KEY` or falls back to a local `OPENAI_API_KEY`; credentials may come from the process environment or ignored `.dev.vars` file and are never written to the report.
 
 Example:
 
@@ -583,8 +583,10 @@ This interface is for qualitative human testing only. Its conversations are sent
 
 Initial human review produced two presentation refinements:
 
-- starter messages now invite guidance, clarify moving attention, clarify the object of attention, or continue after looking without exposing internal stage terminology;
+- the interface now uses only two starters: “How do I look at myself?” and “Learn the attention exercise.” The first begins by making deliberate movement of attention concrete and then guides the inward look. The second first asks whether the inward look has been tried;
 - the next practice is first introduced as “a simple attention exercise for learning to direct attention deliberately.” The shorter term “the formal exercise” is reserved for later use when distinguishing structured practice from attention in daily life.
+
+When a visitor confirms prior looking after choosing the attention-exercise starter, Zero briefly explains that both parts of the method use the same natural ability to direct attention. It then distinguishes the structured exercise from ordinary daily-life use and lets the visitor's need determine which guidance comes next, rather than immediately launching the complete formal practice.
 
 Live checks confirmed that a general continuation request now receives the plain-language introduction and offer, while a direct request to begin receives the complete attention exercise before later references use “formal exercise.”
 
