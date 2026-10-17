@@ -20,6 +20,11 @@ export async function handleAnalyticsRequest(request, env) {
     if (!range.ok) return json({ error: range.error }, 400);
     return json(await readSdaMetrics(env.OUTCOME_DB, range.from, range.to));
   }
+  if (url.pathname === "/private/unified-zero/api") {
+    const range = readRange(url.searchParams);
+    if (!range.ok) return json({ error: range.error }, 400);
+    return json(await readUnifiedMetrics(env.OUTCOME_DB, range.from, range.to));
+  }
   if (url.pathname === "/private/looking-zero") return html(dashboardHtml());
   return new Response("Not found.", { status: 404, headers: secureHeaders("text/plain; charset=utf-8") });
 }
@@ -122,6 +127,69 @@ export async function readSdaMetrics(database, from, to) {
   };
 }
 
+export async function readUnifiedMetrics(database, from, to) {
+  const live = await database.prepare(`
+    SELECT COUNT(*) AS sessions,
+      SUM(inward_invitation_delivered) AS invitations,
+      SUM(post_inward_invitation_response) AS post_inward_responses,
+      SUM(CASE WHEN highest_attempt_signal IN ('attempt_indicated','attempt_explicitly_reported') THEN 1 ELSE 0 END) AS indicated,
+      SUM(CASE WHEN highest_attempt_signal = 'attempt_explicitly_reported' THEN 1 ELSE 0 END) AS explicit,
+      SUM(CASE WHEN highest_attempt_signal = 'none' THEN 1 ELSE 0 END) AS no_report,
+      SUM(formal_guidance_delivered) AS formal,
+      SUM(daily_life_guidance_delivered) AS daily_life,
+      SUM(CASE WHEN formal_guidance_delivered = 1 OR daily_life_guidance_delivered = 1 THEN 1 ELSE 0 END) AS guidance,
+      SUM(post_attention_guidance_response) AS post_attention_responses,
+      SUM(natural_completion) AS completions
+    FROM unified_sessions WHERE started_at >= ? AND started_at < ?
+  `).bind(from, to).first();
+  const archived = await database.prepare(`
+    SELECT COALESCE(SUM(sessions), 0) AS sessions,
+      COALESCE(SUM(inward_invitations), 0) AS invitations,
+      COALESCE(SUM(post_inward_invitation_responses), 0) AS post_inward_responses,
+      COALESCE(SUM(attempts_indicated), 0) AS indicated,
+      COALESCE(SUM(attempts_explicitly_reported), 0) AS explicit,
+      COALESCE(SUM(no_attempt_report), 0) AS no_report,
+      COALESCE(SUM(formal_guidance_delivered), 0) AS formal,
+      COALESCE(SUM(daily_life_guidance_delivered), 0) AS daily_life,
+      COALESCE(SUM(attention_guidance_delivered), 0) AS guidance,
+      COALESCE(SUM(post_attention_guidance_responses), 0) AS post_attention_responses,
+      COALESCE(SUM(natural_completions), 0) AS completions
+    FROM unified_daily_aggregates WHERE day >= substr(?, 1, 10) AND day < substr(?, 1, 10)
+  `).bind(from, to).first();
+  const attemptRows = await database.prepare(`
+    SELECT first_attempt_turn AS value FROM unified_sessions
+    WHERE started_at >= ? AND started_at < ? AND first_attempt_turn IS NOT NULL
+    ORDER BY first_attempt_turn
+  `).bind(from, to).all();
+  const guidanceRows = await database.prepare(`
+    SELECT first_attention_guidance_turn AS value FROM unified_sessions
+    WHERE started_at >= ? AND started_at < ? AND first_attention_guidance_turn IS NOT NULL
+    ORDER BY first_attention_guidance_turn
+  `).bind(from, to).all();
+  const totals = {};
+  for (const key of ["sessions", "invitations", "post_inward_responses", "indicated", "explicit", "no_report", "formal", "daily_life", "guidance", "post_attention_responses", "completions"]) {
+    totals[key] = number(live?.[key]) + number(archived?.[key]);
+  }
+  const coverage = archived?.sessions ? "retained session records only" : "full selected range";
+  return {
+    range: { from, to }, counts: totals,
+    percentages: {
+      invitations_of_started: percent(totals.invitations, totals.sessions),
+      post_inward_responses_of_invitations: percent(totals.post_inward_responses, totals.invitations),
+      indicated_of_invitations: percent(totals.indicated, totals.invitations),
+      explicit_of_invitations: percent(totals.explicit, totals.invitations),
+      formal_of_started: percent(totals.formal, totals.sessions),
+      daily_life_of_started: percent(totals.daily_life, totals.sessions),
+      post_attention_responses_of_guidance: percent(totals.post_attention_responses, totals.guidance),
+      completions_of_started: percent(totals.completions, totals.sessions)
+    },
+    median_turn_of_first_indication: median((attemptRows?.results || []).map(({ value }) => number(value))),
+    median_turn_of_first_attention_guidance: median((guidanceRows?.results || []).map(({ value }) => number(value))),
+    median_coverage: coverage,
+    note: "These are overlapping conversational milestones, not a required funnel. Reports of trying do not determine whether the inward look succeeded, and guidance delivery does not determine whether attention skills improved."
+  };
+}
+
 export async function archiveExpiredSessions(database, now = new Date(), retentionDays = 90) {
   if (!database) return;
   const cutoff = new Date(now.getTime() - retentionDays * 86_400_000).toISOString().slice(0, 10);
@@ -161,6 +229,35 @@ export async function archiveExpiredSessions(database, now = new Date(), retenti
       natural_completions = excluded.natural_completions
   `).bind(cutoff).run();
   await database.prepare("DELETE FROM sda_sessions WHERE substr(started_at, 1, 10) < ?").bind(cutoff).run();
+  await database.prepare(`
+    INSERT INTO unified_daily_aggregates (
+      day, sessions, inward_invitations, post_inward_invitation_responses,
+      attempts_indicated, attempts_explicitly_reported, no_attempt_report,
+      formal_guidance_delivered, daily_life_guidance_delivered,
+      attention_guidance_delivered, post_attention_guidance_responses, natural_completions
+    )
+    SELECT substr(started_at, 1, 10), COUNT(*),
+      SUM(inward_invitation_delivered), SUM(post_inward_invitation_response),
+      SUM(CASE WHEN highest_attempt_signal IN ('attempt_indicated','attempt_explicitly_reported') THEN 1 ELSE 0 END),
+      SUM(CASE WHEN highest_attempt_signal = 'attempt_explicitly_reported' THEN 1 ELSE 0 END),
+      SUM(CASE WHEN highest_attempt_signal = 'none' THEN 1 ELSE 0 END),
+      SUM(formal_guidance_delivered), SUM(daily_life_guidance_delivered),
+      SUM(CASE WHEN formal_guidance_delivered = 1 OR daily_life_guidance_delivered = 1 THEN 1 ELSE 0 END),
+      SUM(post_attention_guidance_response), SUM(natural_completion)
+    FROM unified_sessions WHERE substr(started_at, 1, 10) < ? GROUP BY substr(started_at, 1, 10)
+    ON CONFLICT(day) DO UPDATE SET sessions = excluded.sessions,
+      inward_invitations = excluded.inward_invitations,
+      post_inward_invitation_responses = excluded.post_inward_invitation_responses,
+      attempts_indicated = excluded.attempts_indicated,
+      attempts_explicitly_reported = excluded.attempts_explicitly_reported,
+      no_attempt_report = excluded.no_attempt_report,
+      formal_guidance_delivered = excluded.formal_guidance_delivered,
+      daily_life_guidance_delivered = excluded.daily_life_guidance_delivered,
+      attention_guidance_delivered = excluded.attention_guidance_delivered,
+      post_attention_guidance_responses = excluded.post_attention_guidance_responses,
+      natural_completions = excluded.natural_completions
+  `).bind(cutoff).run();
+  await database.prepare("DELETE FROM unified_sessions WHERE substr(started_at, 1, 10) < ?").bind(cutoff).run();
 }
 
 function readRange(params) {
@@ -189,7 +286,7 @@ button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-colum
 .card{border:1px solid #8886;border-radius:.5rem;padding:1rem}.value{font-size:2rem;font-variant-numeric:tabular-nums}.detail{color:#666;font-size:.9rem}
 @media(prefers-color-scheme:dark){.detail{color:#bbb}}#status{min-height:1.5rem}.dashboard-section{margin:2.5rem 0}.section-intro{margin:.4rem 0 1.25rem}.note{margin-top:1.5rem;max-width:48rem}.divider{border:0;border-top:1px solid #8886;margin:3rem 0}
 </style></head><body><main><h1>Just One Look — Measurement Dashboard</h1>
-<p>Anonymous aggregate measurement of website activity and both Zero guides.</p>
+<p>Anonymous aggregate measurement of website activity and Zero guidance.</p>
 <form class="controls" id="range" autocomplete="off"><label>From<input type="date" name="from" value="${MEASUREMENT_STARTED_DAY}" required></label><label>Through<input type="date" name="to" required></label><button>Update</button></form>
 <p id="status" role="status"></p>
 <section class="dashboard-section" aria-labelledby="traffic-heading"><h2 id="traffic-heading">Website Traffic</h2>
@@ -205,15 +302,20 @@ button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-colum
 <section class="dashboard-section" aria-labelledby="sda-heading"><h2 id="sda-heading">Self-Directed Attention Zero — Usage</h2>
 <p class="section-intro">Anonymous milestones showing how SDA guidance was delivered and continued. These figures do not determine whether attention skills improved.</p>
 <div class="cards" id="sda-cards" aria-live="polite"></div><p class="note" id="sda-note"></p></section>
+<hr class="divider">
+<section class="dashboard-section" aria-labelledby="unified-heading"><h2 id="unified-heading">Unified Zero — Guidance and Reports</h2>
+<p class="section-intro">Anonymous overlapping milestones for the future unified guide. These figures do not determine whether the inward look succeeded or attention skills improved.</p>
+<div class="cards" id="unified-cards" aria-live="polite"></div><p class="note" id="unified-note"></p></section>
 <script>
-const form=document.querySelector('#range'),status=document.querySelector('#status'),trafficCards=document.querySelector('#traffic-cards'),sourceSection=document.querySelector('#source-section'),sourceCards=document.querySelector('#source-cards'),trafficNote=document.querySelector('#traffic-note'),outcomeCards=document.querySelector('#outcome-cards'),outcomeNote=document.querySelector('#outcome-note'),sdaCards=document.querySelector('#sda-cards'),sdaNote=document.querySelector('#sda-note');
+const form=document.querySelector('#range'),status=document.querySelector('#status'),trafficCards=document.querySelector('#traffic-cards'),sourceSection=document.querySelector('#source-section'),sourceCards=document.querySelector('#source-cards'),trafficNote=document.querySelector('#traffic-note'),outcomeCards=document.querySelector('#outcome-cards'),outcomeNote=document.querySelector('#outcome-note'),sdaCards=document.querySelector('#sda-cards'),sdaNote=document.querySelector('#sda-note'),unifiedCards=document.querySelector('#unified-cards'),unifiedNote=document.querySelector('#unified-note');
 function setDefaultRange(){const today=new Date();form.from.value='${MEASUREMENT_STARTED_DAY}';form.to.value=today.toISOString().slice(0,10)}
 setDefaultRange();window.addEventListener('pageshow',setDefaultRange);
 form.addEventListener('submit',e=>{e.preventDefault();load()});
-async function load(){status.textContent='Loading…';trafficCards.replaceChildren();outcomeCards.replaceChildren();sdaCards.replaceChildren();const q=new URLSearchParams(new FormData(form));try{const [tr,or,sr]=await Promise.all([fetch('/private/website-traffic/api?'+q,{cache:'no-store'}),fetch('/private/looking-zero/api?'+q,{cache:'no-store'}),fetch('/private/self-directed-attention/api?'+q,{cache:'no-store'})]);const [td,od,sd]=await Promise.all([tr.json(),or.json(),sr.json()]);if(!tr.ok)throw new Error(td.error||'Unable to load website traffic.');if(!or.ok)throw new Error(od.error||'Unable to load Looking Zero outcomes.');if(!sr.ok)throw new Error(sd.error||'Unable to load Self-Directed Attention usage.');renderTraffic(td);renderOutcome(od);renderSda(sd);status.textContent='';}catch(e){status.textContent=e.message}}
+async function load(){status.textContent='Loading…';trafficCards.replaceChildren();outcomeCards.replaceChildren();sdaCards.replaceChildren();unifiedCards.replaceChildren();const q=new URLSearchParams(new FormData(form));try{const [tr,or,sr,ur]=await Promise.all([fetch('/private/website-traffic/api?'+q,{cache:'no-store'}),fetch('/private/looking-zero/api?'+q,{cache:'no-store'}),fetch('/private/self-directed-attention/api?'+q,{cache:'no-store'}),fetch('/private/unified-zero/api?'+q,{cache:'no-store'})]);const [td,od,sd,ud]=await Promise.all([tr.json(),or.json(),sr.json(),ur.json()]);if(!tr.ok)throw new Error(td.error||'Unable to load website traffic.');if(!or.ok)throw new Error(od.error||'Unable to load Looking Zero outcomes.');if(!sr.ok)throw new Error(sd.error||'Unable to load Self-Directed Attention usage.');if(!ur.ok)throw new Error(ud.error||'Unable to load Unified Zero measurement.');renderTraffic(td);renderOutcome(od);renderSda(sd);renderUnified(ud);status.textContent='';}catch(e){status.textContent=e.message}}
 function renderTraffic(d){const c=d.counts,p=d.percentages,started=new Date(d.homepage_entrances_started_day+'T00:00:00Z').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});renderCards(trafficCards,[['Homepage views',c.homepage_views,'Page loads, not unique people'],['Homepage entrances',c.homepage_entrances,p.entrances_to_try_it+'% produced a Try It click since '+started+'; not unique people'],['Try It clicks',c.try_it_clicks,p.views_to_try_it+'% of homepage views'],['Looking Zero opened',c.zero_opens,p.try_it_to_zero_open+'% of Try It clicks'],['Looking Zero sessions started',c.zero_session_starts,'Browser-recorded first-message events; may differ slightly from Outcome Measurement sessions']]);const sources=(d.sources||[]).filter(s=>s.implemented!==false||s.count>0);sourceCards.replaceChildren();sourceSection.hidden=!sources.length;if(sources.length)renderCards(sourceCards,sources.map(s=>[s.label,s.count,'Anonymous source-link arrivals']));trafficNote.textContent=d.note}
 function renderOutcome(d){const c=d.counts,p=d.percentages;renderCards(outcomeCards,[['Sessions started',c.sessions,'Worker-recorded anonymous sessions'],['Complete invitation delivered',c.invitations,p.invitations_of_started+'% of sessions'],['Response after invitation',c.post_responses,p.post_responses_of_invitations+'% of invitations'],['Possible indication of trying',c.indicated,p.indicated_of_invitations+'% of complete invitations; includes explicit reports'],['Explicitly reported trying',c.explicit,p.explicit_of_invitations+'% of complete invitations; included in possible indications'],['No recorded indication of trying',c.no_report,'Includes sessions ending before the complete invitation; not evidence that the look did not occur'],['Median visitor turn of first indication',d.median_messages_before_attempt_report??'—','Among sessions with a recorded indication; '+d.median_coverage]]);outcomeNote.textContent=d.note}
 function renderSda(d){const c=d.counts,p=d.percentages;renderCards(sdaCards,[['Sessions started',c.sessions,'Worker-recorded anonymous sessions'],['Directed to Look At Yourself',c.redirected,p.redirected_of_started+'% of sessions'],['SDA guidance delivered',c.guidance,p.guidance_of_started+'% of sessions; formal or daily-life guidance'],['Formal exercise guidance delivered',c.formal,'Actionable formal exercise guidance'],['Daily-life guidance delivered',c.daily_life,'Actionable guidance for ordinary activity'],['Response after SDA guidance',c.post_responses,p.post_responses_of_guidance+'% of sessions receiving guidance'],['Natural completion',c.completions,p.completions_of_started+'% of sessions'],['Median visitor turn of first guidance',d.median_turn_of_first_guidance??'—','Among sessions receiving guidance; '+d.median_coverage]]);sdaNote.textContent=d.note}
+function renderUnified(d){const c=d.counts,p=d.percentages;renderCards(unifiedCards,[['Sessions started',c.sessions,'Worker-recorded anonymous unified sessions'],['Complete inward-looking invitation delivered',c.invitations,p.invitations_of_started+'% of sessions'],['Response after inward-looking invitation',c.post_inward_responses,p.post_inward_responses_of_invitations+'% of sessions receiving the invitation'],['Possible indication of trying',c.indicated,p.indicated_of_invitations+'% of complete invitations; includes explicit reports'],['Explicitly reported trying',c.explicit,p.explicit_of_invitations+'% of complete invitations; included in possible indications'],['Formal attention-exercise guidance delivered',c.formal,p.formal_of_started+'% of sessions'],['Daily-life attention guidance delivered',c.daily_life,p.daily_life_of_started+'% of sessions'],['Response after attention guidance',c.post_attention_responses,p.post_attention_responses_of_guidance+'% of sessions receiving attention guidance'],['Natural completion',c.completions,p.completions_of_started+'% of sessions'],['Median visitor turn of first indication',d.median_turn_of_first_indication??'—','Among sessions with a recorded indication; '+d.median_coverage],['Median visitor turn of first attention guidance',d.median_turn_of_first_attention_guidance??'—','Among sessions receiving attention guidance; '+d.median_coverage]]);unifiedNote.textContent=d.note}
 function renderCards(container,rows){for(const [label,value,detail]of rows){const el=document.createElement('article');el.className='card';const l=document.createElement('div'),v=document.createElement('div'),x=document.createElement('div');l.textContent=label;v.className='value';v.textContent=value;x.className='detail';x.textContent=detail;el.append(l,v,x);container.append(el)}}
 load();
 </script></main></body></html>`;

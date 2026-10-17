@@ -1,6 +1,6 @@
 # Unified Zero Measurement Design
 
-**Status:** Approved direction for implementation; no production behavior changed
+**Status:** Implemented behind the disabled unified endpoint; migration not applied and no production behavior changed
 **Working date:** October 17, 2026
 **Applies to:** The future public unified Zero guide at `/try-it/`
 
@@ -127,7 +127,7 @@ Measurement activation belongs in the same reviewed release as the public unifie
 7. Enable production unified measurement and record the activation date.
 8. Verify dashboard totals, classifier status, retention, and team exclusion.
 
-The Worker deployment and public website publication require explicit approval. This design document alone changes no live behavior.
+The implementation remains inert unless the migration is applied and the unified endpoint is explicitly enabled. Worker deployment, database migration, test activation, and public website publication each require explicit approval.
 
 ## Required implementation validation
 

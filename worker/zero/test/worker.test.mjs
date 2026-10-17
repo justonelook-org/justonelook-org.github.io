@@ -98,6 +98,42 @@ test("records SDA test measurement in its separate table and classifier", async 
     assert.ok(sqlCalls.every(({ sql }) => !/looking_sessions/.test(sql)));
   } finally { globalThis.fetch = originalFetch; }
 });
+test("records unified test measurement only in its separate table and classifier", async () => {
+  const originalFetch = globalThis.fetch;
+  const sqlCalls = [];
+  globalThis.fetch = async (_url, options) => {
+    const body = JSON.parse(options.body);
+    if (body.text?.format?.name === "unified_zero_milestones") {
+      return new Response(JSON.stringify({ output: [{ content: [{ type: "output_text", text: JSON.stringify({
+        inward_invitation_delivered: true, post_inward_invitation_response: false,
+        attempt_signal: "none", formal_guidance_delivered: false,
+        daily_life_guidance_delivered: false, post_attention_guidance_response: false,
+        natural_completion: false
+      }) }] }] }), { status: 200 });
+    }
+    return new Response(JSON.stringify({ output: [{ content: [{ type: "output_text", text: "Turn attention toward the simple feeling of me." }] }] }), { status: 200 });
+  };
+  const database = { prepare(sql) { const call = { sql, values: [] }; sqlCalls.push(call); return {
+    bind(...values) { call.values = values; return this; }, async run() { return { success: true }; },
+    async first() {
+      if (/COUNT\(\*\)/.test(sql)) return { count: 1 };
+      return { inward_invitation_delivered: 0, post_inward_invitation_response: 0, highest_attempt_signal: "none", formal_guidance_delivered: 0, daily_life_guidance_delivered: 0, post_attention_guidance_response: 0, natural_completion: 0 };
+    }
+  }; } };
+  const teamOrigin = "https://website-test-zero.pages.dev";
+  try {
+    const response = await worker.fetch(request(validBody(), { path: "/api/unified-zero", origin: teamOrigin }), {
+      ...baseEnv, ALLOWED_ORIGINS: `${allowedOrigin},${teamOrigin}`, UNIFIED_ZERO_ENABLED: "true",
+      OUTCOME_MEASUREMENT_ENABLED: "test", OUTCOME_TEST_ORIGIN: teamOrigin,
+      OUTCOME_DB: database, OUTCOME_SESSION_SECRET: "a-long-test-session-secret", OPENAI_OUTCOME_API_KEY: "test-outcome-key"
+    });
+    assert.equal(response.status, 200);
+    assert.match(response.headers.get("X-Outcome-Measurement"), /classified-session-recorded/);
+    assert.ok(sqlCalls.some(({ sql }) => /INSERT INTO unified_sessions/.test(sql)));
+    assert.ok(sqlCalls.some(({ sql }) => /UPDATE unified_sessions SET/.test(sql)));
+    assert.ok(sqlCalls.every(({ sql }) => !/looking_sessions|sda_sessions/.test(sql)));
+  } finally { globalThis.fetch = originalFetch; }
+});
 test("does not expose the test-only measurement diagnostic to production origins", async () => {
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async () => new Response(JSON.stringify({
@@ -180,7 +216,7 @@ test("keeps the unified prototype endpoint unavailable unless explicitly enabled
   assert.deepEqual(await response.json(), { error: "Not found." });
 });
 
-test("runs the enabled unified prototype with isolated instructions and no measurement", async () => {
+test("runs the enabled unified prototype with isolated instructions when measurement is disabled", async () => {
   const originalFetch = globalThis.fetch;
   let authorization;
   let openAIBody;
@@ -197,8 +233,8 @@ test("runs the enabled unified prototype with isolated instructions and no measu
     const response = await worker.fetch(request(validBody(), { path: "/api/unified-zero" }), {
       ...baseEnv,
       UNIFIED_ZERO_ENABLED: "true",
-      OUTCOME_MEASUREMENT_ENABLED: "true",
-      OUTCOME_DB: { prepare() { databaseTouched = true; throw new Error("Unified prototype must not measure."); } },
+      OUTCOME_MEASUREMENT_ENABLED: "false",
+      OUTCOME_DB: { prepare() { databaseTouched = true; throw new Error("Disabled measurement must not write."); } },
       OUTCOME_SESSION_SECRET: "test-session-secret",
       OPENAI_OUTCOME_API_KEY: "test-outcome-key"
     });
