@@ -1,5 +1,6 @@
 import lookInstructions from "./generated-instructions.js";
 import sdaInstructions from "./generated-sda-instructions.js";
+import unifiedInstructions from "./generated-unified-instructions.js";
 import { archiveExpiredSessions, handleAnalyticsRequest } from "./analytics.js";
 import { hashSessionId, measureConversation, recordMeasurementError, recordSessionStart } from "./outcome-measurement.js";
 import { measureSdaConversation, recordSdaMeasurementError, recordSdaSessionStart } from "./sda-measurement.js";
@@ -31,6 +32,7 @@ Do not trigger this exception for ordinary references to fear, sadness, illness,
 
 const guides = {
   "/api/look-at-yourself": {
+    experienceType: "looking",
     measurementType: "looking",
     apiKeyName: "OPENAI_API_KEY",
     modelEnvName: "LOOK_MODEL",
@@ -42,6 +44,7 @@ const guides = {
     instructions: lookInstructions + sharedRuntimeInstructions
   },
   "/api/self-directed-attention": {
+    experienceType: "sda",
     measurementType: "sda",
     apiKeyName: "OPENAI_SDA_API_KEY",
     modelEnvName: "SDA_MODEL",
@@ -51,6 +54,19 @@ const guides = {
     limiterKey: "self-directed-attention-guide",
     maxResponses: 12,
     instructions: sdaInstructions + sharedRuntimeInstructions
+  },
+  "/api/unified-zero": {
+    experienceType: "unified",
+    measurementType: null,
+    prototypeFlag: "UNIFIED_ZERO_ENABLED",
+    apiKeyName: "OPENAI_UNIFIED_API_KEY",
+    modelEnvName: "UNIFIED_MODEL",
+    reasoningEnvName: "UNIFIED_REASONING_EFFORT",
+    defaultModel: "gpt-5.6-sol",
+    defaultReasoningEffort: "medium",
+    limiterKey: "unified-zero-prototype",
+    maxResponses: 12,
+    instructions: unifiedInstructions + sharedRuntimeInstructions
   }
 };
 
@@ -69,11 +85,12 @@ export default {
     const origin = request.headers.get("Origin") || "";
     const corsHeaders = getCorsHeaders(origin, env.ALLOWED_ORIGINS);
     const guide = guides[pathname];
+    const guideEnabled = Boolean(guide) && (!guide.prototypeFlag || env[guide.prototypeFlag] === "true");
 
     if (request.method === "OPTIONS") {
-      return guide ? new Response(null, { status: 204, headers: corsHeaders }) : jsonResponse({ error: "Not found." }, 404, corsHeaders);
+      return guideEnabled ? new Response(null, { status: 204, headers: corsHeaders }) : jsonResponse({ error: "Not found." }, 404, corsHeaders);
     }
-    if (request.method !== "POST" || !guide) return jsonResponse({ error: "Not found." }, 404, corsHeaders);
+    if (request.method !== "POST" || !guideEnabled) return jsonResponse({ error: "Not found." }, 404, corsHeaders);
     if (!originIsAllowed(origin, env.ALLOWED_ORIGINS)) return jsonResponse({ error: "This request is not allowed." }, 403, corsHeaders);
 
     const apiKey = env[guide.apiKeyName];

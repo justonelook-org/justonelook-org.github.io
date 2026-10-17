@@ -14,17 +14,36 @@ const env = {
   ALLOWED_ORIGINS: "http://localhost:8000",
   OPENAI_API_KEY: settings.OPENAI_API_KEY,
   OPENAI_SDA_API_KEY: settings.OPENAI_SDA_API_KEY,
-  LOOK_MODEL: readFlag("model"),
-  LOOK_REASONING_EFFORT: readFlag("effort"),
+  OPENAI_UNIFIED_API_KEY: settings.OPENAI_UNIFIED_API_KEY || settings.OPENAI_API_KEY,
+  UNIFIED_ZERO_ENABLED: "true",
   SESSION_RATE_LIMITER: { limit: async () => ({ success: true }) },
   PILOT_RATE_LIMITER: { limit: async () => ({ success: true }) }
 };
 
-const guide = process.argv[2] === "sda" ? "self-directed-attention" : "look-at-yourself";
+const guideArgument = process.argv[2];
+const guide = guideArgument === "sda"
+  ? "self-directed-attention"
+  : guideArgument === "unified"
+    ? "unified-zero"
+    : "look-at-yourself";
+const model = readFlag("model");
+const reasoningEffort = readFlag("effort");
+if (guide === "self-directed-attention") {
+  env.SDA_MODEL = model;
+  env.SDA_REASONING_EFFORT = reasoningEffort;
+} else if (guide === "unified-zero") {
+  env.UNIFIED_MODEL = model;
+  env.UNIFIED_REASONING_EFFORT = reasoningEffort;
+} else {
+  env.LOOK_MODEL = model;
+  env.LOOK_REASONING_EFFORT = reasoningEffort;
+}
 const customPrompt = process.argv.slice(3).filter((value) => value !== "--show" && !value.startsWith("--model=") && !value.startsWith("--effort=")).join(" ").trim();
 const prompt = customPrompt || (guide === "self-directed-attention"
   ? "Yes, I have performed the inward look. I am new to the exercise."
-  : "Hello");
+  : guide === "unified-zero"
+    ? "Can you guide me?"
+    : "Hello");
 
 const request = new Request(`http://local-zero.test/api/${guide}`, {
   method: "POST",
@@ -45,8 +64,8 @@ const body = await response.json();
 console.log(JSON.stringify({
   status: response.status,
   guide,
-  model: env.LOOK_MODEL || (guide === "look-at-yourself" ? "gpt-5.6-sol" : "gpt-5.6-terra"),
-  reasoningEffort: env.LOOK_REASONING_EFFORT || (guide === "look-at-yourself" ? "medium" : "none"),
+  model: model || "gpt-5.6-sol",
+  reasoningEffort: reasoningEffort || "medium",
   receivedReply: typeof body.message === "string" && body.message.length > 0,
   replyLength: typeof body.message === "string" ? body.message.length : 0,
   error: body.error || null,

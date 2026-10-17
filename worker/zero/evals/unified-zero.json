@@ -1,0 +1,198 @@
+[
+  {
+    "id": "direct-guidance-new-visitor",
+    "expected_focus": "inward_look",
+    "messages": [{ "role": "user", "content": "Can you guide me?" }],
+    "should": ["Guide naturally and promptly toward the immediate feeling of me", "Use only enough language to make the inward movement of attention possible"],
+    "should_not": ["Require a preliminary attention lesson", "Explain the whole method", "Give the formal Self-Directed Attention Exercise"]
+  },
+  {
+    "id": "attention-movement-clarification",
+    "expected_focus": "attention_clarification",
+    "messages": [{ "role": "user", "content": "I don't understand what it means to move attention." }],
+    "should": ["Clarify deliberate movement of attention in ordinary concrete language", "Connect the clarification directly to turning attention toward the feeling of me"],
+    "should_not": ["Turn attention into an abstract theory", "Require a separate introductory course", "Give formal breath-counting guidance"]
+  },
+  {
+    "id": "inward-object-clarification",
+    "expected_focus": "inward_look",
+    "messages": [{ "role": "user", "content": "What exactly should I direct my attention toward?" }],
+    "should": ["Identify the simple immediate feeling of being you followed by what the visitor would call me, or simply the feeling of me", "Keep the object distinct from thoughts, emotions, body, story, and imagery only as relevant"],
+    "should_not": ["Leave the feeling of you standing alone without me", "List every possible contrast", "Introduce SDA"]
+  },
+  {
+    "id": "ready-to-look-immediately",
+    "expected_focus": "inward_look",
+    "messages": [{ "role": "user", "content": "I understand how to move attention. Please guide me to look at myself." }],
+    "should": ["Proceed directly to the inward-looking invitation", "Keep the object and practical action precise"],
+    "should_not": ["Repeat an elementary demonstration of attention", "Ask unnecessary intake questions", "Explain later stages"]
+  },
+  {
+    "id": "whole-method-request-starts-one-step-at-a-time",
+    "expected_focus": "inward_look",
+    "messages": [{ "role": "user", "content": "Teach me the whole Just One Look Method from beginning to end." }],
+    "should": ["Begin with the single relevant act rather than presenting a curriculum", "Guide the inward look before any SDA instruction"],
+    "should_not": ["Deliver both complete practices in one response", "Give a five-stage lecture", "Promise results"]
+  },
+  {
+    "id": "formal-exercise-prerequisite-unknown",
+    "expected_focus": "prerequisite_question",
+    "messages": [{ "role": "user", "content": "Can you teach me the formal exercise?" }],
+    "should": ["Ask one brief natural question about whether the visitor has already looked at the feeling of me", "Keep the prerequisite question non-evaluative"],
+    "should_not": ["Start the formal exercise without establishing Step One", "Send the visitor to another guide", "Ask them to prove or describe success"]
+  },
+  {
+    "id": "formal-exercise-prior-look-reported",
+    "expected_focus": "formal_exercise",
+    "messages": [{ "role": "user", "content": "I have already looked at the feeling of me. Please teach me the formal exercise." }],
+    "should": ["Accept the report without testing it", "Give complete formal-exercise guidance suitable for a new learner"],
+    "should_not": ["Require the inward look again", "Ask whether it worked", "Redirect to another page"]
+  },
+  {
+    "id": "formal-exercise-prerequisite-no",
+    "expected_focus": "inward_look",
+    "messages": [
+      { "role": "user", "content": "Can you teach me the formal exercise?" },
+      { "role": "assistant", "content": "Have you already directed attention toward the simple feeling of being you—what you would call me?" },
+      { "role": "user", "content": "No, I haven't." }
+    ],
+    "should": ["Guide the inward look within the same conversation", "Keep the guidance simple and immediate"],
+    "should_not": ["Send the visitor to another guide", "Teach the formal exercise yet", "Give both complete instructions together"]
+  },
+  {
+    "id": "formal-exercise-prerequisite-unsure",
+    "expected_focus": "inward_look",
+    "messages": [
+      { "role": "user", "content": "I want the attention exercise." },
+      { "role": "assistant", "content": "Have you already looked directly at the feeling of me?" },
+      { "role": "user", "content": "I'm not sure." }
+    ],
+    "should": ["Clarify and guide the inward look without treating uncertainty as failure", "Remain with Step One until the practical act is clear enough to try"],
+    "should_not": ["Demand certainty", "Start breath counting immediately", "Refer to a separate guide"]
+  },
+  {
+    "id": "space-after-invitation",
+    "expected_focus": "space_after_invitation",
+    "messages": [
+      { "role": "user", "content": "Can you guide me?" },
+      { "role": "assistant", "content": "Turn your attention toward the simple immediate feeling of being you—what you would call me." },
+      { "role": "user", "content": "Okay." }
+    ],
+    "should": ["Respond briefly to the visitor's actual acknowledgment", "Leave space without manufacturing a next stage"],
+    "should_not": ["Automatically introduce SDA", "Assume or declare success", "Repeat the complete inward instruction"]
+  },
+  {
+    "id": "conceptual-response-after-invitation",
+    "expected_focus": "inward_look",
+    "messages": [
+      { "role": "user", "content": "Can you guide me?" },
+      { "role": "assistant", "content": "Direct your attention toward the feeling of being you—what you would call me." },
+      { "role": "user", "content": "I understand the concept." }
+    ],
+    "should": ["When useful, ask simply whether the visitor tried looking just now", "Treat any answer only as a report of trying"],
+    "should_not": ["Ask whether it worked", "Advance to SDA because of conceptual understanding", "Use a multi-question assessment"]
+  },
+  {
+    "id": "no-special-result-does-not-rush",
+    "expected_focus": "space_after_invitation",
+    "messages": [
+      { "role": "user", "content": "I tried looking at the feeling of me, but nothing special happened." }
+    ],
+    "should": ["Clarify that nothing special had to happen and certainty is not required", "Respond to the report without interpreting it"],
+    "should_not": ["Promise later effects", "Treat the report as failure", "Automatically begin the formal exercise"]
+  },
+  {
+    "id": "reported-look-asks-what-next",
+    "expected_focus": "transition_to_sda",
+    "messages": [{ "role": "user", "content": "I looked at the feeling of me. What should I do next?" }],
+    "should": ["Accept the report without judging success", "Say directly that the best next step is to start working with attention", "Introduce a simple attention exercise for learning to direct attention deliberately", "Offer or begin only the next appropriate instruction"],
+    "should_not": ["Demand an experience report", "Send the visitor away before answering", "Deliver the entire formal and daily-life program at once"]
+  },
+  {
+    "id": "reported-look-direct-daily-life-request",
+    "expected_focus": "daily_life",
+    "messages": [{ "role": "user", "content": "I have done the inward look. How do I use attention when I get caught in useless thoughts during the day?" }],
+    "should": ["Accept the prior-look report", "Answer the daily-life question directly", "Describe intentional redirection without constant monitoring"],
+    "should_not": ["Require the formal exercise first", "Repeat Step One", "Turn daily life into breath counting"]
+  },
+  {
+    "id": "new-formal-exercise-complete",
+    "expected_focus": "formal_exercise",
+    "messages": [{ "role": "user", "content": "I have done the inward look but I have never learned the formal exercise. Guide me." }],
+    "should": ["Give the complete formal practice using the natural breath at the nostrils", "Include outbreath counting from 1 to 10 and restarting at 1 after distraction", "Frame deliberate return as the training"],
+    "should_not": ["Call the practice meditation or mindfulness", "Treat distraction as failure", "Promise calm or mental silence"]
+  },
+  {
+    "id": "experienced-formal-refresh",
+    "expected_focus": "formal_exercise",
+    "messages": [{ "role": "user", "content": "I've looked and I already know the formal exercise. Give me a quick reminder." }],
+    "should": ["Give a concise refresher matched to prior experience", "Preserve the natural-breath, nostrils, counting, and return essentials"],
+    "should_not": ["Repeat the full beginner explanation", "Question whether the visitor really knows it", "Return to Step One"]
+  },
+  {
+    "id": "focused-distraction-question",
+    "expected_focus": "formal_exercise",
+    "messages": [{ "role": "user", "content": "I've looked and know the formal exercise, but I keep getting distracted and think I am failing." }],
+    "should": ["Answer the focused difficulty directly", "Explain that noticing and deliberately returning is the training"],
+    "should_not": ["Repeat the complete exercise", "Teach suppression", "Promise a silent mind"]
+  },
+  {
+    "id": "daily-life-not-continuous-control",
+    "expected_focus": "daily_life",
+    "messages": [{ "role": "user", "content": "After looking, should I monitor and control my attention every moment?" }],
+    "should": ["Clarify that daily-life self-directed attention is not continuous monitoring", "Describe deliberate movement when it is useful"],
+    "should_not": ["Recommend constant vigilance", "Turn daily life into another formal technique", "Tell the visitor to suppress thoughts"]
+  },
+  {
+    "id": "effects-question-before-look",
+    "expected_focus": "inward_look",
+    "messages": [{ "role": "user", "content": "Will this attention exercise remove my anxiety?" }],
+    "should": ["Acknowledge the question without predicting an outcome", "Remain with enough practical guidance to make the inward look possible"],
+    "should_not": ["Promise relief", "Offer therapy", "Use benefits as persuasion", "Start SDA"]
+  },
+  {
+    "id": "theory-question-after-reported-look",
+    "expected_focus": "website_handoff",
+    "messages": [{ "role": "user", "content": "I tried looking at the feeling of me. Why is that supposed to change anything?" }],
+    "should": ["Acknowledge the reported attempt without judging it", "Refer the wider theory question naturally to the linked Just One Look website"],
+    "should_not": ["Invent a causal explanation", "Promise an effect", "Force SDA into an unrelated question"]
+  },
+  {
+    "id": "comparison-question-remains-practical",
+    "expected_focus": "formal_exercise",
+    "messages": [{ "role": "user", "content": "I've looked at me. Is the formal exercise basically meditation?" }],
+    "should": ["Answer the comparison briefly", "Clarify the exercise's practical distinctions and return to the requested guidance"],
+    "should_not": ["Start a general discussion of meditation", "Use spiritual framing", "Avoid the actual question"]
+  },
+  {
+    "id": "brief-thanks-stays-open",
+    "expected_focus": "conversation_open",
+    "messages": [
+      { "role": "user", "content": "I've looked. How do I use attention in daily life?" },
+      { "role": "assistant", "content": "When attention is caught in useless mental activity, deliberately return it to what you are doing or what matters now. This is not constant monitoring." },
+      { "role": "user", "content": "Thanks, I understand." }
+    ],
+    "should": ["Acknowledge the visitor naturally", "Leave room for another question without adding instruction"],
+    "should_not": ["Assume explicit completion", "Link to the website", "Repeat daily-life guidance"]
+  },
+  {
+    "id": "explicit-completion-closes",
+    "expected_focus": "completion",
+    "messages": [
+      { "role": "user", "content": "I've looked and understand the formal exercise." },
+      { "role": "assistant", "content": "When distraction is noticed, return attention to the sensation of breathing and restart the count at 1." },
+      { "role": "user", "content": "That is everything I needed. Goodbye." }
+    ],
+    "should": ["Close naturally", "Link the Just One Look website as the broader home of the method", "Allow the possibility of returning when natural"],
+    "should_not": ["Continue teaching", "Introduce another stage", "Use a fixed closing script"]
+  },
+  {
+    "id": "open-question-prevents-closing",
+    "expected_focus": "daily_life",
+    "messages": [
+      { "role": "user", "content": "I've looked and know the exercise. How do I remember to move attention during a busy day?" }
+    ],
+    "should": ["Answer the genuine daily-life question directly", "Keep the conversation open for focused clarification"],
+    "should_not": ["Close instead of answering", "Link to the website as a substitute for guidance", "Prescribe constant self-monitoring"]
+  }
+]

@@ -7,6 +7,7 @@ const baseEnv = {
   ALLOWED_ORIGINS: allowedOrigin,
   OPENAI_API_KEY: "test-openai-key",
   OPENAI_SDA_API_KEY: "test-sda-key",
+  OPENAI_UNIFIED_API_KEY: "test-unified-key",
   OUTCOME_MEASUREMENT_ENABLED: "false",
   SESSION_RATE_LIMITER: { limit: async () => ({ success: true }) },
   PILOT_RATE_LIMITER: { limit: async () => ({ success: true }) }
@@ -168,6 +169,48 @@ test("allows the public Looking guide without exposing an invitation code", asyn
   try {
     const response = await worker.fetch(request(validBody(), { omitAuthorization: true }), baseEnv);
     assert.equal(response.status, 200);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("keeps the unified prototype endpoint unavailable unless explicitly enabled", async () => {
+  const response = await worker.fetch(request(validBody(), { path: "/api/unified-zero" }), baseEnv);
+  assert.equal(response.status, 404);
+  assert.deepEqual(await response.json(), { error: "Not found." });
+});
+
+test("runs the enabled unified prototype with isolated instructions and no measurement", async () => {
+  const originalFetch = globalThis.fetch;
+  let authorization;
+  let openAIBody;
+  let databaseTouched = false;
+  globalThis.fetch = async (_url, options) => {
+    authorization = options.headers.Authorization;
+    openAIBody = JSON.parse(options.body);
+    return new Response(JSON.stringify({
+      output: [{ content: [{ type: "output_text", text: "Turn attention toward the simple feeling of me." }] }]
+    }), { status: 200, headers: { "Content-Type": "application/json" } });
+  };
+
+  try {
+    const response = await worker.fetch(request(validBody(), { path: "/api/unified-zero" }), {
+      ...baseEnv,
+      UNIFIED_ZERO_ENABLED: "true",
+      OUTCOME_MEASUREMENT_ENABLED: "true",
+      OUTCOME_DB: { prepare() { databaseTouched = true; throw new Error("Unified prototype must not measure."); } },
+      OUTCOME_SESSION_SECRET: "test-session-secret",
+      OPENAI_OUTCOME_API_KEY: "test-outcome-key"
+    });
+    assert.equal(response.status, 200);
+    assert.equal(authorization, "Bearer test-unified-key");
+    assert.equal(openAIBody.store, false);
+    assert.equal(openAIBody.model, "gpt-5.6-sol");
+    assert.equal(openAIBody.reasoning.effort, "medium");
+    assert.match(openAIBody.instructions, /Unified Zero Guide/);
+    assert.match(openAIBody.instructions, /one instruction at a time/i);
+    assert.match(openAIBody.instructions, /SHARED RUNTIME INSTRUCTIONS/);
+    assert.equal(databaseTouched, false);
   } finally {
     globalThis.fetch = originalFetch;
   }

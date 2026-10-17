@@ -6,6 +6,7 @@ node_modules/
 .wrangler/
 worker/zero/src/generated-instructions.js
 worker/zero/src/generated-sda-instructions.js
+worker/zero/src/generated-unified-instructions.js
 /output/
 /tmp/
 /.pnpm-store/
