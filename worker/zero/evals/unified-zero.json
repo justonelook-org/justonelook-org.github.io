@@ -49,8 +49,8 @@
       { "role": "assistant", "content": "Have you already tried looking directly at the feeling of me?" },
       { "role": "user", "content": "Yes, I have tried it." }
     ],
-    "should": ["Accept the report without evaluating it", "Explain briefly that looking at yourself and working with attention use the same ability to direct attention", "Distinguish loosely between the structured exercise and ordinary daily-life use before asking which is useful"],
-    "should_not": ["Throw the visitor directly into the complete formal exercise", "Reduce the inward look to an ordinary attention exercise", "Give both complete forms at once"]
+    "should": ["Accept the report without evaluating it", "Explain briefly that the attention exercise builds on the same ability used when looking at oneself", "Describe it as a short structured practice intended to make deliberate movement of attention easier in daily life", "Offer to guide the exercise now"],
+    "should_not": ["Ask the visitor to choose again between formal practice and daily-life use", "Throw the visitor directly into the complete formal exercise", "Reduce the inward look to an ordinary attention exercise", "Turn the bridge into a conceptual summary or menu"]
   },
   {
     "id": "formal-exercise-prior-look-reported",

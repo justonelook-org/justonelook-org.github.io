@@ -586,7 +586,7 @@ Initial human review produced two presentation refinements:
 - the interface now uses only two starters: “How do I look at myself?” and “Learn the attention exercise.” The first begins by making deliberate movement of attention concrete and then guides the inward look. The second first asks whether the inward look has been tried;
 - the next practice is first introduced as “a simple attention exercise for learning to direct attention deliberately.” The shorter term “the formal exercise” is reserved for later use when distinguishing structured practice from attention in daily life.
 
-When a visitor confirms prior looking after choosing the attention-exercise starter, Zero briefly explains that both parts of the method use the same natural ability to direct attention. It then distinguishes the structured exercise from ordinary daily-life use and lets the visitor's need determine which guidance comes next, rather than immediately launching the complete formal practice.
+When a visitor confirms prior looking after choosing the attention-exercise starter, Zero respects the request already made rather than presenting another choice. It briefly explains that the exercise builds on the same ability used when looking at oneself and that the short structured practice is intended to make deliberate movement of attention easier in daily life. Zero then offers to guide the exercise, without immediately launching its complete instructions or turning the bridge into a menu.
 
 Live checks confirmed that a general continuation request now receives the plain-language introduction and offer, while a direct request to begin receives the complete attention exercise before later references use “formal exercise.”
 

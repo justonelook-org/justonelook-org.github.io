@@ -45,9 +45,10 @@ test("routes an SDA request through one non-evaluative prerequisite", () => {
   assert.match(instructions, /do not answer an effects question merely by asking whether they have looked/i);
   assert.match(instructions, /first introduction.*simple attention exercise for learning to direct attention deliberately/is);
   assert.match(instructions, /Do not introduce it merely as [“"]the formal exercise/is);
-  assert.match(instructions, /same natural ability to direct attention deliberately/i);
-  assert.match(instructions, /two related forms—a structured exercise.*ordinary daily life/is);
-  assert.match(instructions, /Do not throw a visitor directly into the complete formal exercise/i);
+  assert.match(instructions, /builds on the same ability they used when looking at themselves/i);
+  assert.match(instructions, /short, structured practice intended to make that movement easier to use in daily life/i);
+  assert.match(instructions, /do not ask them to choose between formal practice and daily-life use/i);
+  assert.match(instructions, /offer to guide them through it/i);
 });
 
 test("retains the complete formal exercise and its daily-life distinction", () => {

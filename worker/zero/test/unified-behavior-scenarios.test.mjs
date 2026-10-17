@@ -50,6 +50,8 @@ test("protects the two-starter routing and bridges attention without rushing", (
   assert.equal(lookingStarter.messages[0].content, "How do I look at myself?");
   assert.equal(attentionStarter.messages[0].content, "Learn the attention exercise");
   assert.match(attentionStarter.should.join(" "), /Before explaining.*ask/i);
-  assert.match(bridge.should.join(" "), /same ability to direct attention/i);
+  assert.match(bridge.should.join(" "), /same ability used when looking at oneself/i);
+  assert.match(bridge.should.join(" "), /Offer to guide the exercise now/i);
+  assert.match(bridge.should_not.join(" "), /choose again/i);
   assert.match(bridge.should_not.join(" "), /directly into the complete formal exercise/i);
 });
