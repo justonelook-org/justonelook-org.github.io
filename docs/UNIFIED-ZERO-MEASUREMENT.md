@@ -32,6 +32,7 @@ Unified measurement keeps the existing privacy boundaries:
 - active conversation text is sent temporarily to a dedicated storage-disabled classifier only at selected measurement points;
 - individual session rows are converted after 90 days to anonymous UTC daily totals and deleted;
 - team/test origins remain excluded from production measurement;
+- unified measurement has its own enable mode, allowing test-only activation without changing the live Looking and SDA measurement mode;
 - measurement failure never interrupts the visitor's guide.
 
 ## Observable milestones

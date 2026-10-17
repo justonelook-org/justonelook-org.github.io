@@ -84,6 +84,8 @@ Outcome measurement is controlled by `OUTCOME_MEASUREMENT_ENABLED` in `wrangler.
 
 The production configuration is currently `"true"`. In this mode, the exact `OUTCOME_TEST_ORIGIN` is excluded so JOL team testing does not enter the production dashboard. Changing the repository file has no effect until the Worker is deployed.
 
+Unified measurement is controlled independently by `UNIFIED_MEASUREMENT_ENABLED` using the same three modes and test origin. Its production configuration remains `"false"`. This allows controlled unified testing without interrupting or changing the live Looking and SDA measurements.
+
 Required Cloudflare resources and secrets:
 
 - D1 binding: `OUTCOME_DB`
