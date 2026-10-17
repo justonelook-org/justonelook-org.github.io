@@ -113,10 +113,13 @@ export default {
     if (!sessionLimit.success || !guideLimit.success) return jsonResponse({ error: "Please leave a little space before trying again." }, 429, corsHeaders);
 
     let measurementSessionHash = "";
+    const measurementMode = guide.measurementType === "unified"
+      ? env.UNIFIED_MEASUREMENT_ENABLED
+      : env.OUTCOME_MEASUREMENT_ENABLED;
     const outcomeMeasurementEnabled = outcomeMeasurementAllowed(
-      env.OUTCOME_MEASUREMENT_ENABLED, origin, env.OUTCOME_TEST_ORIGIN
+      measurementMode, origin, env.OUTCOME_TEST_ORIGIN
     );
-    const diagnosticHeaderEnabled = env.OUTCOME_MEASUREMENT_ENABLED === "test" && origin === env.OUTCOME_TEST_ORIGIN;
+    const diagnosticHeaderEnabled = measurementMode === "test" && origin === env.OUTCOME_TEST_ORIGIN;
     let measurementStatus = outcomeMeasurementEnabled ? "eligible" : "disabled";
     let measurementError = "";
     if (guide.measurementType && outcomeMeasurementEnabled && env.OUTCOME_DB && env.OUTCOME_SESSION_SECRET) {

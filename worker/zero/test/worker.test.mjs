@@ -124,7 +124,7 @@ test("records unified test measurement only in its separate table and classifier
   try {
     const response = await worker.fetch(request(validBody(), { path: "/api/unified-zero", origin: teamOrigin }), {
       ...baseEnv, ALLOWED_ORIGINS: `${allowedOrigin},${teamOrigin}`, UNIFIED_ZERO_ENABLED: "true",
-      OUTCOME_MEASUREMENT_ENABLED: "test", OUTCOME_TEST_ORIGIN: teamOrigin,
+      UNIFIED_MEASUREMENT_ENABLED: "test", OUTCOME_TEST_ORIGIN: teamOrigin,
       OUTCOME_DB: database, OUTCOME_SESSION_SECRET: "a-long-test-session-secret", OPENAI_OUTCOME_API_KEY: "test-outcome-key"
     });
     assert.equal(response.status, 200);
@@ -216,7 +216,7 @@ test("keeps the unified prototype endpoint unavailable unless explicitly enabled
   assert.deepEqual(await response.json(), { error: "Not found." });
 });
 
-test("runs the enabled unified prototype with isolated instructions when measurement is disabled", async () => {
+test("keeps unified measurement disabled while legacy production measurement remains enabled", async () => {
   const originalFetch = globalThis.fetch;
   let authorization;
   let openAIBody;
@@ -233,7 +233,8 @@ test("runs the enabled unified prototype with isolated instructions when measure
     const response = await worker.fetch(request(validBody(), { path: "/api/unified-zero" }), {
       ...baseEnv,
       UNIFIED_ZERO_ENABLED: "true",
-      OUTCOME_MEASUREMENT_ENABLED: "false",
+      OUTCOME_MEASUREMENT_ENABLED: "true",
+      UNIFIED_MEASUREMENT_ENABLED: "false",
       OUTCOME_DB: { prepare() { databaseTouched = true; throw new Error("Disabled measurement must not write."); } },
       OUTCOME_SESSION_SECRET: "test-session-secret",
       OPENAI_OUTCOME_API_KEY: "test-outcome-key"

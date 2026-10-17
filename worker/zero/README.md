@@ -8,7 +8,7 @@ For the short internal note telling the JOL team where to test without affecting
 
 For the privacy-first website traffic section, event definitions, and maintenance boundaries, see [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md).
 
-The service code includes separate anonymous measurement layers for Looking Zero, Self-Directed Attention Zero, and the feature-gated unified prototype. The deployed configuration enables measurement for allowed production origins after the corresponding database migrations are applied. `OUTCOME_MEASUREMENT_ENABLED` supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins. The unified endpoint itself remains unavailable unless `UNIFIED_ZERO_ENABLED` is explicitly set to `"true"`.
+The service code includes separate anonymous measurement layers for Looking Zero, Self-Directed Attention Zero, and the feature-gated unified prototype. The deployed configuration enables measurement for allowed production origins after the corresponding database migrations are applied. `OUTCOME_MEASUREMENT_ENABLED` controls the historical Looking and SDA measurements. `UNIFIED_MEASUREMENT_ENABLED` independently controls unified measurement. Each supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins. The unified endpoint itself remains unavailable unless `UNIFIED_ZERO_ENABLED` is explicitly set to `"true"`.
 
 ## Before the Zero service can run
 
@@ -61,7 +61,7 @@ Unified measurement retains the conservative inward-look report categories and t
 6. Generate a separate random private-dashboard password and add it with `pnpm exec wrangler secret put ANALYTICS_ACCESS_TOKEN`.
 7. Confirm that the private dashboard's HTTP Basic authentication and private-route rate limiting are working. Cloudflare Access can be added later as a stronger outer authentication layer.
 8. Open `/private/looking-zero` and sign in with username `analytics` and the private-dashboard password.
-9. Use `OUTCOME_MEASUREMENT_ENABLED: "test"` with the exact controlled `OUTCOME_TEST_ORIGIN` when a limited evaluation is needed. Use `"false"` to disable collection and `"true"` only for approved production measurement.
+9. Use the relevant measurement switch in `"test"` mode with the exact controlled `OUTCOME_TEST_ORIGIN` when a limited evaluation is needed. Keep `UNIFIED_MEASUREMENT_ENABLED` set to `"false"` until unified measurement testing is approved. Changing its mode does not change the historical Looking and SDA measurement mode.
 
 The daily Cron Trigger archives session rows after 90 days into anonymous daily totals, then deletes the session rows. Historical aggregates remain available; median-message calculations cover only retained session rows.
 
