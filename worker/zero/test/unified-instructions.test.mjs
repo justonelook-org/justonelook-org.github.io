@@ -9,6 +9,7 @@ const localServerUrl = new URL("../scripts/local-server.mjs", import.meta.url);
 const liveProbeUrl = new URL("../scripts/test-live.mjs", import.meta.url);
 const evaluatorUrl = new URL("../scripts/evaluate-unified.mjs", import.meta.url);
 const localPageUrl = new URL("../scripts/local-unified-page.mjs", import.meta.url);
+const sharedGuideScriptUrl = new URL("../../../assets/js/zero-guide.js", import.meta.url);
 
 const instructions = await readFile(instructionsUrl, "utf8");
 const productionLooking = await readFile(productionLookingUrl, "utf8");
@@ -17,6 +18,7 @@ const localServer = await readFile(localServerUrl, "utf8");
 const liveProbe = await readFile(liveProbeUrl, "utf8");
 const evaluator = await readFile(evaluatorUrl, "utf8");
 const localPage = await readFile(localPageUrl, "utf8");
+const sharedGuideScript = await readFile(sharedGuideScriptUrl, "utf8");
 
 test("keeps the unified instructor explicitly non-production", () => {
   assert.match(instructions, /Non-production team-test prototype/);
@@ -98,14 +100,19 @@ test("provides a credential-safe full behavioral evaluation harness", () => {
 test("keeps the human prototype private, ephemeral, and explicit about test measurement", () => {
   assert.match(localServer, /\/__local\/unified-zero/);
   assert.match(localServer, /X-Robots-Tag.*noindex, nofollow, noarchive/);
-  assert.match(localPage, /Nothing here is measured or saved/);
+  assert.match(localPage, /nothing here is measured or saved/i);
   assert.match(localPage, /Anonymous guidance milestones are measured; conversation text is not stored/);
-  assert.match(localPage, /website-test-zero\.pages\.dev/);
   assert.match(localPage, /\/api\/unified-zero/);
-  assert.match(localPage, /crypto\.randomUUID\(\)/);
-  assert.match(localPage, /node\.textContent=content/);
-  assert.doesNotMatch(localPage, /localStorage|sessionStorage|document\.cookie|indexedDB/);
+  assert.match(sharedGuideScript, /crypto\.randomUUID\(\)/);
+  assert.match(sharedGuideScript, /createTextNode/);
+  assert.doesNotMatch(localPage + sharedGuideScript, /localStorage|sessionStorage|document\.cookie|indexedDB/);
   assert.doesNotMatch(localPage, /analytics|\/api\/traffic/);
+  assert.match(localPage, /assets\/css\/zero-guide\.css/);
+  assert.match(localPage, /assets\/js\/zero-guide\.js/);
+  assert.match(localPage, /assets\/brand\/jol-logo\.jpg/);
+  assert.match(localPage, /data-api-endpoint="https:\/\/look-at-yourself-api\.look-at-yourself-worker\.workers\.dev\/api\/unified-zero"/);
+  assert.match(localPage, /data-local-endpoint="\/api\/unified-zero"/);
+  assert.doesNotMatch(localPage, /anonymous-traffic\.js/);
   for (const starter of ["How do I look at myself?", "I have looked. Then what?"]) {
     assert.match(localPage, new RegExp(`data-starter="${starter.replace(/[?]/g, "\\?")}"`));
   }
