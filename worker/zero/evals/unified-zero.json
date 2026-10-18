@@ -3,29 +3,40 @@
     "id": "direct-guidance-new-visitor",
     "expected_focus": "inward_look",
     "messages": [{ "role": "user", "content": "How do I look at myself?" }],
-    "should": ["Use a warm and lightly curious tone", "Show briefly and concretely that the visitor can deliberately move attention", "Connect that movement promptly to the simple feeling of being you followed by what the visitor would call me and the one they call themselves"],
+    "should": ["Use a warm and lightly curious tone", "Show briefly and concretely that the visitor can deliberately move attention", "Connect that movement promptly to the simple feeling of being you followed by what the visitor would call me"],
     "should_not": ["Leave the feeling of me or the feeling that you are here standing alone", "Require a preliminary attention lesson", "Explain the whole method", "Give the formal Self-Directed Attention Exercise", "Sound mystical, promotional, or guru-like"]
   },
   {
     "id": "attention-movement-clarification",
     "expected_focus": "attention_clarification",
     "messages": [{ "role": "user", "content": "I don't understand what it means to move attention." }],
-    "should": ["Clarify deliberate movement of attention in ordinary concrete language", "Connect the clarification directly to the simple feeling of being you followed by what the visitor would call me and the one they call themselves"],
+    "should": ["Clarify deliberate movement of attention in ordinary concrete language", "Connect the clarification directly to the simple feeling of being you followed by what the visitor would call me"],
     "should_not": ["Leave the feeling of me standing alone", "Turn attention into an abstract theory", "Require a separate introductory course", "Give formal breath-counting guidance"]
   },
   {
     "id": "looked-starter-gentle-verification",
     "expected_focus": "prerequisite_question",
     "messages": [{ "role": "user", "content": "I have looked. Then what?" }],
-    "should": ["Gently ask once whether the visitor tried looking directly at the simple feeling of being you followed by what they would call me and the one they call themselves", "Let the question clarify the inward look without evaluating it"],
+    "should": ["Gently ask once whether the visitor tried looking directly at the simple feeling of being you followed by what they would call me", "Let the question clarify the inward look without evaluating it"],
     "should_not": ["Assume that clicking the starter proves the inward look was tried", "Ask whether it worked or request an experience report", "Begin or explain the complete attention exercise"]
+  },
+  {
+    "id": "looked-starter-yes-continues-original-request",
+    "expected_focus": "transition_to_sda",
+    "messages": [
+      { "role": "user", "content": "I have looked. Then what?" },
+      { "role": "assistant", "content": "Did you try looking directly at the feeling of being you—what you would call me?" },
+      { "role": "user", "content": "Yes, I tried." }
+    ],
+    "should": ["Accept the report without evaluating it", "Briefly reassure that nothing special or certain was required", "Remember and answer the original request by introducing working with attention as the best next step", "Connect the next step to the same ability used in looking and offer to guide the short attention exercise"],
+    "should_not": ["Stop after acknowledging the report", "Forget the visitor's original then-what request", "Ask what the visitor wants to do next", "Begin the complete attention exercise without acceptance"]
   },
   {
     "id": "inward-object-clarification",
     "expected_focus": "inward_look",
     "messages": [{ "role": "user", "content": "What exactly should I direct my attention toward?" }],
-    "should": ["Identify the simple immediate feeling of being you followed by what the visitor would call me and the one they call themselves", "Keep the object distinct from thoughts, emotions, body, story, and imagery only as relevant"],
-    "should_not": ["Shorten the object to the feeling of me or leave the feeling of you standing alone", "List every possible contrast", "Introduce SDA"]
+    "should": ["Identify the simple immediate feeling of being you followed by what the visitor would call me, or use the one you call yourself as a lighter reminder if the meaning is already established", "Keep the object distinct from thoughts, emotions, body, story, and imagery only as relevant"],
+    "should_not": ["Combine the two approved formulations in one sentence", "Shorten the object to the feeling of me or leave the feeling of you standing alone", "List every possible contrast", "Introduce SDA"]
   },
   {
     "id": "ready-to-look-immediately",
@@ -45,7 +56,7 @@
     "id": "formal-exercise-prerequisite-unknown",
     "expected_focus": "prerequisite_question",
     "messages": [{ "role": "user", "content": "Try the attention exercise" }],
-    "should": ["Before explaining the attention exercise, ask one brief natural question about whether the visitor has already tried looking at the simple feeling of being you followed by what they would call me and the one they call themselves", "Keep the prerequisite question non-evaluative"],
+    "should": ["Before explaining the attention exercise, ask one brief natural question about whether the visitor has already tried looking at the simple feeling of being you followed by what they would call me", "Keep the prerequisite question non-evaluative"],
     "should_not": ["Explain or start self-directed attention before asking about the inward look", "Send the visitor to another guide", "Ask them to prove or describe success"]
   },
   {
@@ -53,7 +64,7 @@
     "expected_focus": "transition_to_sda",
     "messages": [
       { "role": "user", "content": "Try the attention exercise" },
-      { "role": "assistant", "content": "Have you already tried looking directly at the simple feeling of being you—what you would call me, the one you call yourself?" },
+      { "role": "assistant", "content": "Have you already tried looking directly at the simple feeling of being you—what you would call me?" },
       { "role": "user", "content": "Yes, I have tried it." }
     ],
     "should": ["Accept the report without evaluating it", "Explain briefly that working with attention has connected formal and daily-life forms", "Describe the formal exercise as training that makes deliberate movement of attention easier in everyday use", "Offer to explain or guide the exercise when the visitor is ready"],
@@ -82,7 +93,7 @@
     "expected_focus": "inward_look",
     "messages": [
       { "role": "user", "content": "I want the attention exercise." },
-      { "role": "assistant", "content": "Have you already looked directly at the simple feeling of being you—what you would call me, the one you call yourself?" },
+      { "role": "assistant", "content": "Have you already looked directly at the simple feeling of being you—what you would call me?" },
       { "role": "user", "content": "I'm not sure." }
     ],
     "should": ["Clarify and guide the inward look without treating uncertainty as failure", "Remain with Step One until the practical act is clear enough to try"],
@@ -172,8 +183,8 @@
     "id": "theory-question-after-reported-look",
     "expected_focus": "website_handoff",
     "messages": [{ "role": "user", "content": "I tried looking at the feeling of me. Why is that supposed to change anything?" }],
-    "should": ["Acknowledge the reported attempt without judging it", "Refer the wider theory question naturally to the linked Just One Look website"],
-    "should_not": ["Invent a causal explanation", "Promise an effect", "Force SDA into an unrelated question"]
+    "should": ["Acknowledge the reported attempt without judging it", "Refer the wider theory question naturally to the linked Just One Look website", "Describe Just One Look as a method or in plain language rather than as a teaching"],
+    "should_not": ["Call Just One Look a teaching", "Narrate an internal rule about refusing to invent an explanation", "Invent a causal explanation", "Promise an effect", "Force SDA into an unrelated question"]
   },
   {
     "id": "comparison-question-remains-practical",

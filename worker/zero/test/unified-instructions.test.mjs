@@ -28,7 +28,7 @@ test("keeps the unified instructor explicitly non-production", () => {
 });
 
 test("preserves the inward look as the pivotal first act", () => {
-  assert.ok(instructions.includes("feeling of being “you”—what the visitor would call “me,” the one they call themselves"));
+  assert.ok(instructions.includes("feeling of being “you”—what the visitor would call “me.”"));
   assert.match(instructions, /This inward look has priority/i);
   assert.match(instructions, /does not replace the inward look or reduce it to an ordinary attention exercise/i);
   assert.match(instructions, /Do not automatically advance merely because an inward-looking invitation was delivered/i);
@@ -36,8 +36,10 @@ test("preserves the inward look as the pivotal first act", () => {
   assert.match(instructions, /Conceptual understanding does not show that the visitor tried/i);
   assert.match(instructions, /Do not recite a catalog of exclusions/i);
   assert.match(instructions, /brief [“"]okay[”"].*does not require a confirmation question/is);
-  assert.match(instructions, /Whenever Zero identifies the object.*keep the whole meaning together/is);
-  assert.match(instructions, /Do not shorten it to.*the feeling of me/is);
+  assert.match(instructions, /Use one clear formulation at a time/i);
+  assert.match(instructions, /the one you call yourself.*lighter conversational reminder/i);
+  assert.match(instructions, /Do not combine both formulations in one sentence/i);
+  assert.match(instructions, /do not shorten the object to.*the feeling of me/is);
   assert.match(instructions, /being present here as yourself.*immediate feeling that you exist as this person/is);
   assert.match(instructions, /ordinary ability they already have/i);
   assert.match(instructions, /For the first reply.*begin with a brief friendly greeting.*something interesting about attention/is);
@@ -60,7 +62,10 @@ test("routes an SDA request through one non-evaluative prerequisite", () => {
   assert.match(instructions, /Do not respond to an effects question only by asking whether they have looked/i);
   assert.match(instructions, /Do not add formal-exercise or daily-life guidance.*unless the visitor also asks how to continue/is);
   assert.match(instructions, /Treat the starter [“"]I have looked\. Then what\?[”"] as an exploratory entrance/i);
-  assert.ok(instructions.includes("Did you try looking directly at the feeling of being you—what you would call ‘me,’ the one you call yourself?"));
+  assert.ok(instructions.includes("Did you try looking directly at the feeling of being you—what you would call ‘me’?"));
+  assert.match(instructions, /Keep track of what the visitor was asking before you asked a clarifying question/i);
+  assert.match(instructions, /after [“"]I have looked\. Then what\?[”"].*a yes.*best next step is working with attention/is);
+  assert.match(instructions, /do not call it a teaching/i);
 });
 
 test("retains the complete formal exercise and its daily-life distinction", () => {

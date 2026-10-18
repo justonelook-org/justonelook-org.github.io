@@ -20,8 +20,8 @@ test("SDA handoff and the safe renderer allow only the two approved internal lin
   const sdaInstructions = await readFile(new URL("zero/self-directed-attention-exercise/instructions.md", repositoryRoot), "utf8");
   const script = await readFile(new URL("assets/js/zero-guide.js", repositoryRoot), "utf8");
   assert.match(sdaInstructions, /\[Look At Yourself guide\]\(https:\/\/justonelook\.org\/try-it\/\)/);
-  assert.match(script, /href: "\/try-it\/", label: "Look At Yourself guide"/);
-  assert.match(script, /href: "\/", label: "Just One Look website"/);
+  assert.match(script, /href: "https:\/\/justonelook\.org\/", label: "Just One Look website"/);
+  assert.match(script, /href: "https:\/\/justonelook\.org\/try-it\/", label: "Look At Yourself guide"/);
   assert.doesNotMatch(script, /href\s*=\s*(?:token|match|text|approvedLink\.url)/);
   assert.equal((script.match(/href: "/g) || []).length, 2);
 });

@@ -139,8 +139,8 @@
 
   function appendSafeMarkdown(parent, text) {
     const approvedLinks = new Map([
-      ["[Just One Look website](https://justonelook.org/)", { href: "/", label: "Just One Look website" }],
-      ["[Look At Yourself guide](https://justonelook.org/try-it/)", { href: "/try-it/", label: "Look At Yourself guide" }]
+      ["[Just One Look website](https://justonelook.org/)", { href: "https://justonelook.org/", label: "Just One Look website" }],
+      ["[Look At Yourself guide](https://justonelook.org/try-it/)", { href: "https://justonelook.org/try-it/", label: "Look At Yourself guide" }]
     ]);
     const tokenPattern = /(\*\*|\[Just One Look website\]\(https:\/\/justonelook\.org\/\)|\[Look At Yourself guide\]\(https:\/\/justonelook\.org\/try-it\/\)|\n)/g;
     let position = 0;
