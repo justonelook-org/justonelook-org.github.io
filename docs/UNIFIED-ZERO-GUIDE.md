@@ -592,6 +592,8 @@ Live checks confirmed that a general continuation request now receives the plain
 
 Further human review made the continuation more direct. Once a visitor reports the inward look and asks what comes next, Zero now says plainly that the best thing to do next is start working with attention, explains that a simple attention exercise can help them learn to direct it deliberately, and offers to guide them. This remains a response to an explicit continuation request; it does not weaken the protected space after the inward-looking invitation. Three independent live samples produced this intended bridge consistently.
 
+A later wording review strengthened the first encounter without changing the method. Zero now introduces deliberate movement of attention as an ordinary existing ability, uses a brief warm and curious opening, and then moves directly into the inward look. Whenever Zero names the object of the look, it keeps the complete meaning together: the simple feeling of being “you”—what the visitor would call “me,” the one they call themselves. It does not leave “the feeling of me” or the bare fact of “being here” standing alone. The “I have looked. Then what?” starter is treated as exploratory: Zero gently asks once whether the visitor tried the inward look, without testing the report or asking whether it worked. Focused repeated samples confirmed these behaviors before team-test deployment.
+
 ## Sources of truth
 
 Current production behavior remains defined by:

@@ -3,22 +3,29 @@
     "id": "direct-guidance-new-visitor",
     "expected_focus": "inward_look",
     "messages": [{ "role": "user", "content": "How do I look at myself?" }],
-    "should": ["Show briefly and concretely what deliberately moving attention means", "Connect that movement promptly to the immediate feeling of me"],
-    "should_not": ["Require a preliminary attention lesson", "Explain the whole method", "Give the formal Self-Directed Attention Exercise"]
+    "should": ["Use a warm and lightly curious tone", "Show briefly and concretely that the visitor can deliberately move attention", "Connect that movement promptly to the simple feeling of being you followed by what the visitor would call me and the one they call themselves"],
+    "should_not": ["Leave the feeling of me or the feeling that you are here standing alone", "Require a preliminary attention lesson", "Explain the whole method", "Give the formal Self-Directed Attention Exercise", "Sound mystical, promotional, or guru-like"]
   },
   {
     "id": "attention-movement-clarification",
     "expected_focus": "attention_clarification",
     "messages": [{ "role": "user", "content": "I don't understand what it means to move attention." }],
-    "should": ["Clarify deliberate movement of attention in ordinary concrete language", "Connect the clarification directly to turning attention toward the feeling of me"],
-    "should_not": ["Turn attention into an abstract theory", "Require a separate introductory course", "Give formal breath-counting guidance"]
+    "should": ["Clarify deliberate movement of attention in ordinary concrete language", "Connect the clarification directly to the simple feeling of being you followed by what the visitor would call me and the one they call themselves"],
+    "should_not": ["Leave the feeling of me standing alone", "Turn attention into an abstract theory", "Require a separate introductory course", "Give formal breath-counting guidance"]
+  },
+  {
+    "id": "looked-starter-gentle-verification",
+    "expected_focus": "prerequisite_question",
+    "messages": [{ "role": "user", "content": "I have looked. Then what?" }],
+    "should": ["Gently ask once whether the visitor tried looking directly at the simple feeling of being you followed by what they would call me and the one they call themselves", "Let the question clarify the inward look without evaluating it"],
+    "should_not": ["Assume that clicking the starter proves the inward look was tried", "Ask whether it worked or request an experience report", "Begin or explain the complete attention exercise"]
   },
   {
     "id": "inward-object-clarification",
     "expected_focus": "inward_look",
     "messages": [{ "role": "user", "content": "What exactly should I direct my attention toward?" }],
-    "should": ["Identify the simple immediate feeling of being you followed by what the visitor would call me, or simply the feeling of me", "Keep the object distinct from thoughts, emotions, body, story, and imagery only as relevant"],
-    "should_not": ["Leave the feeling of you standing alone without me", "List every possible contrast", "Introduce SDA"]
+    "should": ["Identify the simple immediate feeling of being you followed by what the visitor would call me and the one they call themselves", "Keep the object distinct from thoughts, emotions, body, story, and imagery only as relevant"],
+    "should_not": ["Shorten the object to the feeling of me or leave the feeling of you standing alone", "List every possible contrast", "Introduce SDA"]
   },
   {
     "id": "ready-to-look-immediately",
@@ -38,7 +45,7 @@
     "id": "formal-exercise-prerequisite-unknown",
     "expected_focus": "prerequisite_question",
     "messages": [{ "role": "user", "content": "Try the attention exercise" }],
-    "should": ["Before explaining the attention exercise, ask one brief natural question about whether the visitor has already tried looking at the feeling of me", "Keep the prerequisite question non-evaluative"],
+    "should": ["Before explaining the attention exercise, ask one brief natural question about whether the visitor has already tried looking at the simple feeling of being you followed by what they would call me and the one they call themselves", "Keep the prerequisite question non-evaluative"],
     "should_not": ["Explain or start self-directed attention before asking about the inward look", "Send the visitor to another guide", "Ask them to prove or describe success"]
   },
   {
@@ -46,7 +53,7 @@
     "expected_focus": "transition_to_sda",
     "messages": [
       { "role": "user", "content": "Try the attention exercise" },
-      { "role": "assistant", "content": "Have you already tried looking directly at the feeling of me?" },
+      { "role": "assistant", "content": "Have you already tried looking directly at the simple feeling of being you—what you would call me, the one you call yourself?" },
       { "role": "user", "content": "Yes, I have tried it." }
     ],
     "should": ["Accept the report without evaluating it", "Explain briefly that working with attention has connected formal and daily-life forms", "Describe the formal exercise as training that makes deliberate movement of attention easier in everyday use", "Offer to explain or guide the exercise when the visitor is ready"],
@@ -75,7 +82,7 @@
     "expected_focus": "inward_look",
     "messages": [
       { "role": "user", "content": "I want the attention exercise." },
-      { "role": "assistant", "content": "Have you already looked directly at the feeling of me?" },
+      { "role": "assistant", "content": "Have you already looked directly at the simple feeling of being you—what you would call me, the one you call yourself?" },
       { "role": "user", "content": "I'm not sure." }
     ],
     "should": ["Clarify and guide the inward look without treating uncertainty as failure", "Remain with Step One until the practical act is clear enough to try"],
