@@ -20,35 +20,35 @@ const localPage = await readFile(localPageUrl, "utf8");
 
 test("keeps the unified instructor explicitly non-production", () => {
   assert.match(instructions, /Non-production team-test prototype/);
-  assert.match(instructions, /one instruction at a time/i);
-  assert.match(instructions, /Do not give both complete practices in one response/i);
+  assert.match(instructions, /one meaningful instruction at a time/i);
+  assert.match(instructions, /Do not deliver the complete inward look and the complete formal exercise in one response/i);
+  assert.match(instructions, /Do not sound like a routing system/i);
 });
 
 test("preserves the inward look as the pivotal first act", () => {
   assert.match(instructions, /feeling of being [“\"]you[”\"]—what the visitor would call [“\"]me[”\"]/);
-  assert.match(instructions, /not merely another attention exercise/i);
-  assert.match(instructions, /does not automatically trigger the next part of the method/i);
+  assert.match(instructions, /This inward look has priority/i);
+  assert.match(instructions, /does not replace the inward look or reduce it to an ordinary attention exercise/i);
+  assert.match(instructions, /Do not automatically advance merely because an inward-looking invitation was delivered/i);
   assert.match(instructions, /Nothing special has to happen/);
-  assert.match(instructions, /understand the concept.*ask simply whether they tried looking/i);
-  assert.match(instructions, /do not recite the whole catalog of contrasts/i);
-  assert.match(instructions, /responds only with a brief acknowledgment.*Do not ask whether they tried/is);
+  assert.match(instructions, /Conceptual understanding does not show that the visitor tried/i);
+  assert.match(instructions, /Do not recite a catalog of exclusions/i);
+  assert.match(instructions, /brief [“"]okay[”"].*does not require a confirmation question/is);
 });
 
 test("routes an SDA request through one non-evaluative prerequisite", () => {
-  assert.match(instructions, /prior experience is unknown, first ask one brief, natural question/i);
-  assert.match(instructions, /accept the report without testing it/i);
-  assert.match(instructions, /Do not ask visitors to prove that they looked/);
-  assert.match(instructions, /Do not send them to another guide/i);
-  assert.match(instructions, /asks only [“"]what next\?[”"].*best thing they can do next is start working with their attention/i);
-  assert.match(instructions, /simple attention exercise can help them learn to direct it deliberately/i);
-  assert.match(instructions, /mentioning an [“"]attention exercise[”"].*effects question/is);
-  assert.match(instructions, /do not answer an effects question merely by asking whether they have looked/i);
-  assert.match(instructions, /first introduction.*simple attention exercise for learning to direct attention deliberately/is);
-  assert.match(instructions, /Do not introduce it merely as [“"]the formal exercise/is);
+  assert.match(instructions, /have not said whether they tried the inward look, ask one brief, natural question/i);
+  assert.match(instructions, /accept the report.*Do not test them/is);
+  assert.match(instructions, /Do not test them, ask for proof, or decide whether it worked/i);
+  assert.match(instructions, /Do not send them elsewhere/i);
+  assert.match(instructions, /same ability to direct attention that the visitor just used when looking at themselves/i);
   assert.match(instructions, /working with attention has two connected forms/i);
-  assert.match(instructions, /formal exercise is training for that everyday use/i);
-  assert.match(instructions, /do not ask them to choose between formal practice and daily-life use/i);
-  assert.match(instructions, /offer to explain or guide the exercise when they are ready/i);
+  assert.match(instructions, /formal exercise is training for everyday use/i);
+  assert.match(instructions, /not confront them with another choice/i);
+  assert.match(instructions, /offer to guide it.*complete instructions when they accept/is);
+  assert.match(instructions, /confirmation that they tried the inward look.*is not also acceptance/is);
+  assert.match(instructions, /Do not respond to an effects question only by asking whether they have looked/i);
+  assert.match(instructions, /Do not add formal-exercise or daily-life guidance.*unless the visitor also asks how to continue/is);
 });
 
 test("retains the complete formal exercise and its daily-life distinction", () => {
@@ -57,7 +57,7 @@ test("retains the complete formal exercise and its daily-life distinction", () =
     /Count each outbreath silently from 1 through 10/i,
     /restart the count at 1/i,
     /about 10 minutes a day/i,
-    /not continuous control, monitoring, or supervision/i,
+    /not continuous control, monitoring, vigilance, or supervision/i,
   ]) {
     assert.match(instructions, requiredMeaning);
   }
@@ -96,10 +96,10 @@ test("keeps the human prototype private, ephemeral, and explicit about test meas
   assert.match(localPage, /node\.textContent=content/);
   assert.doesNotMatch(localPage, /localStorage|sessionStorage|document\.cookie|indexedDB/);
   assert.doesNotMatch(localPage, /analytics|\/api\/traffic/);
-  for (const starter of ["Try looking at yourself", "Try the attention exercise"]) {
+  for (const starter of ["How do I look at myself?", "I have looked. Then what?"]) {
     assert.match(localPage, new RegExp(`data-starter="${starter.replace(/[?]/g, "\\?")}"`));
   }
-  for (const removedStarter of ["Guide me", "How do I look with attention?", "How do I look at myself?", "Learn the attention exercise", "What do I look at?", "I’ve looked. Then what?"]) {
+  for (const removedStarter of ["Guide me", "How do I look with attention?", "Learn the attention exercise", "Try looking at yourself", "Try the attention exercise", "What do I look at?", "I’ve looked. Then what?"]) {
     assert.doesNotMatch(localPage, new RegExp(`data-starter="${removedStarter.replace(/[?]/g, "\\?")}"`));
   }
   assert.doesNotMatch(localPage, />Teach me the formal exercise</);

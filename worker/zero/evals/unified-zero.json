@@ -2,7 +2,7 @@
   {
     "id": "direct-guidance-new-visitor",
     "expected_focus": "inward_look",
-    "messages": [{ "role": "user", "content": "Try looking at yourself" }],
+    "messages": [{ "role": "user", "content": "How do I look at myself?" }],
     "should": ["Show briefly and concretely what deliberately moving attention means", "Connect that movement promptly to the immediate feeling of me"],
     "should_not": ["Require a preliminary attention lesson", "Explain the whole method", "Give the formal Self-Directed Attention Exercise"]
   },
@@ -50,7 +50,7 @@
       { "role": "user", "content": "Yes, I have tried it." }
     ],
     "should": ["Accept the report without evaluating it", "Explain briefly that working with attention has connected formal and daily-life forms", "Describe the formal exercise as training that makes deliberate movement of attention easier in everyday use", "Offer to explain or guide the exercise when the visitor is ready"],
-    "should_not": ["Ask the visitor to choose again between formal practice and daily-life use", "Throw the visitor directly into the complete formal exercise", "Reduce the inward look to an ordinary attention exercise", "Turn the bridge into a conceptual summary or menu"]
+    "should_not": ["Treat confirmation of the inward look as permission to begin the complete formal exercise", "Ask the visitor to choose again between formal practice and daily-life use", "Throw the visitor directly into the complete formal exercise", "Reduce the inward look to an ordinary attention exercise", "Turn the bridge into a conceptual summary or menu"]
   },
   {
     "id": "formal-exercise-prior-look-reported",

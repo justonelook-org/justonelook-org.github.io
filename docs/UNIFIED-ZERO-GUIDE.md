@@ -583,7 +583,7 @@ This interface is for qualitative human testing only. Its conversations are sent
 
 Initial human review produced two presentation refinements:
 
-- the interface now uses only two active starters: “Try looking at yourself” and “Try the attention exercise.” The first begins by making deliberate movement of attention concrete and then guides the inward look. The second first asks whether the inward look has been tried;
+- the current architectural draft uses two starters: “How do I look at myself?” and “I have looked. Then what?” The first gives the inward look clear priority. The second makes continuing work with attention available only as the natural continuation after a reported look, rather than presenting the attention exercise as a competing entrance;
 - the next practice is first introduced as “a simple attention exercise for learning to direct attention deliberately.” The shorter term “the formal exercise” is reserved for later use when distinguishing structured practice from attention in daily life.
 
 When a visitor confirms prior looking after choosing the attention-exercise starter, Zero respects the request already made rather than presenting another choice. It briefly explains that working with attention has two connected forms: a short formal exercise for becoming familiar with deliberate movement of attention, and everyday use when attention is caught in useless mental activity. It identifies the formal exercise as training for daily-life use and offers to explain or guide it when the visitor is ready, without immediately launching its complete instructions or turning the bridge into a menu.

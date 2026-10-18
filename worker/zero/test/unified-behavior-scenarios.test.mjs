@@ -47,12 +47,13 @@ test("protects the two-starter routing and bridges attention without rushing", (
   const lookingStarter = scenarios.find(({ id }) => id === "direct-guidance-new-visitor");
   const attentionStarter = scenarios.find(({ id }) => id === "formal-exercise-prerequisite-unknown");
   const bridge = scenarios.find(({ id }) => id === "general-attention-request-after-prerequisite-yes");
-  assert.equal(lookingStarter.messages[0].content, "Try looking at yourself");
+  assert.equal(lookingStarter.messages[0].content, "How do I look at myself?");
   assert.equal(attentionStarter.messages[0].content, "Try the attention exercise");
   assert.match(attentionStarter.should.join(" "), /Before explaining.*ask/i);
   assert.match(bridge.should.join(" "), /connected formal and daily-life forms/i);
   assert.match(bridge.should.join(" "), /formal exercise as training/i);
   assert.match(bridge.should.join(" "), /when the visitor is ready/i);
   assert.match(bridge.should_not.join(" "), /choose again/i);
+  assert.match(bridge.should_not.join(" "), /confirmation.*permission/i);
   assert.match(bridge.should_not.join(" "), /directly into the complete formal exercise/i);
 });

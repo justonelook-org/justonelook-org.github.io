@@ -264,7 +264,7 @@ test("keeps unified measurement disabled while legacy production measurement rem
     assert.equal(openAIBody.model, "gpt-5.6-sol");
     assert.equal(openAIBody.reasoning.effort, "medium");
     assert.match(openAIBody.instructions, /Unified Zero Guide/);
-    assert.match(openAIBody.instructions, /one instruction at a time/i);
+    assert.match(openAIBody.instructions, /one meaningful instruction at a time/i);
     assert.match(openAIBody.instructions, /SHARED RUNTIME INSTRUCTIONS/);
     assert.equal(databaseTouched, false);
   } finally {
