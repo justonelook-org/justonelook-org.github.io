@@ -4,8 +4,8 @@ This directory preserves the evolving account of how the Just One Look website h
 
 ## Files
 
-- `just-one-look-website-journey.pdf` is the August 2026 reader-facing edition.
-- `updates.md` records later changes that should be incorporated into the next PDF revision.
+- `just-one-look-website-journey.pdf` is the October 2026 reader-facing edition.
+- `updates.md` records completed revisions and later changes that should be incorporated into the next PDF revision.
 
 ## When to update it
 
