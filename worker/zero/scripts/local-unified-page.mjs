@@ -1,49 +1,77 @@
-export const localUnifiedPage = `<!doctype html>
+export const localUnifiedPage = `<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow,noarchive">
-<title>Unified Zero — Local Test</title>
-<style>
-:root{color-scheme:light;--ink:#111;--muted:#666;--line:#d8d8d8;--soft:#f6f6f3;--user:#eef3f7}*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font:18px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}.shell{width:min(760px,calc(100% - 32px));margin:40px auto}.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding-bottom:20px}h1{font-size:clamp(28px,5vw,40px);margin:0 0 6px}.note{color:var(--muted);font-size:15px;margin:0}.badge{background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:13px;white-space:nowrap}.starters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}.starters button,.reset{background:#fff;border:1px solid #999;border-radius:999px;padding:8px 12px;font:inherit;font-size:15px;cursor:pointer}.messages{display:grid;gap:14px;min-height:220px;margin:20px 0}.message{max-width:88%;padding:12px 15px;border-radius:14px;white-space:pre-wrap;overflow-wrap:anywhere}.message.user{justify-self:end;background:var(--user)}.message.assistant{justify-self:start;background:var(--soft)}form{display:flex;gap:10px;align-items:flex-end;border-top:1px solid var(--line);padding-top:18px}textarea{flex:1;min-height:52px;max-height:180px;resize:vertical;border:1px solid #888;border-radius:10px;padding:12px;font:inherit}button[type=submit]{background:#111;color:#fff;border:0;border-radius:10px;padding:13px 18px;font:inherit;cursor:pointer}button:disabled,textarea:disabled{opacity:.55;cursor:not-allowed}.status{min-height:24px;color:var(--muted);font-size:14px;margin:8px 0 0}@media(max-width:560px){.shell{margin:20px auto}.top{display:block}.badge{display:inline-block;margin-top:12px}form{align-items:stretch;flex-direction:column}button[type=submit]{align-self:flex-end}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Unified Zero — Team Test</title>
+  <link rel="stylesheet" href="/assets/css/zero-guide.css?v=20261018-1">
+  <style>
+    .prototype-note { margin: 0; color: var(--muted); font-size: .72rem; line-height: 1.25; }
+  </style>
 </head>
 <body>
-<main class="shell">
-  <header class="top">
-    <div><h1>Unified Zero</h1><p class="note">Local multi-turn prototype. Nothing here is measured or saved.</p></div>
-    <span class="badge">Local test only</span>
-  </header>
-  <div class="starters" aria-label="Suggested messages">
-    <button type="button" data-starter="Guide me">Guide me</button>
-    <button type="button" data-starter="How do I look with attention?">How do I look with attention?</button>
-    <button type="button" data-starter="What do I look at?">What do I look at?</button>
-    <button type="button" data-starter="I’ve looked. Then what?">I’ve looked. Then what?</button>
-  </div>
-  <section class="messages" id="messages" aria-live="polite" aria-label="Conversation"></section>
-  <form id="composer">
-    <label for="message" hidden>Your message</label>
-    <textarea id="message" maxlength="600" required placeholder="Write in your own words—in any language"></textarea>
-    <button type="submit">Send</button>
-  </form>
-  <p class="status" id="status" role="status"></p>
-  <button class="reset" id="reset" type="button">Start a new conversation</button>
-</main>
-<script>
-(() => {
-  const endpoint='/api/unified-zero',limit=12;
-  const list=document.querySelector('#messages'),form=document.querySelector('#composer'),field=document.querySelector('#message'),status=document.querySelector('#status'),send=form.querySelector('button'),reset=document.querySelector('#reset');
-  let sessionId=crypto.randomUUID(),messages=[],turnCount=0,busy=false;
-  const add=(role,content)=>{const node=document.createElement('div');node.className='message '+role;node.textContent=content;list.append(node);node.scrollIntoView({behavior:'smooth',block:'end'})};
-  const setBusy=value=>{busy=value;field.disabled=value;send.disabled=value;document.querySelectorAll('[data-starter]').forEach(button=>button.disabled=value)};
-  async function submit(content){content=content.trim();if(!content||busy||turnCount>=limit)return;messages.push({role:'user',content});add('user',content);field.value='';turnCount+=1;setBusy(true);status.textContent='Zero is responding…';try{const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,turnCount,messages})});const body=await response.json();if(!response.ok)throw new Error(body.error||'The local guide is unavailable.');messages.push({role:'assistant',content:body.message});add('assistant',body.message);status.textContent=turnCount>=limit?'This local test conversation has reached its response limit.':''}catch(error){messages.pop();turnCount-=1;status.textContent=error.message}finally{setBusy(false);if(turnCount<limit)field.focus()}}
-  form.addEventListener('submit',event=>{event.preventDefault();submit(field.value)});
-  document.querySelectorAll('[data-starter]').forEach(button=>button.addEventListener('click',()=>submit(button.dataset.starter)));
-  reset.addEventListener('click',()=>{sessionId=crypto.randomUUID();messages=[];turnCount=0;list.replaceChildren();status.textContent='New local conversation started.';field.value='';field.focus()});
-  field.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();form.requestSubmit()}});
-  field.focus();
-})();
-</script>
+  <main class="guide" data-api-endpoint="https://look-at-yourself-api.look-at-yourself-worker.workers.dev/api/unified-zero" data-local-endpoint="/api/unified-zero" data-opening="Choose one of the questions below, or write in your own words—in any language." data-max-responses="12">
+    <section id="guide-panel" class="guide-panel" aria-labelledby="guide-title">
+      <h1 id="guide-title" class="guide-welcome-title"><span class="heading-line keep-together">Hi! I’m Zero.</span><span class="heading-line keep-together">Let’s explore what you can do with attention.</span></h1>
+
+      <div class="zero-wrap" aria-hidden="true">
+        <img class="zero" src="/assets/brand/jol-logo.jpg" alt="" width="675" height="932">
+        <span class="zero-eyelid zero-eyelid--left"></span>
+        <span class="zero-eyelid zero-eyelid--right"></span>
+      </div>
+
+      <div id="conversation" class="conversation" aria-live="polite" aria-atomic="false">
+        <p class="quiet-opening"><span>Choose one of the questions below, or write in your own words—in any language.</span></p>
+      </div>
+
+      <div id="conversation-starters" class="conversation-starters" aria-label="Suggested ways to begin">
+        <button type="button" data-starter="How do I look at myself?">How do I look at myself?</button>
+        <button type="button" data-starter="I have looked. Then what?">I have looked. Then what?</button>
+      </div>
+
+      <form id="message-form" class="message-form">
+        <label class="visually-hidden" for="message">Your message</label>
+        <textarea id="message" name="message" rows="2" maxlength="600" required></textarea>
+        <button id="send" type="submit">Send</button>
+      </form>
+
+      <p id="guide-status" class="form-message" role="status" aria-live="polite"></p>
+
+      <div class="guide-actions">
+        <button id="restart" class="text-button" type="button">Restart</button>
+        <a href="/">Home</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+
+      <p class="small-notice">AI guide <span aria-hidden="true">·</span> Messages are sent to OpenAI <span aria-hidden="true">·</span> Don’t share personal information <span aria-hidden="true">·</span> <button id="open-privacy" class="link-button" type="button">Privacy</button></p>
+      <p class="prototype-note">Team-test prototype · Anonymous guidance milestones are measured; conversation text is not stored. During local testing, nothing here is measured or saved.</p>
+    </section>
+  </main>
+
+  <dialog id="age-dialog" aria-labelledby="age-title">
+    <div class="dialog-content">
+      <h2 id="age-title">Before continuing</h2>
+      <form id="age-form">
+        <label class="choice"><input id="adult-confirmation" type="checkbox" required> I am 18 or older</label>
+        <button type="submit">Continue</button>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+    <div class="dialog-content">
+      <h2 id="privacy-title">About this AI guide</h2>
+      <p>This team-test guide uses OpenAI to generate its responses. What you write is sent to OpenAI for processing.</p>
+      <p>The Just One Look website does not intentionally save your conversation. OpenAI may retain API data temporarily to operate and protect its service. API messages are not used to train OpenAI’s models by default.</p>
+      <p>At selected points, the active conversation is processed temporarily to record anonymous guidance milestones for this unified prototype. Conversation text is not saved in this measurement, and the measurement does not decide whether the inward look occurred, succeeded, or whether attention improved.</p>
+      <p>Please do not enter your name, address, contact details, medical information, or other private information.</p>
+      <p>This is a private team-test prototype. It is not a person, therapist, medical service, or emergency service.</p>
+      <p>For privacy questions, <a href="/contact.html">contact the Just One Look team</a>.</p>
+      <form method="dialog"><button type="submit">Close</button></form>
+    </div>
+  </dialog>
+
+  <script src="/assets/js/zero-guide.js?v=20260829-1" defer></script>
 </body>
 </html>`;

@@ -5,7 +5,7 @@ import test from "node:test";
 const scenarios = JSON.parse(await readFile(new URL("../evals/unified-zero.json", import.meta.url), "utf8"));
 
 test("defines the approved unified Zero routing scenarios without exact replies", () => {
-  assert.equal(scenarios.length, 24);
+  assert.equal(scenarios.length, 28);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
   for (const scenario of scenarios) {
     assert.match(scenario.id, /^[a-z0-9-]+$/);
@@ -41,4 +41,26 @@ test("allows experienced visitors to bypass unnecessary introductory guidance", 
   assert.match(directFormal.should.join(" "), /Accept the report without testing/i);
   assert.match(refresh.should.join(" "), /concise refresher/i);
   assert.match(daily.should_not.join(" "), /Require the formal exercise first/i);
+});
+
+test("protects the two-starter routing and bridges attention without rushing", () => {
+  const lookingStarter = scenarios.find(({ id }) => id === "direct-guidance-new-visitor");
+  const lookedStarter = scenarios.find(({ id }) => id === "looked-starter-gentle-verification");
+  const lookedStarterYes = scenarios.find(({ id }) => id === "looked-starter-yes-continues-original-request");
+  const attentionStarter = scenarios.find(({ id }) => id === "formal-exercise-prerequisite-unknown");
+  const bridge = scenarios.find(({ id }) => id === "general-attention-request-after-prerequisite-yes");
+  assert.equal(lookingStarter.messages[0].content, "How do I look at myself?");
+  assert.equal(lookedStarter.messages[0].content, "I have looked. Then what?");
+  assert.match(lookedStarter.should.join(" "), /Gently ask once/i);
+  assert.match(lookedStarter.should_not.join(" "), /clicking the starter proves/i);
+  assert.match(lookedStarterYes.should.join(" "), /Remember and answer the original request/i);
+  assert.match(lookedStarterYes.should_not.join(" "), /Stop after acknowledging/i);
+  assert.equal(attentionStarter.messages[0].content, "Try the attention exercise");
+  assert.match(attentionStarter.should.join(" "), /Before explaining.*ask/i);
+  assert.match(bridge.should.join(" "), /connected formal and daily-life forms/i);
+  assert.match(bridge.should.join(" "), /formal exercise as training/i);
+  assert.match(bridge.should.join(" "), /when the visitor is ready/i);
+  assert.match(bridge.should_not.join(" "), /choose again/i);
+  assert.match(bridge.should_not.join(" "), /confirmation.*permission/i);
+  assert.match(bridge.should_not.join(" "), /directly into the complete formal exercise/i);
 });
