@@ -287,7 +287,7 @@ function dashboardHtml() {
 h1{font-size:1.65rem}h2{font-size:1.4rem;margin:0}h3{font-size:1.1rem;margin:2rem 0 .35rem}.controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:end;margin:2rem 0}.controls label{display:grid;gap:.3rem}
 button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));gap:1rem}
 .card{border:1px solid #8886;border-radius:.5rem;padding:1rem}.value{font-size:2rem;font-variant-numeric:tabular-nums}.detail{color:#666;font-size:.9rem}
-@media(prefers-color-scheme:dark){.detail{color:#bbb}}#status{min-height:1.5rem}.dashboard-section{margin:2.5rem 0}.section-intro{margin:.4rem 0 1.25rem}.note{margin-top:1.5rem;max-width:48rem}.divider{border:0;border-top:1px solid #8886;margin:3rem 0}
+@media(prefers-color-scheme:dark){.detail{color:#bbb}}#status{min-height:1.5rem}.dashboard-section{margin:2.5rem 0}.section-intro{margin:.4rem 0 1.25rem}.note{margin-top:1.5rem;max-width:48rem}.divider{border:0;border-top:1px solid #8886;margin:3rem 0}.historical{border-top:1px solid #8886;margin:3rem 0;padding-top:1.5rem}.historical>summary{cursor:pointer;font-size:1.25rem;font-weight:650;padding:.5rem 0}.historical[open]>summary{margin-bottom:1rem}.historical .dashboard-section{margin:2rem 0}
 </style></head><body><main><h1>Just One Look — Measurement Dashboard</h1>
 <p>Anonymous aggregate measurement of website activity and Zero guidance.</p>
 <form class="controls" id="range" autocomplete="off"><label>From<input type="date" name="from" value="${MEASUREMENT_STARTED_DAY}" required></label><label>Through<input type="date" name="to" required></label><button>Update</button></form>
@@ -298,17 +298,18 @@ button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-colum
 <section id="source-section" aria-labelledby="source-heading" hidden><h3 id="source-heading">Roads to Zero</h3><p class="section-intro">Anonymous aggregate arrivals through the clean public source links.</p><div class="cards" id="source-cards"></div></section>
 <p class="note" id="traffic-note"></p></section>
 <hr class="divider">
-<section class="dashboard-section" aria-labelledby="outcome-heading"><h2 id="outcome-heading">Looking Zero — Historical Outcome Measurement</h2>
-<p class="section-intro">Anonymous milestones from the former separate Looking guide. These figures do not determine whether the inward look succeeded.</p>
-<div class="cards" id="outcome-cards" aria-live="polite"></div><p class="note" id="outcome-note"></p></section>
-<hr class="divider">
-<section class="dashboard-section" aria-labelledby="sda-heading"><h2 id="sda-heading">Self-Directed Attention Zero — Separate Guide Usage</h2>
-<p class="section-intro">Anonymous milestones from the temporarily retained separate SDA guide. These figures do not determine whether attention skills improved.</p>
-<div class="cards" id="sda-cards" aria-live="polite"></div><p class="note" id="sda-note"></p></section>
-<hr class="divider">
 <section class="dashboard-section" aria-labelledby="unified-heading"><h2 id="unified-heading">Unified Zero — Guidance and Reports</h2>
 <p class="section-intro">Anonymous overlapping milestones for the public unified guide since 20 Oct 2026. Earlier team-test records are excluded. These figures do not determine whether the inward look succeeded or attention skills improved.</p>
 <div class="cards" id="unified-cards" aria-live="polite"></div><p class="note" id="unified-note"></p></section>
+<details class="historical"><summary>Show historical measurements</summary>
+<p class="section-intro">Preserved records from Zero’s former separate guides. They are no longer the primary measure of the current Zero experience.</p>
+<section class="dashboard-section" aria-labelledby="outcome-heading"><h2 id="outcome-heading">Former Looking Zero</h2>
+<p class="section-intro">Anonymous milestones from the former separate Looking guide. These figures do not determine whether the inward look succeeded.</p>
+<div class="cards" id="outcome-cards" aria-live="polite"></div><p class="note" id="outcome-note"></p></section>
+<section class="dashboard-section" aria-labelledby="sda-heading"><h2 id="sda-heading">Former Self-Directed Attention Zero</h2>
+<p class="section-intro">Anonymous milestones from the former separate attention guide. These figures do not determine whether attention skills improved.</p>
+<div class="cards" id="sda-cards" aria-live="polite"></div><p class="note" id="sda-note"></p></section>
+</details>
 <script>
 const form=document.querySelector('#range'),status=document.querySelector('#status'),trafficCards=document.querySelector('#traffic-cards'),sourceSection=document.querySelector('#source-section'),sourceCards=document.querySelector('#source-cards'),trafficNote=document.querySelector('#traffic-note'),outcomeCards=document.querySelector('#outcome-cards'),outcomeNote=document.querySelector('#outcome-note'),sdaCards=document.querySelector('#sda-cards'),sdaNote=document.querySelector('#sda-note'),unifiedCards=document.querySelector('#unified-cards'),unifiedNote=document.querySelector('#unified-note');
 function setDefaultRange(){const today=new Date();form.from.value='${MEASUREMENT_STARTED_DAY}';form.to.value=today.toISOString().slice(0,10)}

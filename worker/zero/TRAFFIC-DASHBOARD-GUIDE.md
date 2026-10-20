@@ -1,6 +1,6 @@
 # Anonymous website traffic dashboard guide
 
-This guide describes the privacy-first website traffic section of the unified measurement dashboard. It complements, but does not alter, the Looking Zero outcome section.
+This guide describes the privacy-first website traffic section of the measurement dashboard. It complements, but does not alter, current unified Zero measurement or the collapsed historical guide records.
 
 ## Private dashboard
 
@@ -17,12 +17,12 @@ Use the same private credentials as the Looking Zero outcome dashboard:
 
 - **Homepage views:** loads of the Just One Look homepage.
 - **Homepage entrances:** direct or external arrivals at the homepage, excluding ordinary reloads and navigation from another Just One Look page. This is a storage-free estimate, not a visit or unique person.
-- **Try It clicks:** clicks on the homepage link leading to Looking Zero.
-- **Looking Zero opened:** loads of the Looking Zero page.
-- **Looking Zero sessions started:** browser-recorded first-message events in Looking Zero, including a new first message after an intentional restart on the same open page. This independent event can differ slightly from the Worker-recorded sessions in Outcome Measurement.
+- **Try It clicks:** clicks on the homepage link leading to Zero.
+- **Zero opened:** loads of the canonical Zero page.
+- **Zero sessions started:** browser-recorded first-message events in Zero, including a new first message after an intentional restart on the same open page. This independent event can differ slightly from Worker-recorded unified sessions.
 - **Roads to Zero:** arrivals through implemented clean source paths. The currently published routes are `/try-it/x/`, `/try-it/bluesky/`, `/try-it/reddit/`, `/try-it/tiktok/`, `/try-it/tumblr/`, and `/try-it/pinterest/`. Each records one approved source count and immediately continues to canonical `/try-it/`.
 
-The first dashboard section shows aggregate ratios between these independent action counts. They are directional estimates, not a linked visitor funnel or records of personal journeys. The Looking Zero outcome section appears beneath it and keeps its existing cards and definitions.
+The first dashboard section shows aggregate ratios between these independent action counts. They are directional estimates, not a linked visitor funnel or records of personal journeys. Current unified Zero measurement follows it; former separate-guide figures remain in the collapsed historical panel.
 
 ## What is deliberately not collected
 
@@ -40,7 +40,7 @@ The system does not use or retain:
 
 The browser checks only the current page's navigation type and whether its referrer is from the same site. It sends the fixed `homepage_entrance` event when the arrival is direct or external and is not an ordinary reload. The referrer itself is never sent or stored.
 
-Each source path sends only its fixed approved source slug: `x`, `bluesky`, `reddit`, `tiktok`, `tumblr`, or `pinterest`. It does not send or store a referrer. Source totals are not joined to page openings, sessions, conversations, or outcomes. `/try-it/` remains the canonical Looking Zero URL, and the source-entry pages are excluded from search indexing.
+Each source path sends only its fixed approved source slug: `x`, `bluesky`, `reddit`, `tiktok`, `tumblr`, or `pinterest`. It does not send or store a referrer. Source totals are not joined to page openings, sessions, conversations, or outcomes. `/try-it/` remains the canonical Zero URL, and the source-entry pages are excluded from search indexing.
 
 Because people are not identified, homepage entrances must never be labelled as visits or unique visitors. The same person returning later or using another device can create additional entrances, and some browser behavior may undercount or overcount them.
 
@@ -58,11 +58,11 @@ Team activity at `https://website-test-zero.pages.dev` is excluded in production
 
 ## Interpretation
 
-Use the figures to ask whether the website is helping people reach and begin Looking Zero. Homepage entrances reduce inflation from ordinary reloads without recognizing browsers, but they do not measure visits or distinct people. Do not claim that an identified visitor moved through every step.
+Use the figures to ask whether the website is helping people reach and begin Zero. Homepage entrances reduce inflation from ordinary reloads without recognizing browsers, but they do not measure visits or distinct people. Do not claim that an identified visitor moved through every step.
 
 Source counts answer only how often each approved road was opened. They do not show whether those arrivals became Zero openings, sessions, invitations, or indications of trying.
 
-The Looking Zero outcome section remains the source for invitation delivery and conversational reports of trying. Although both sections share one page and date selector, traffic and outcomes must still be discussed as separate aggregate layers.
+The Unified Zero section is the current source for guidance delivery and conversational reports. Although the sections share one page and date selector, traffic and guide measurement must still be discussed as separate aggregate layers. Former Looking Zero and SDA Zero records are historical only.
 
 ## Maintenance
 

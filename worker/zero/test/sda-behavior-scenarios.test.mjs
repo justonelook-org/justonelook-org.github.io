@@ -7,12 +7,13 @@ const sdaPage = await readFile(new URL("../../../self-directed-attention/index.h
 const sitemap = await readFile(new URL("../../../sitemap.xml", import.meta.url), "utf8");
 const whatNowPage = await readFile(new URL("../../../what-now.html", import.meta.url), "utf8");
 
-test("retains the former canonical SDA route for compatibility", () => {
-  assert.match(sdaPage, /<link rel="canonical" href="https:\/\/justonelook\.org\/self-directed-attention\/">/);
-  assert.match(sdaPage, /<meta property="og:url" content="https:\/\/justonelook\.org\/self-directed-attention\/">/);
+test("redirects the former SDA route to canonical unified Zero", () => {
+  assert.match(sdaPage, /<link rel="canonical" href="https:\/\/justonelook\.org\/try-it\/">/);
+  assert.match(sdaPage, /http-equiv="refresh" content="0; url=\/try-it\/"/i);
+  assert.match(sdaPage, /location\.replace\('\/try-it\/'\)/);
   assert.match(whatNowPage, /href="try-it\/"[^>]*>Continue with Zero</i);
   assert.doesNotMatch(whatNowPage, /href="self-directed-attention\/"/);
-  assert.match(sitemap, /<loc>https:\/\/justonelook\.org\/self-directed-attention\/<\/loc>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/justonelook\.org\/self-directed-attention\/<\/loc>/);
   assert.doesNotMatch(sitemap, /<loc>https:\/\/justonelook\.org\/ai\/self-directed-attention\/<\/loc>/);
 });
 
@@ -41,17 +42,8 @@ test("covers SDA Zero's natural completion boundaries without exact reply templa
   }
 });
 
-test("presents the four SDA starters in the intended order without fixed answers", () => {
-  const starterMessages = [...sdaPage.matchAll(/data-starter="([^"]+)"/g)].map((match) => match[1]);
-  assert.deepEqual(starterMessages, [
-    "What is the Self-Directed Attention Exercise?",
-    "What is Self-Directed Attention in daily life?",
-    "Can you guide me through the formal exercise?",
-    "Why do I keep getting distracted?"
-  ]);
-});
-
-test("invites SDA visitors to write in any language", () => {
-  assert.match(sdaPage, /write in your own words—in any language/);
-  assert.doesNotMatch(sdaPage, /ask in your own words/);
+test("the retired SDA page no longer exposes a separate guide interface", () => {
+  assert.doesNotMatch(sdaPage, /data-starter=/);
+  assert.doesNotMatch(sdaPage, /data-api-endpoint=/);
+  assert.doesNotMatch(sdaPage, /assets\/js\/zero-guide\.js/);
 });

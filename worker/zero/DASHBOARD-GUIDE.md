@@ -1,6 +1,6 @@
 # Just One Look measurement dashboard guide
 
-This guide is for the owner of the private measurement dashboard. The page presents website traffic, historical Looking Zero outcomes, Self-Directed Attention Zero usage, and feature-gated unified Zero measurement as clearly separated sections without combining their data or interpretations.
+This guide is for the owner of the private measurement dashboard. The page presents website traffic and current unified Zero measurement first. Measurements from the former separate Looking Zero and Self-Directed Attention Zero guides remain available inside a collapsed **Show historical measurements** panel without combining their data or interpretations.
 
 The SDA section records only observable delivery milestones: sessions started, direction to the Look At Yourself guide, formal exercise guidance, daily-life guidance, a later visitor response, and natural completion. These overlapping milestones do not measure whether the exercise worked or whether attention skills improved.
 
@@ -21,7 +21,7 @@ The dashboard currently uses an HTTP Basic password check built into the Worker.
 
 ## Select a date range
 
-The dashboard opens with the most recent 30 days selected.
+The dashboard opens with the complete measurement period selected, beginning August 10, 2026.
 
 1. Choose the first included date under **From**.
 2. Choose the last included date under **Through**.
@@ -33,7 +33,11 @@ The selected range can be no longer than 366 days. **Through** includes the whol
 
 The first section shows homepage views, storage-free homepage entrances, Try It clicks, Looking Zero openings, Looking Zero sessions started, and a compact **Roads to Zero** source summary with separate cards for the published X, Bluesky, Reddit, TikTok, Tumblr, and Pinterest routes. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. Source counts record only which implemented clean source path was opened and are not linked to later Zero events. The percentage shown on the entrance card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
 
-## Looking Zero outcomes
+## Historical measurements
+
+Open **Show historical measurements** when the former separate-guide figures are needed. The panel is collapsed by default so the current unified experience remains the dashboard’s visual priority. It preserves both former guide sections and all their original definitions.
+
+### Former Looking Zero
 
 | Figure | Meaning |
 | --- | --- |
@@ -51,7 +55,7 @@ The attempt categories describe only what was reportable from the conversation. 
 
 The Unified Zero section combines observable inward-looking reports and attention-guidance delivery milestones for public unified sessions beginning October 20, 2026. Earlier team-test records are excluded by the launch-date boundary. Its figures overlap and do not form a required funnel. It does not determine whether the inward look succeeded, whether an exercise was completed, or whether attention skills improved.
 
-The dashboard preserves the historical Looking and SDA sections unchanged. Unified sessions use their own table and a `unified:`-scoped keyed hash input, so new records cannot be mistaken for or joined to sessions in either historical table.
+The dashboard preserves the historical Looking and SDA records under the collapsed historical panel. Unified sessions use their own table and a `unified:`-scoped keyed hash input, so new records cannot be mistaken for or joined to sessions in either historical table.
 
 ## Useful ways to review the dashboard
 

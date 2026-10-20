@@ -10,4 +10,4 @@ The former **Look At Yourself** and **Self-Directed Attention Exercise** instruc
 
 The shared backend in `worker/zero/` reads these files when it is checked, tested, or deployed. Any corresponding GPTs in ChatGPT should also be kept in sync with these canonical versions.
 
-Zero's canonical public webpage is `/try-it/`. The separate `/self-directed-attention/` page is temporarily retained for compatibility. The published social source-entry routes under `/try-it/` all continue to the unified guide.
+Zero's canonical public webpage is `/try-it/`. The former `/self-directed-attention/` URL redirects to it for compatibility. The published social source-entry routes under `/try-it/` all continue to the unified guide.

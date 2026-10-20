@@ -5,7 +5,8 @@ This is the editable source record for future revisions of the website-journey P
 ## Changes since the August 2026 edition
 
 - Zero's canonical unified guide is `/try-it/`. It gives the inward look priority and can continue into attention guidance in the same conversation.
-- The former separate Self-Directed Attention page remains temporarily available at `/self-directed-attention/` for compatibility.
+- The former separate Self-Directed Attention URL redirects to `/try-it/`; its accumulated measurements remain available as history.
+- The private dashboard gives current unified Zero measurement priority and keeps former Looking Zero and SDA Zero figures together in a collapsed historical-measurements panel.
 - The currently published Road to Zero source routes are `/try-it/x/`, `/try-it/bluesky/`, `/try-it/reddit/`, `/try-it/tiktok/`, `/try-it/tumblr/`, and `/try-it/pinterest/`.
 - Additional source routes should be created only when an outreach link is ready to publish.
 - Former `/ai/` compatibility links are no longer part of the public structure.
