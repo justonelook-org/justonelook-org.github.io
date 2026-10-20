@@ -4,19 +4,20 @@ import test from "node:test";
 
 const repositoryRoot = new URL("../../../", import.meta.url);
 
-test("the canonical unified guide and compatibility guide share the browser assets", async () => {
+test("the canonical unified guide uses the shared browser assets and the retired SDA route redirects", async () => {
   const lookPage = await readFile(new URL("try-it/index.html", repositoryRoot), "utf8");
   const sdaPage = await readFile(new URL("self-directed-attention/index.html", repositoryRoot), "utf8");
-  for (const page of [lookPage, sdaPage]) {
-    assert.match(page, /assets\/css\/zero-guide\.css\?v=20260829-1/);
-    assert.match(page, /assets\/js\/zero-guide\.js\?v=20260829-1/);
-    assert.doesNotMatch(page, /look-at-yourself\.(?:css|js)/);
-  }
+  assert.match(lookPage, /assets\/css\/zero-guide\.css\?v=20260829-1/);
+  assert.match(lookPage, /assets\/js\/zero-guide\.js\?v=20260829-1/);
+  assert.doesNotMatch(lookPage, /look-at-yourself\.(?:css|js)/);
   assert.match(lookPage, /data-(?:api|local)-endpoint="[^"]*\/api\/unified-zero"/);
   assert.match(lookPage, /How do I look at myself\?/);
   assert.match(lookPage, /I have looked\. Then what\?/);
   assert.doesNotMatch(lookPage, /api\/look-at-yourself/);
-  assert.match(sdaPage, /data-(?:api|local)-endpoint="[^"]*\/api\/self-directed-attention"/);
+  assert.match(sdaPage, /http-equiv="refresh" content="0; url=\/try-it\/"/i);
+  assert.match(sdaPage, /location\.replace\('\/try-it\/'\)/);
+  assert.match(sdaPage, /rel="canonical" href="https:\/\/justonelook\.org\/try-it\/"/);
+  assert.doesNotMatch(sdaPage, /api\/self-directed-attention/);
 });
 
 test("the public unified page explains its combined private measurement", async () => {
@@ -27,12 +28,12 @@ test("the public unified page explains its combined private measurement", async 
   assert.match(page, /provides practical guidance in the Just One Look Method/i);
 });
 
-test("What Now returns visitors to canonical unified Zero while SDA remains available", async () => {
+test("What Now and the retired SDA route return visitors to canonical unified Zero", async () => {
   const page = await readFile(new URL("what-now.html", repositoryRoot), "utf8");
   const sdaPage = await readFile(new URL("self-directed-attention/index.html", repositoryRoot), "utf8");
   assert.match(page, /href="try-it\/"[^>]*>Continue with Zero</i);
   assert.doesNotMatch(page, /href="self-directed-attention\/"/i);
-  assert.match(sdaPage, /api\/self-directed-attention/);
+  assert.match(sdaPage, /location\.replace\('\/try-it\/'\)/);
 });
 
 test("SDA handoff and the safe renderer allow only the two approved internal links", async () => {
@@ -45,7 +46,7 @@ test("SDA handoff and the safe renderer allow only the two approved internal lin
   assert.equal((script.match(/href: "/g) || []).length, 2);
 });
 
-test("SDA browser requests contain no Step One tracking memory", async () => {
+test("the retired SDA route and shared browser script contain no Step One tracking memory", async () => {
   const sdaPage = await readFile(new URL("self-directed-attention/index.html", repositoryRoot), "utf8");
   const script = await readFile(new URL("assets/js/zero-guide.js", repositoryRoot), "utf8");
   assert.doesNotMatch(sdaPage + script, /confirmsStepOne|remembers-step-one|stepOneConfirmed|localStorage|jol-sda-step-one-confirmed/);

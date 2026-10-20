@@ -2,7 +2,7 @@
 
 This is the production repository for the [Just One Look website](https://justonelook.org), including its static content and Zero, the site's AI guide.
 
-The site presents the invitation to **Look at Yourself** first, followed by guidance on working with attention and a library of books, articles, blog posts, podcast episodes, audio reports, and videos. The public Zero at `/try-it/` guides the complete method as one coherent conversation. The former separate Self-Directed Attention guide remains temporarily available for compatibility.
+The site presents the invitation to **Look at Yourself** first, followed by guidance on working with attention and a library of books, articles, blog posts, podcast episodes, audio reports, and videos. The public Zero at `/try-it/` guides the complete method as one coherent conversation. The former Self-Directed Attention guide URL redirects to this canonical guide.
 
 ## Production and publishing
 
@@ -21,7 +21,7 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `library/` — books, articles, blog posts, podcasts, audio reports, and videos
 - `assets/` — shared images, styles, and other site assets
 - `try-it/` — canonical public webpage for unified Zero
-- `self-directed-attention/` — temporarily retained compatibility page for the former separate attention guide
+- `self-directed-attention/` — compatibility redirect to the canonical unified guide
 - `try-it/x/`, `try-it/bluesky/`, `try-it/reddit/`, `try-it/tiktok/`, `try-it/tumblr/`, and `try-it/pinterest/` — published social source-entry routes to Zero
 - `zero/` — canonical instructions for unified Zero and the retained historical guides
 - `worker/zero/` — Cloudflare Worker backend shared by the current and retained guide routes
