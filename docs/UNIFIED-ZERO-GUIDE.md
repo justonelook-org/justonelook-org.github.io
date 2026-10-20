@@ -1,8 +1,8 @@
 # One Unified Zero Guide
 
-**Status:** Approved for design and development; not approved for production replacement
-**Working date:** October 16, 2026
-**Intended canonical entrance:** `https://justonelook.org/try-it/`
+**Status:** Team testing complete; approved for public launch October 20, 2026
+**Working date:** October 20, 2026
+**Canonical entrance:** `https://justonelook.org/try-it/`
 
 ## Purpose
 
@@ -609,6 +609,6 @@ Current production behavior remains defined by:
 
 This document owns the approved direction, safeguards, scope, and unresolved design questions for the unified-guide initiative. It does not replace the current production instruction files until a future production transition is explicitly approved.
 
-## Next action
+## Public launch decision
 
-Use the controlled team page to evaluate the unified guide and its separate test measurements. Then prepare the public transition: `/try-it/` as the unified entrance, an updated `what-now.html`, and a temporary compatibility period for `/self-directed-attention/`. Production measurement or replacement of either live guide still requires separate implementation, review, and explicit deployment approval.
+Team testing is complete. On October 20, 2026, unified Zero was approved to become the canonical public guide at `/try-it/`, with unified production measurement beginning on that date. `what-now.html` returns visitors to the same guide. The separate `/self-directed-attention/` route remains temporarily available for compatibility and rollback; its historical instructions and measurement retain their original meaning. Roads to Zero continue to use `/try-it/` without modification.
