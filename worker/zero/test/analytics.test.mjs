@@ -23,7 +23,10 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /Zero sessions started/i);
   assert.match(html, /independent action counts, not a linked visitor funnel/i);
   assert.match(html, /may differ slightly from Worker-recorded guide sessions/i);
-  assert.match(html, /Looking Zero — Historical Outcome Measurement/i);
+  assert.match(html, /Show historical measurements/i);
+  assert.match(html, /<details class="historical">/i);
+  assert.doesNotMatch(html, /<details class="historical" open/i);
+  assert.match(html, /Former Looking Zero/i);
   assert.match(html, /do not determine whether the inward look succeeded/i);
   assert.match(html, /\/private\/website-traffic\/api/);
   assert.match(html, /\/private\/looking-zero\/api/);
@@ -31,7 +34,7 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /No recorded indication of trying/);
   assert.match(html, /includes explicit reports/i);
   assert.match(html, /Median visitor turn of first indication/i);
-  assert.match(html, /Self-Directed Attention Zero — Separate Guide Usage/i);
+  assert.match(html, /Former Self-Directed Attention Zero/i);
   assert.match(html, /do not determine whether attention skills improved/i);
   assert.ok(html.includes("/private/self-directed-attention/api"));
   assert.match(html, /Formal exercise guidance delivered/);
