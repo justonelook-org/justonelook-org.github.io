@@ -66,6 +66,17 @@ test("routes an SDA request through one non-evaluative prerequisite", () => {
   assert.match(instructions, /Keep track of what the visitor was asking before you asked a clarifying question/i);
   assert.match(instructions, /after [“"]I have looked\. Then what\?[”"].*a yes.*best next step is working with attention/is);
   assert.match(instructions, /do not call it a teaching/i);
+  assert.match(instructions, /website referral must not displace the inward look/i);
+  assert.match(instructions, /website remains available immediately.*invitation, not a condition/is);
+  assert.match(instructions, /If they have already reported trying it.*without asking again/is);
+});
+
+test("checks clarity selectively and lets a complete exchange rest", () => {
+  assert.match(instructions, /genuine point of possible confusion/i);
+  assert.match(instructions, /whether that was clear or whether the visitor would like it said another way/i);
+  assert.match(instructions, /Do not ask for confirmation after every instruction/i);
+  assert.match(instructions, /answered the immediate question, offered the natural next practical step/is);
+  assert.match(instructions, /Do not keep a conversation going merely to add another instruction, check, choice, or link/i);
 });
 
 test("retains the complete formal exercise and its daily-life distinction", () => {

@@ -5,7 +5,7 @@ import test from "node:test";
 const scenarios = JSON.parse(await readFile(new URL("../evals/unified-zero.json", import.meta.url), "utf8"));
 
 test("defines the approved unified Zero routing scenarios without exact replies", () => {
-  assert.equal(scenarios.length, 27);
+  assert.equal(scenarios.length, 28);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
   for (const scenario of scenarios) {
     assert.match(scenario.id, /^[a-z0-9-]+$/);

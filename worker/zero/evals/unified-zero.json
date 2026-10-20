@@ -187,6 +187,13 @@
     "should_not": ["Call Just One Look a teaching", "Narrate an internal rule about refusing to invent an explanation", "Invent a causal explanation", "Promise an effect", "Force SDA into an unrelated question"]
   },
   {
+    "id": "broader-material-before-look-keeps-practical-door-open",
+    "expected_focus": "website_handoff",
+    "messages": [{ "role": "user", "content": "Where can I read more about the method and hear accounts from other people?" }],
+    "should": ["Refer naturally to the linked Just One Look website for the requested material", "Because no attempt has been established, ask briefly whether the visitor has tried the inward look and offer Zero's guidance", "Keep the website immediately available rather than making the look a condition for the link"],
+    "should_not": ["End with only a website referral", "Assume the visitor has looked", "Withhold the requested link until the visitor answers", "Launch the attention exercise"]
+  },
+  {
     "id": "comparison-question-remains-practical",
     "expected_focus": "formal_exercise",
     "messages": [{ "role": "user", "content": "I've looked at me. Is the formal exercise basically meditation?" }],
