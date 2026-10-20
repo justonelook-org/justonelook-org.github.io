@@ -49,7 +49,7 @@ The attempt categories describe only what was reportable from the conversation. 
 
 ## Unified Zero guidance and reports
 
-The Unified Zero section combines observable inward-looking reports and attention-guidance delivery milestones only for sessions using the feature-gated unified endpoint. Its figures overlap and do not form a required funnel. It does not determine whether the inward look succeeded, whether an exercise was completed, or whether attention skills improved. Until the endpoint is explicitly enabled in a controlled environment and migration `0007_unified_zero_measurement.sql` is applied, this section has no production data.
+The Unified Zero section combines observable inward-looking reports and attention-guidance delivery milestones for public unified sessions beginning October 20, 2026. Earlier team-test records are excluded by the launch-date boundary. Its figures overlap and do not form a required funnel. It does not determine whether the inward look succeeded, whether an exercise was completed, or whether attention skills improved.
 
 The dashboard preserves the historical Looking and SDA sections unchanged. Unified sessions use their own table and a `unified:`-scoped keyed hash input, so new records cannot be mistaken for or joined to sessions in either historical table.
 
@@ -84,7 +84,7 @@ Outcome measurement is controlled by `OUTCOME_MEASUREMENT_ENABLED` in `wrangler.
 
 The production configuration is currently `"true"`. In this mode, the exact `OUTCOME_TEST_ORIGIN` is excluded so JOL team testing does not enter the production dashboard. Changing the repository file has no effect until the Worker is deployed.
 
-Unified measurement is controlled independently by `UNIFIED_MEASUREMENT_ENABLED` using the same three modes and test origin. Its production configuration remains `"false"`. This allows controlled unified testing without interrupting or changing the live Looking and SDA measurements.
+Unified measurement is controlled independently by `UNIFIED_MEASUREMENT_ENABLED` using the same three modes and test origin. Production uses `"true"`; `"test"` remains available for controlled non-production evaluation. The historical Looking and SDA measurement modes remain independent.
 
 Required Cloudflare resources and secrets:
 

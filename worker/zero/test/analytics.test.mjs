@@ -20,10 +20,10 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /Roads to Zero/i);
   assert.match(html, /Anonymous aggregate arrivals through the clean public source links/i);
   assert.match(html, /Anonymous aggregate measurement of website activity and Zero guidance/i);
-  assert.match(html, /Looking Zero sessions started/i);
+  assert.match(html, /Zero sessions started/i);
   assert.match(html, /independent action counts, not a linked visitor funnel/i);
-  assert.match(html, /may differ slightly from Outcome Measurement sessions/i);
-  assert.match(html, /Looking Zero — Outcome Measurement/i);
+  assert.match(html, /may differ slightly from Worker-recorded guide sessions/i);
+  assert.match(html, /Looking Zero — Historical Outcome Measurement/i);
   assert.match(html, /do not determine whether the inward look succeeded/i);
   assert.match(html, /\/private\/website-traffic\/api/);
   assert.match(html, /\/private\/looking-zero\/api/);
@@ -31,12 +31,14 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /No recorded indication of trying/);
   assert.match(html, /includes explicit reports/i);
   assert.match(html, /Median visitor turn of first indication/i);
-  assert.match(html, /Self-Directed Attention Zero — Usage/i);
+  assert.match(html, /Self-Directed Attention Zero — Separate Guide Usage/i);
   assert.match(html, /do not determine whether attention skills improved/i);
   assert.ok(html.includes("/private/self-directed-attention/api"));
   assert.match(html, /Formal exercise guidance delivered/);
   assert.match(html, /Daily-life guidance delivered/);
   assert.match(html, /Unified Zero — Guidance and Reports/i);
+  assert.match(html, /public unified guide since 20 Oct 2026/i);
+  assert.match(html, /Earlier team-test records are excluded/i);
   assert.ok(html.includes("/private/unified-zero/api"));
   assert.match(html, /Complete inward-looking invitation delivered/);
   assert.match(html, /Formal attention-exercise guidance delivered/);
@@ -120,7 +122,10 @@ test("combines unified retained and archived milestones with explicit denominato
   assert.equal(metrics.percentages.post_attention_responses_of_guidance, 80);
   assert.equal(metrics.median_turn_of_first_indication, 3);
   assert.equal(metrics.median_turn_of_first_attention_guidance, 4);
+  assert.equal(metrics.range.from, "2026-10-20T00:00:00.000Z");
+  assert.equal(metrics.public_measurement_started_day, "2026-10-20");
   assert.match(metrics.note, /overlapping conversational milestones/i);
+  assert.match(metrics.note, /Earlier team-test records are excluded/i);
   assert.match(metrics.note, /do not determine whether the inward look succeeded/i);
 });
 

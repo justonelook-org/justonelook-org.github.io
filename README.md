@@ -2,7 +2,7 @@
 
 This is the production repository for the [Just One Look website](https://justonelook.org), including its static content and Zero, the site's AI guide.
 
-The site presents the invitation to **Look at Yourself** first, followed by guidance on what to do next and a library of books, articles, blog posts, podcast episodes, audio reports, and videos. Zero provides two deliberately separate guides for Step One and Step Two of the Just One Look Method.
+The site presents the invitation to **Look at Yourself** first, followed by guidance on working with attention and a library of books, articles, blog posts, podcast episodes, audio reports, and videos. The public Zero at `/try-it/` guides the complete method as one coherent conversation. The former separate Self-Directed Attention guide remains temporarily available for compatibility.
 
 ## Production and publishing
 
@@ -20,10 +20,11 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `what-now.html`, `about.html`, and other root HTML files — primary site pages
 - `library/` — books, articles, blog posts, podcasts, audio reports, and videos
 - `assets/` — shared images, styles, and other site assets
-- `try-it/` and `self-directed-attention/` — canonical public webpages for Zero's two guides
-- `try-it/x/` and `try-it/bluesky/` — the currently published social source-entry routes to Zero
-- `zero/` — canonical instructions for Zero's two guides
-- `worker/zero/` — Cloudflare Worker backend shared by both Zero guides
+- `try-it/` — canonical public webpage for unified Zero
+- `self-directed-attention/` — temporarily retained compatibility page for the former separate attention guide
+- `try-it/x/`, `try-it/bluesky/`, `try-it/reddit/`, `try-it/tiktok/`, `try-it/tumblr/`, and `try-it/pinterest/` — published social source-entry routes to Zero
+- `zero/` — canonical instructions for unified Zero and the retained historical guides
+- `worker/zero/` — Cloudflare Worker backend shared by the current and retained guide routes
 - `AGENTS.md` — repository instructions for coding agents that maintain the site
 - `scripts/` — maintenance utilities
 - `legacy-site/` — preserved historical source material
@@ -32,32 +33,31 @@ Internal maintenance directories and files, including `legacy-site/`, `docs/`, `
 
 ## How Zero is organized
 
-Zero has two companion guides:
+Unified Zero is the canonical public guide:
 
-- **Look At Yourself** guides the inward look, Step One.
-- **Self-Directed Attention Exercise** guides Step Two and assumes Step One has already been performed.
+- it gives the inward look priority;
+- after a reported look and a relevant request, it can guide the attention exercise or deliberate use of attention in daily life;
+- it gives only the instruction relevant to the visitor now.
 
-The two guides share infrastructure but must remain behaviorally separate. Their repository flow is:
+Its repository flow is:
 
 ```text
 zero/                  Canonical behavior and teaching instructions
    ↓
 worker/zero/           Generates runtime modules and serves both API routes
    ↓
-try-it/ and self-directed-attention/
-                       Canonical public browser interfaces
+try-it/                Canonical public browser interface
 ```
 
-The public pages call separate Worker routes:
+The canonical public page calls:
 
 ```text
-/api/look-at-yourself
-/api/self-directed-attention
+/api/unified-zero
 ```
 
-The Worker keeps separate instructions, API keys, model settings, and guide-specific behavior for those routes. Its deployed Cloudflare name remains `look-at-yourself-api` for compatibility with the existing public endpoint.
+The historical `/api/look-at-yourself` route and the temporarily retained `/api/self-directed-attention` route remain available for compatibility and rollback. Their instructions, API keys, behavior, and measurements stay separate from unified Zero. The deployed Cloudflare name remains `look-at-yourself-api` for compatibility.
 
-The currently published Roads to Zero are `/try-it/x/` and `/try-it/bluesky/`. Each records an anonymous aggregate source-link opening and immediately continues to `/try-it/`. Additional source routes should be added only when a corresponding public link is ready to use.
+The published Roads to Zero are `/try-it/x/`, `/try-it/bluesky/`, `/try-it/reddit/`, `/try-it/tiktok/`, `/try-it/tumblr/`, and `/try-it/pinterest/`. Each records an anonymous aggregate source-link opening and immediately continues to `/try-it/`. Additional source routes should be added only when a corresponding public link is ready to use.
 
 The Markdown files under `zero/` are the source of truth. Worker preparation generates temporary JavaScript instruction modules from them; those generated files are ignored by Git and should not be edited directly. Corresponding custom GPTs in ChatGPT should be kept in sync manually when their instructions change.
 

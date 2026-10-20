@@ -4,8 +4,8 @@ This is the editable source record for future revisions of the website-journey P
 
 ## Changes since the August 2026 edition
 
-- Zero's canonical Look At Yourself page is `/try-it/`.
-- Zero's canonical Self-Directed Attention page is `/self-directed-attention/`.
+- Zero's canonical unified guide is `/try-it/`. It gives the inward look priority and can continue into attention guidance in the same conversation.
+- The former separate Self-Directed Attention page remains temporarily available at `/self-directed-attention/` for compatibility.
 - The currently published Road to Zero source routes are `/try-it/x/`, `/try-it/bluesky/`, `/try-it/reddit/`, `/try-it/tiktok/`, `/try-it/tumblr/`, and `/try-it/pinterest/`.
 - Additional source routes should be created only when an outreach link is ready to publish.
 - Former `/ai/` compatibility links are no longer part of the public structure.

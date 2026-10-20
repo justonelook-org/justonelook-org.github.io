@@ -4,7 +4,7 @@ import test from "node:test";
 
 const repositoryRoot = new URL("../../../", import.meta.url);
 
-test("both public guides load the shared renamed assets with one JavaScript version", async () => {
+test("the canonical unified guide and compatibility guide share the browser assets", async () => {
   const lookPage = await readFile(new URL("try-it/index.html", repositoryRoot), "utf8");
   const sdaPage = await readFile(new URL("self-directed-attention/index.html", repositoryRoot), "utf8");
   for (const page of [lookPage, sdaPage]) {
@@ -12,8 +12,27 @@ test("both public guides load the shared renamed assets with one JavaScript vers
     assert.match(page, /assets\/js\/zero-guide\.js\?v=20260829-1/);
     assert.doesNotMatch(page, /look-at-yourself\.(?:css|js)/);
   }
-  assert.match(lookPage, /data-(?:api|local)-endpoint="[^"]*\/api\/look-at-yourself"/);
+  assert.match(lookPage, /data-(?:api|local)-endpoint="[^"]*\/api\/unified-zero"/);
+  assert.match(lookPage, /How do I look at myself\?/);
+  assert.match(lookPage, /I have looked\. Then what\?/);
+  assert.doesNotMatch(lookPage, /api\/look-at-yourself/);
   assert.match(sdaPage, /data-(?:api|local)-endpoint="[^"]*\/api\/self-directed-attention"/);
+});
+
+test("the public unified page explains its combined private measurement", async () => {
+  const page = await readFile(new URL("try-it/index.html", repositoryRoot), "utf8");
+  assert.match(page, /anonymous guidance milestones/i);
+  assert.match(page, /does not decide whether the inward look occurred or succeeded/i);
+  assert.match(page, /whether attention skills improved/i);
+  assert.match(page, /provides practical guidance in the Just One Look Method/i);
+});
+
+test("What Now returns visitors to canonical unified Zero while SDA remains available", async () => {
+  const page = await readFile(new URL("what-now.html", repositoryRoot), "utf8");
+  const sdaPage = await readFile(new URL("self-directed-attention/index.html", repositoryRoot), "utf8");
+  assert.match(page, /href="try-it\/"[^>]*>Continue with Zero</i);
+  assert.doesNotMatch(page, /href="self-directed-attention\/"/i);
+  assert.match(sdaPage, /api\/self-directed-attention/);
 });
 
 test("SDA handoff and the safe renderer allow only the two approved internal links", async () => {

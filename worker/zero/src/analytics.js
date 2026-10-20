@@ -3,6 +3,8 @@ import { basicCredentialsAccepted, rateLimitAccepted, requestClientKey } from ".
 const DEFAULT_DAYS = 30;
 const MAX_DAYS = 366;
 const MEASUREMENT_STARTED_DAY = "2026-08-10";
+const UNIFIED_PUBLIC_STARTED_DAY = "2026-10-20";
+const UNIFIED_PUBLIC_STARTED_AT = `${UNIFIED_PUBLIC_STARTED_DAY}T00:00:00.000Z`;
 
 export async function handleAnalyticsRequest(request, env) {
   if (!await rateLimitAccepted(env.PRIVATE_RATE_LIMITER, `private:${requestClientKey(request)}`)) return tooManyRequests();
@@ -128,6 +130,7 @@ export async function readSdaMetrics(database, from, to) {
 }
 
 export async function readUnifiedMetrics(database, from, to) {
+  const publicFrom = from < UNIFIED_PUBLIC_STARTED_AT ? UNIFIED_PUBLIC_STARTED_AT : from;
   const live = await database.prepare(`
     SELECT COUNT(*) AS sessions,
       SUM(inward_invitation_delivered) AS invitations,
@@ -141,7 +144,7 @@ export async function readUnifiedMetrics(database, from, to) {
       SUM(post_attention_guidance_response) AS post_attention_responses,
       SUM(natural_completion) AS completions
     FROM unified_sessions WHERE started_at >= ? AND started_at < ?
-  `).bind(from, to).first();
+  `).bind(publicFrom, to).first();
   const archived = await database.prepare(`
     SELECT COALESCE(SUM(sessions), 0) AS sessions,
       COALESCE(SUM(inward_invitations), 0) AS invitations,
@@ -155,24 +158,24 @@ export async function readUnifiedMetrics(database, from, to) {
       COALESCE(SUM(post_attention_guidance_responses), 0) AS post_attention_responses,
       COALESCE(SUM(natural_completions), 0) AS completions
     FROM unified_daily_aggregates WHERE day >= substr(?, 1, 10) AND day < substr(?, 1, 10)
-  `).bind(from, to).first();
+  `).bind(publicFrom, to).first();
   const attemptRows = await database.prepare(`
     SELECT first_attempt_turn AS value FROM unified_sessions
     WHERE started_at >= ? AND started_at < ? AND first_attempt_turn IS NOT NULL
     ORDER BY first_attempt_turn
-  `).bind(from, to).all();
+  `).bind(publicFrom, to).all();
   const guidanceRows = await database.prepare(`
     SELECT first_attention_guidance_turn AS value FROM unified_sessions
     WHERE started_at >= ? AND started_at < ? AND first_attention_guidance_turn IS NOT NULL
     ORDER BY first_attention_guidance_turn
-  `).bind(from, to).all();
+  `).bind(publicFrom, to).all();
   const totals = {};
   for (const key of ["sessions", "invitations", "post_inward_responses", "indicated", "explicit", "no_report", "formal", "daily_life", "guidance", "post_attention_responses", "completions"]) {
     totals[key] = number(live?.[key]) + number(archived?.[key]);
   }
   const coverage = archived?.sessions ? "retained session records only" : "full selected range";
   return {
-    range: { from, to }, counts: totals,
+    range: { from: publicFrom, to }, public_measurement_started_day: UNIFIED_PUBLIC_STARTED_DAY, counts: totals,
     percentages: {
       invitations_of_started: percent(totals.invitations, totals.sessions),
       post_inward_responses_of_invitations: percent(totals.post_inward_responses, totals.invitations),
@@ -186,7 +189,7 @@ export async function readUnifiedMetrics(database, from, to) {
     median_turn_of_first_indication: median((attemptRows?.results || []).map(({ value }) => number(value))),
     median_turn_of_first_attention_guidance: median((guidanceRows?.results || []).map(({ value }) => number(value))),
     median_coverage: coverage,
-    note: "These are overlapping conversational milestones, not a required funnel. Reports of trying do not determine whether the inward look succeeded, and guidance delivery does not determine whether attention skills improved."
+    note: `Public unified measurement began ${UNIFIED_PUBLIC_STARTED_DAY}. Earlier team-test records are excluded. These are overlapping conversational milestones, not a required funnel. Reports of trying do not determine whether the inward look succeeded, and guidance delivery does not determine whether attention skills improved.`
   };
 }
 
@@ -295,16 +298,16 @@ button,input{font:inherit;padding:.45rem}.cards{display:grid;grid-template-colum
 <section id="source-section" aria-labelledby="source-heading" hidden><h3 id="source-heading">Roads to Zero</h3><p class="section-intro">Anonymous aggregate arrivals through the clean public source links.</p><div class="cards" id="source-cards"></div></section>
 <p class="note" id="traffic-note"></p></section>
 <hr class="divider">
-<section class="dashboard-section" aria-labelledby="outcome-heading"><h2 id="outcome-heading">Looking Zero — Outcome Measurement</h2>
-<p class="section-intro">Anonymous milestones and reports of trying. These figures do not determine whether the inward look succeeded.</p>
+<section class="dashboard-section" aria-labelledby="outcome-heading"><h2 id="outcome-heading">Looking Zero — Historical Outcome Measurement</h2>
+<p class="section-intro">Anonymous milestones from the former separate Looking guide. These figures do not determine whether the inward look succeeded.</p>
 <div class="cards" id="outcome-cards" aria-live="polite"></div><p class="note" id="outcome-note"></p></section>
 <hr class="divider">
-<section class="dashboard-section" aria-labelledby="sda-heading"><h2 id="sda-heading">Self-Directed Attention Zero — Usage</h2>
-<p class="section-intro">Anonymous milestones showing how SDA guidance was delivered and continued. These figures do not determine whether attention skills improved.</p>
+<section class="dashboard-section" aria-labelledby="sda-heading"><h2 id="sda-heading">Self-Directed Attention Zero — Separate Guide Usage</h2>
+<p class="section-intro">Anonymous milestones from the temporarily retained separate SDA guide. These figures do not determine whether attention skills improved.</p>
 <div class="cards" id="sda-cards" aria-live="polite"></div><p class="note" id="sda-note"></p></section>
 <hr class="divider">
 <section class="dashboard-section" aria-labelledby="unified-heading"><h2 id="unified-heading">Unified Zero — Guidance and Reports</h2>
-<p class="section-intro">Anonymous overlapping milestones for the future unified guide. These figures do not determine whether the inward look succeeded or attention skills improved.</p>
+<p class="section-intro">Anonymous overlapping milestones for the public unified guide since 20 Oct 2026. Earlier team-test records are excluded. These figures do not determine whether the inward look succeeded or attention skills improved.</p>
 <div class="cards" id="unified-cards" aria-live="polite"></div><p class="note" id="unified-note"></p></section>
 <script>
 const form=document.querySelector('#range'),status=document.querySelector('#status'),trafficCards=document.querySelector('#traffic-cards'),sourceSection=document.querySelector('#source-section'),sourceCards=document.querySelector('#source-cards'),trafficNote=document.querySelector('#traffic-note'),outcomeCards=document.querySelector('#outcome-cards'),outcomeNote=document.querySelector('#outcome-note'),sdaCards=document.querySelector('#sda-cards'),sdaNote=document.querySelector('#sda-note'),unifiedCards=document.querySelector('#unified-cards'),unifiedNote=document.querySelector('#unified-note');
@@ -312,7 +315,7 @@ function setDefaultRange(){const today=new Date();form.from.value='${MEASUREMENT
 setDefaultRange();window.addEventListener('pageshow',setDefaultRange);
 form.addEventListener('submit',e=>{e.preventDefault();load()});
 async function load(){status.textContent='Loading…';trafficCards.replaceChildren();outcomeCards.replaceChildren();sdaCards.replaceChildren();unifiedCards.replaceChildren();const q=new URLSearchParams(new FormData(form));try{const [tr,or,sr,ur]=await Promise.all([fetch('/private/website-traffic/api?'+q,{cache:'no-store'}),fetch('/private/looking-zero/api?'+q,{cache:'no-store'}),fetch('/private/self-directed-attention/api?'+q,{cache:'no-store'}),fetch('/private/unified-zero/api?'+q,{cache:'no-store'})]);const [td,od,sd,ud]=await Promise.all([tr.json(),or.json(),sr.json(),ur.json()]);if(!tr.ok)throw new Error(td.error||'Unable to load website traffic.');if(!or.ok)throw new Error(od.error||'Unable to load Looking Zero outcomes.');if(!sr.ok)throw new Error(sd.error||'Unable to load Self-Directed Attention usage.');if(!ur.ok)throw new Error(ud.error||'Unable to load Unified Zero measurement.');renderTraffic(td);renderOutcome(od);renderSda(sd);renderUnified(ud);status.textContent='';}catch(e){status.textContent=e.message}}
-function renderTraffic(d){const c=d.counts,p=d.percentages,started=new Date(d.homepage_entrances_started_day+'T00:00:00Z').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});renderCards(trafficCards,[['Homepage views',c.homepage_views,'Page loads, not unique people'],['Homepage entrances',c.homepage_entrances,p.entrances_to_try_it+'% produced a Try It click since '+started+'; not unique people'],['Try It clicks',c.try_it_clicks,p.views_to_try_it+'% of homepage views'],['Looking Zero opened',c.zero_opens,p.try_it_to_zero_open+'% of Try It clicks'],['Looking Zero sessions started',c.zero_session_starts,'Browser-recorded first-message events; may differ slightly from Outcome Measurement sessions']]);const sources=(d.sources||[]).filter(s=>s.implemented!==false||s.count>0);sourceCards.replaceChildren();sourceSection.hidden=!sources.length;if(sources.length)renderCards(sourceCards,sources.map(s=>[s.label,s.count,'Anonymous source-link arrivals']));trafficNote.textContent=d.note}
+function renderTraffic(d){const c=d.counts,p=d.percentages,started=new Date(d.homepage_entrances_started_day+'T00:00:00Z').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});renderCards(trafficCards,[['Homepage views',c.homepage_views,'Page loads, not unique people'],['Homepage entrances',c.homepage_entrances,p.entrances_to_try_it+'% produced a Try It click since '+started+'; not unique people'],['Try It clicks',c.try_it_clicks,p.views_to_try_it+'% of homepage views'],['Zero opened',c.zero_opens,p.try_it_to_zero_open+'% of Try It clicks'],['Zero sessions started',c.zero_session_starts,'Browser-recorded first-message events; may differ slightly from Worker-recorded guide sessions']]);const sources=(d.sources||[]).filter(s=>s.implemented!==false||s.count>0);sourceCards.replaceChildren();sourceSection.hidden=!sources.length;if(sources.length)renderCards(sourceCards,sources.map(s=>[s.label,s.count,'Anonymous source-link arrivals']));trafficNote.textContent=d.note}
 function renderOutcome(d){const c=d.counts,p=d.percentages;renderCards(outcomeCards,[['Sessions started',c.sessions,'Worker-recorded anonymous sessions'],['Complete invitation delivered',c.invitations,p.invitations_of_started+'% of sessions'],['Response after invitation',c.post_responses,p.post_responses_of_invitations+'% of invitations'],['Possible indication of trying',c.indicated,p.indicated_of_invitations+'% of complete invitations; includes explicit reports'],['Explicitly reported trying',c.explicit,p.explicit_of_invitations+'% of complete invitations; included in possible indications'],['No recorded indication of trying',c.no_report,'Includes sessions ending before the complete invitation; not evidence that the look did not occur'],['Median visitor turn of first indication',d.median_messages_before_attempt_report??'—','Among sessions with a recorded indication; '+d.median_coverage]]);outcomeNote.textContent=d.note}
 function renderSda(d){const c=d.counts,p=d.percentages;renderCards(sdaCards,[['Sessions started',c.sessions,'Worker-recorded anonymous sessions'],['Directed to Look At Yourself',c.redirected,p.redirected_of_started+'% of sessions'],['SDA guidance delivered',c.guidance,p.guidance_of_started+'% of sessions; formal or daily-life guidance'],['Formal exercise guidance delivered',c.formal,'Actionable formal exercise guidance'],['Daily-life guidance delivered',c.daily_life,'Actionable guidance for ordinary activity'],['Response after SDA guidance',c.post_responses,p.post_responses_of_guidance+'% of sessions receiving guidance'],['Natural completion',c.completions,p.completions_of_started+'% of sessions'],['Median visitor turn of first guidance',d.median_turn_of_first_guidance??'—','Among sessions receiving guidance; '+d.median_coverage]]);sdaNote.textContent=d.note}
 function renderUnified(d){const c=d.counts,p=d.percentages;renderCards(unifiedCards,[['Sessions started',c.sessions,'Worker-recorded anonymous unified sessions'],['Complete inward-looking invitation delivered',c.invitations,p.invitations_of_started+'% of sessions'],['Response after inward-looking invitation',c.post_inward_responses,p.post_inward_responses_of_invitations+'% of sessions receiving the invitation'],['Possible indication of trying',c.indicated,p.indicated_of_invitations+'% of complete invitations; includes explicit reports'],['Explicitly reported trying',c.explicit,p.explicit_of_invitations+'% of complete invitations; included in possible indications'],['Formal attention-exercise guidance delivered',c.formal,p.formal_of_started+'% of sessions'],['Daily-life attention guidance delivered',c.daily_life,p.daily_life_of_started+'% of sessions'],['Response after attention guidance',c.post_attention_responses,p.post_attention_responses_of_guidance+'% of sessions receiving attention guidance'],['Natural completion',c.completions,p.completions_of_started+'% of sessions'],['Median visitor turn of first indication',d.median_turn_of_first_indication??'—','Among sessions with a recorded indication; '+d.median_coverage],['Median visitor turn of first attention guidance',d.median_turn_of_first_attention_guidance??'—','Among sessions receiving attention guidance; '+d.median_coverage]]);unifiedNote.textContent=d.note}

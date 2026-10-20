@@ -1,6 +1,6 @@
 # Zero service
 
-This small Cloudflare Worker connects the Look At Yourself and Self-Directed Attention Exercise guides to OpenAI. It contains no conversation database and does not intentionally log message content.
+This small Cloudflare Worker connects unified Zero and the retained historical guide routes to OpenAI. It contains no conversation database and does not intentionally log message content.
 
 For day-to-day access, interpretation, privacy, and maintenance of the unified private traffic and outcome dashboard, see [DASHBOARD-GUIDE.md](DASHBOARD-GUIDE.md).
 
@@ -8,7 +8,7 @@ For the short internal note telling the JOL team where to test without affecting
 
 For the privacy-first website traffic section, event definitions, and maintenance boundaries, see [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md).
 
-The service code includes separate anonymous measurement layers for Looking Zero, Self-Directed Attention Zero, and the feature-gated unified prototype. The deployed configuration enables measurement for allowed production origins after the corresponding database migrations are applied. `OUTCOME_MEASUREMENT_ENABLED` controls the historical Looking and SDA measurements. `UNIFIED_MEASUREMENT_ENABLED` independently controls unified measurement. Each supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins. `UNIFIED_ZERO_ENABLED` independently controls access to the unified endpoint using the same modes, so test activation does not expose it to production origins.
+The service code includes separate anonymous measurement layers for historical Looking Zero, the retained Self-Directed Attention Zero guide, and public unified Zero. `OUTCOME_MEASUREMENT_ENABLED` controls the historical Looking and SDA measurements. `UNIFIED_MEASUREMENT_ENABLED` independently controls unified measurement. Each supports three explicit modes: `"false"` disables collection, `"test"` permits only the exact `OUTCOME_TEST_ORIGIN`, and `"true"` permits allowed production origins. `UNIFIED_ZERO_ENABLED` independently controls access to the unified endpoint using the same modes. Public unified operation uses `"true"` for both unified switches.
 
 ## Before the Zero service can run
 
@@ -20,9 +20,10 @@ From this folder, the person setting up the service must:
 2. Sign in to Cloudflare with `pnpm exec wrangler login`.
 3. Add the Looking guide's OpenAI project key with `pnpm exec wrangler secret put OPENAI_API_KEY`.
 4. Add the SDA guide's OpenAI project key with `pnpm exec wrangler secret put OPENAI_SDA_API_KEY`.
-5. Check the Worker package with `pnpm run check`. This automatically packages the canonical instruction file.
-6. Publish it with `pnpm run deploy` only after explicit approval.
-7. Confirm that both guide pages use the published Worker address.
+5. Add unified Zero's OpenAI project key with `pnpm exec wrangler secret put OPENAI_UNIFIED_API_KEY`.
+6. Check the Worker package with `pnpm run check`. This automatically packages the canonical instruction files.
+7. Publish it with `pnpm run deploy` only after explicit approval.
+8. Confirm that the canonical and compatibility guide pages use the published Worker address.
 
 Never put either API key in a repository file or paste it into a webpage.
 
@@ -56,13 +57,13 @@ Unified measurement retains the conservative inward-look report categories and t
 2. Add its `OUTCOME_DB` binding to `wrangler.jsonc` using the database ID returned by Wrangler.
 3. Apply `migrations/0001_looking_outcomes.sql` to that database.
    Apply all subsequent numbered migrations in order. `0005_zero_sources.sql` adds anonymous daily source and optional campaign aggregates without visitor-level records. `0006_sda_measurement.sql` adds the separate SDA session and daily aggregate tables. `0007_unified_zero_measurement.sql` adds separate unified session and daily aggregate tables without changing historical data.
-   Migration `0007` was applied to the production D1 database on October 17, 2026; its unified tables remain empty until separately activated.
+   Migration `0007` was applied to the production D1 database on October 17, 2026. Public unified measurement begins October 20, 2026; earlier team-test rows are excluded from public dashboard totals by that launch-date boundary.
 4. Add the outcome project's OpenAI key with `pnpm exec wrangler secret put OPENAI_OUTCOME_API_KEY`.
 5. Generate a long random HMAC secret and add it with `pnpm exec wrangler secret put OUTCOME_SESSION_SECRET`.
 6. Generate a separate random private-dashboard password and add it with `pnpm exec wrangler secret put ANALYTICS_ACCESS_TOKEN`.
 7. Confirm that the private dashboard's HTTP Basic authentication and private-route rate limiting are working. Cloudflare Access can be added later as a stronger outer authentication layer.
 8. Open `/private/looking-zero` and sign in with username `analytics` and the private-dashboard password.
-9. Use the relevant measurement switch in `"test"` mode with the exact controlled `OUTCOME_TEST_ORIGIN` when a limited evaluation is needed. Keep `UNIFIED_MEASUREMENT_ENABLED` set to `"false"` until unified measurement testing is approved. Changing its mode does not change the historical Looking and SDA measurement mode.
+9. Use the relevant measurement switch in `"test"` mode with the exact controlled `OUTCOME_TEST_ORIGIN` when a limited evaluation is needed. Production unified Zero uses `"true"` for both unified switches. Changing either unified mode does not change the historical Looking and SDA measurement mode.
 
 The daily Cron Trigger archives session rows after 90 days into anonymous daily totals, then deletes the session rows. Historical aggregates remain available; median-message calculations cover only retained session rows.
 
@@ -88,6 +89,6 @@ The deployed `PILOT_RATE_LIMITER` binding retains its historical external name t
 
 ## Source of truth
 
-The preparation script reads both canonical files in `zero/` whenever the Worker is checked, tested, or published. It creates temporary generated modules that Git ignores. This keeps each guide's repository instruction file as its source of truth. The shared runtime instructions in `src/index.js` contain only response concision, AI transparency, and the narrow emergency exception. Teaching behavior and guide-specific website handoffs live in the canonical Markdown files.
+The preparation script reads all canonical instruction files in `zero/` whenever the Worker is checked, tested, or published. It creates temporary generated modules that Git ignores. This keeps each guide's repository instruction file as its source of truth. The shared runtime instructions in `src/index.js` contain only response concision, AI transparency, and the narrow emergency exception. Method guidance and guide-specific website handoffs live in the canonical Markdown files.
 
 The deployed Worker retains the historical `look-at-yourself-api` name because its workers.dev address is used by both public guide pages.
