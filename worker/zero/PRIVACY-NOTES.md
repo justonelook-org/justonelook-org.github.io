@@ -1,6 +1,6 @@
 # Privacy implementation notes
 
-The relevant disclosures were implemented in `legal.html` on August 10, 2026, and extended for anonymous source attribution on August 28, 2026. Retain these notes as a review checklist when measurement behavior changes.
+The relevant disclosures were implemented in `legal.html` on August 10, 2026, extended for anonymous source attribution on August 28, 2026, and updated for public unified Zero on October 20, 2026. Retain these notes as a review checklist when measurement behavior changes.
 
 The current disclosure states that:
 

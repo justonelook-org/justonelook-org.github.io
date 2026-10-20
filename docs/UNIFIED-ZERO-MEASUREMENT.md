@@ -1,8 +1,8 @@
 # Unified Zero Measurement Design
 
-**Status:** Implemented for controlled test-origin activation; migration applied October 17, 2026; public production behavior unchanged
-**Working date:** October 17, 2026
-**Applies to:** The future public unified Zero guide at `/try-it/`
+**Status:** Approved for public activation; migration applied October 17, 2026; public measurement begins October 20, 2026
+**Working date:** October 20, 2026
+**Applies to:** The public unified Zero guide at `/try-it/`
 
 ## Decision
 
@@ -15,7 +15,7 @@ This preserves the meaning of every existing figure while allowing one future se
 - Existing `looking_sessions`, `looking_daily_aggregates`, `sda_sessions`, and `sda_daily_aggregates` data remain unchanged.
 - No historical data is copied, relabeled, combined, or backfilled into unified measurement.
 - The existing Looking Zero and SDA Zero dashboard sections remain available as historical sections with their original definitions.
-- A launch date is recorded in the repository and displayed with the unified dashboard section.
+- The public launch date, October 20, 2026, is recorded in the repository and displayed with the unified dashboard section. Earlier team-test records are excluded from public unified totals by this date boundary.
 - Website Traffic and Roads to Zero remain independent aggregate action counts. They are not linked to unified session records.
 - The browser-recorded Zero-session-start event remains an independent operational count and may differ slightly from Worker-recorded unified sessions.
 
@@ -128,7 +128,7 @@ Measurement activation belongs in the same reviewed release as the public unifie
 7. Enable production unified measurement and record the activation date.
 8. Verify dashboard totals, classifier status, retention, and team exclusion.
 
-Migration `0007_unified_zero_measurement.sql` was applied to the production D1 database on October 17, 2026, creating empty `unified_sessions` and `unified_daily_aggregates` tables. The implementation remains inert unless the unified endpoint and its independent measurement mode are explicitly enabled. Worker deployment, test activation, and public website publication each require explicit approval.
+Migration `0007_unified_zero_measurement.sql` was applied to the production D1 database on October 17, 2026. The public guide and its independent production measurement were approved for activation on October 20, 2026. Existing test records remain stored under the same retention policy but are excluded from public unified dashboard totals by the recorded launch-date boundary.
 
 ## Required implementation validation
 

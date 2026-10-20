@@ -65,7 +65,7 @@ const guides = {
     reasoningEnvName: "UNIFIED_REASONING_EFFORT",
     defaultModel: "gpt-5.6-sol",
     defaultReasoningEffort: "medium",
-    limiterKey: "unified-zero-prototype",
+    limiterKey: "unified-zero-guide",
     maxResponses: 12,
     instructions: unifiedInstructions + sharedRuntimeInstructions
   }
