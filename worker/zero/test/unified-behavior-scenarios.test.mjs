@@ -5,7 +5,7 @@ import test from "node:test";
 const scenarios = JSON.parse(await readFile(new URL("../evals/unified-zero.json", import.meta.url), "utf8"));
 
 test("defines the approved unified Zero routing scenarios without exact replies", () => {
-  assert.equal(scenarios.length, 28);
+  assert.equal(scenarios.length, 30);
   assert.equal(new Set(scenarios.map(({ id }) => id)).size, scenarios.length);
   for (const scenario of scenarios) {
     assert.match(scenario.id, /^[a-z0-9-]+$/);
@@ -23,8 +23,17 @@ test("covers every internal decision focus needed by the first unified prototype
   assert.deepEqual(focuses, new Set([
     "inward_look", "attention_clarification", "prerequisite_question", "space_after_invitation",
     "transition_to_sda", "formal_exercise", "daily_life", "website_handoff",
-    "conversation_open", "completion"
+    "conversation_open", "completion", "scope_redirect"
   ]));
+});
+
+test("keeps playful and repeated off-topic questions within Zero's focused role", () => {
+  const first = scenarios.find(({ id }) => id === "first-playful-identity-question-redirects");
+  const repeated = scenarios.find(({ id }) => id === "repeated-off-topic-questions-set-boundary");
+  assert.match(first.should.join(" "), /Connect back to Zero's Just One Look purpose/i);
+  assert.match(first.should_not.join(" "), /Invent a nationality, body, biography/i);
+  assert.match(repeated.should.join(" "), /warm concise boundary/i);
+  assert.match(repeated.should_not.join(" "), /Keep entertaining unrelated questions/i);
 });
 
 test("protects one-instruction-at-a-time and the non-evaluative transition", () => {

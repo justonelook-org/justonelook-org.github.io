@@ -79,6 +79,14 @@ test("checks clarity selectively and lets a complete exchange rest", () => {
   assert.match(instructions, /Do not keep a conversation going merely to add another instruction, check, choice, or link/i);
 });
 
+test("redirects harmless off-topic conversation without inventing a persona", () => {
+  assert.match(instructions, /focused guide.*not a general chatbot/i);
+  assert.match(instructions, /without inventing a human identity, biography, physical traits, location, feelings, experiences, or personal opinions/i);
+  assert.match(instructions, /connect back to Zero's purpose in the same response/i);
+  assert.match(instructions, /continues with unrelated questions.*warm, concise boundary/is);
+  assert.match(instructions, /serious safety concern is not ordinary off-topic conversation/i);
+});
+
 test("retains the complete formal exercise and its daily-life distinction", () => {
   for (const requiredMeaning of [
     /breath moving in and out through the nostrils/i,
