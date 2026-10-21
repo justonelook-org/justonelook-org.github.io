@@ -35,6 +35,12 @@ The first section adds compatible inward-looking milestones from former Looking 
 
 This summary combines aggregate counts only. It does not link old and new sessions, identify unique people, include former SDA sessions, or determine whether the inward look occurred or succeeded. The detailed current and historical sections remain available below with their original definitions.
 
+### The larger horizon
+
+The final two cards in **Zero at a glance** place the measured complete-invitation count against two fixed reference points: an imaginative 10% tipping-point horizon of 830 million and a rounded 2026 world-population reference of 8.3 billion. One measured complete invitation adds one opportunity to both calculations. Percentages retain six decimal places so early progress remains visible.
+
+These figures are deliberately motivational rather than predictive. They do not include speculative historical estimates, count unique people, establish that a look occurred, or assert that a 10% tipping point exists. Sessions may overlap. The fixed references preserve interpretability over time and should be changed only through a documented dashboard revision.
+
 ## Website Traffic
 
 The Website Traffic section shows homepage views, storage-free homepage entrances, Try It clicks, Zero openings, browser-recorded Zero session starts, and a compact **Roads to Zero** source summary with separate cards for the published X, Bluesky, Reddit, TikTok, Tumblr, and Pinterest routes. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. Source counts record only which implemented clean source path was opened and are not linked to later Zero events. The percentage shown on the entrance card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
