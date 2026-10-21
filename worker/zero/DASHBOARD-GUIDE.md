@@ -1,6 +1,6 @@
 # Just One Look measurement dashboard guide
 
-This guide is for the owner of the private measurement dashboard. The page presents website traffic, historical Looking Zero outcomes, Self-Directed Attention Zero usage, and feature-gated unified Zero measurement as clearly separated sections without combining their data or interpretations.
+This guide is for the owner of the private measurement dashboard. The page begins with a compact cross-era Zero summary, then presents website traffic, current unified Zero measurement, and the former guides as clearly separated sections.
 
 The SDA section records only observable delivery milestones: sessions started, direction to the Look At Yourself guide, formal exercise guidance, daily-life guidance, a later visitor response, and natural completion. These overlapping milestones do not measure whether the exercise worked or whether attention skills improved.
 
@@ -29,9 +29,15 @@ The dashboard opens with the most recent 30 days selected.
 
 The selected range can be no longer than 366 days. **Through** includes the whole date shown. One selection updates every dashboard section. Traffic is grouped by UTC day, while guide measurements are selected by session start date.
 
+## Zero at a glance
+
+The first section adds compatible inward-looking milestones from former Looking Zero and public unified Zero for the selected dates. It shows Worker-recorded guide sessions, complete inward-looking invitations delivered, possible indications of trying, and explicit reports of trying. The complete-invitation count is the best available estimate of how many sessions received a full opportunity to perform the look.
+
+This summary combines aggregate counts only. It does not link old and new sessions, identify unique people, include former SDA sessions, or determine whether the inward look occurred or succeeded. The detailed current and historical sections remain available below with their original definitions.
+
 ## Website Traffic
 
-The first section shows homepage views, storage-free homepage entrances, Try It clicks, Looking Zero openings, Looking Zero sessions started, and a compact **Roads to Zero** source summary with separate cards for the published X, Bluesky, Reddit, TikTok, Tumblr, and Pinterest routes. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. Source counts record only which implemented clean source path was opened and are not linked to later Zero events. The percentage shown on the entrance card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
+The Website Traffic section shows homepage views, storage-free homepage entrances, Try It clicks, Zero openings, browser-recorded Zero session starts, and a compact **Roads to Zero** source summary with separate cards for the published X, Bluesky, Reddit, TikTok, Tumblr, and Pinterest routes. These are independent aggregate action counts, not a linked visitor funnel. A homepage entrance is a direct or external arrival excluding ordinary reloads and same-site navigation; it is not a visit or unique person. Source counts record only which implemented clean source path was opened and are not linked to later Zero events. The percentage shown on the entrance card compares entrances with Try It clicks only from the entrance measurement’s activation date. See [TRAFFIC-DASHBOARD-GUIDE.md](TRAFFIC-DASHBOARD-GUIDE.md) for the exact definitions and privacy boundaries.
 
 ## Looking Zero outcomes
 

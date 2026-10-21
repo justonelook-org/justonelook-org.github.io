@@ -15,6 +15,12 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.equal(response.status, 200);
   assert.match(response.headers.get("Content-Security-Policy"), /frame-ancestors 'none'/);
   const html = await response.text();
+  assert.match(html, /Zero at a glance/i);
+  assert.match(html, /Combined inward-looking delivery and conversational reports/i);
+  assert.match(html, /Guide sessions started/i);
+  assert.match(html, /best available count of complete opportunities to try the look/i);
+  assert.match(html, /renderOverview\(od,ud\)/);
+  assert.match(html, /a\.sessions\+b\.sessions/);
   assert.match(html, /Website Traffic/i);
   assert.match(html, /Homepage entrances/i);
   assert.match(html, /Roads to Zero/i);
