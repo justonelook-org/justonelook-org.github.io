@@ -44,7 +44,7 @@ Its repository flow is:
 ```text
 zero/                  Canonical behavior and teaching instructions
    ↓
-worker/zero/           Generates runtime modules and serves both API routes
+worker/zero/           Generates runtime modules and serves current and retained API routes
    ↓
 try-it/                Canonical public browser interface
 ```
@@ -92,14 +92,15 @@ Large audio or video files should not be added without first confirming the inte
 ### Zero instruction changes
 
 - Edit the canonical Markdown files under `zero/`; do not edit generated instruction modules.
-- Preserve the separation between the Step One and Step Two guides.
+- Preserve unified Zero’s sequence and boundaries: give the inward look priority, and provide formal or daily-life attention guidance only after a reported look and a relevant visitor request.
+- Treat the former separate guides as retained compatibility and historical material, not as parallel current guides.
 - From `worker/zero/`, run:
 
 ```text
 pnpm test
 ```
 
-- Review both the canonical change and its behavior before deploying the Worker.
+- Review the canonical instruction change and unified Zero’s behavior before deploying the Worker.
 - Manually update corresponding custom GPT instructions when they are intended to remain equivalent.
 
 ### Worker changes
@@ -108,7 +109,7 @@ The Worker package and detailed setup instructions live in `worker/zero/`. Commo
 
 ```text
 pnpm install       Install the development dependency
-pnpm run local     Serve both guides locally using keys from .dev.vars
+pnpm run local     Serve unified and retained compatibility routes using keys from .dev.vars
 pnpm test          Generate instructions and run the test suite
 pnpm run check     Build a dry-run deployment bundle
 pnpm run deploy    Deploy only with explicit approval
