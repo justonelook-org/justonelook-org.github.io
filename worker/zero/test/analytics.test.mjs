@@ -21,6 +21,13 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /best available count of complete opportunities to try the look/i);
   assert.match(html, /renderOverview\(od,ud\)/);
   assert.match(html, /a\.sessions\+b\.sessions/);
+  assert.match(html, /The larger horizon/i);
+  assert.match(html, /Toward the 10% horizon/i);
+  assert.match(html, /Toward everyone/i);
+  assert.match(html, /WORLD_POPULATION_REFERENCE=8300000000/);
+  assert.match(html, /TEN_PERCENT_HORIZON=830000000/);
+  assert.match(html, /renderHorizon\(c\.invitations\)/);
+  assert.match(html, /playful long-term horizon, not a prediction or a count of unique people/i);
   assert.match(html, /Website Traffic/i);
   assert.match(html, /Homepage entrances/i);
   assert.match(html, /Roads to Zero/i);
