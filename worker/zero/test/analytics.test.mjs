@@ -22,12 +22,20 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /renderOverview\(od,ud\)/);
   assert.match(html, /a\.sessions\+b\.sessions/);
   assert.match(html, /The larger horizon/i);
+  assert.match(html, /Estimated historical attempts/i);
+  assert.match(html, /Recorded complete Zero invitations/i);
+  assert.match(html, /Illustrative combined horizon/i);
   assert.match(html, /Toward the 10% horizon/i);
   assert.match(html, /Toward everyone/i);
+  assert.match(html, /HISTORICAL_ATTEMPTS_ESTIMATE=10000/);
   assert.match(html, /WORLD_POPULATION_REFERENCE=8300000000/);
   assert.match(html, /TEN_PERCENT_HORIZON=830000000/);
   assert.match(html, /renderHorizon\(c\.invitations\)/);
-  assert.match(html, /playful long-term horizon, not a prediction or a count of unique people/i);
+  assert.match(html, /const combined=HISTORICAL_ATTEMPTS_ESTIMATE\+invitations/);
+  assert.match(html, /precisePercent\(combined,TEN_PERCENT_HORIZON\)/);
+  assert.match(html, /precisePercent\(combined,WORLD_POPULATION_REFERENCE\)/);
+  assert.match(html, /different measures and may overlap/i);
+  assert.match(html, /not a prediction, a count of unique people, or proof that the look occurred/i);
   assert.match(html, /Website Traffic/i);
   assert.match(html, /Homepage entrances/i);
   assert.match(html, /Roads to Zero/i);
@@ -62,6 +70,16 @@ test("private analytics accepts only the configured Basic credentials", async ()
   assert.match(html, /form\.from\.value='2026-08-10'/);
   assert.match(html, /name="from" value="2026-08-10"/);
   assert.match(html, /window\.addEventListener\('pageshow',setDefaultRange\)/);
+});
+
+test("the illustrative combined horizon preserves the documented example", () => {
+  const historicalEstimate = 10_000;
+  const recordedInvitations = 192;
+  const combined = historicalEstimate + recordedInvitations;
+
+  assert.equal(combined, 10_192);
+  assert.equal((combined * 100 / 830_000_000).toFixed(6), "0.001228");
+  assert.equal((combined * 100 / 8_300_000_000).toFixed(6), "0.000123");
 });
 
 test("combines retained and archived SDA delivery milestones without treating them as success", async () => {

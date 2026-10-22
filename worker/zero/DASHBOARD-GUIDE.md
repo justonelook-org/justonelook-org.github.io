@@ -37,9 +37,15 @@ This summary combines aggregate counts only. It does not link old and new sessio
 
 ### The larger horizon
 
-The final two cards in **Zero at a glance** place the measured complete-invitation count against two fixed reference points: an imaginative 10% tipping-point horizon of 830 million and a rounded 2026 world-population reference of 8.3 billion. One measured complete invitation adds one opportunity to both calculations. Percentages retain six decimal places so early progress remains visible.
+The final cards in **Zero at a glance** keep three quantities visibly distinct:
 
-These figures are deliberately motivational rather than predictive. They do not include speculative historical estimates, count unique people, establish that a look occurred, or assert that a 10% tipping point exists. Sessions may overlap. The fixed references preserve interpretability over time and should be changed only through a documented dashboard revision.
+- **Estimated historical attempts** is a fixed illustrative estimate of 10,000 people who may have tried looking at themselves before the new website. It acknowledges the decades of meetings, retreats, books, recordings, personal guidance, and former Foundation work that preceded Zero. John Sherman estimated in 2014 that the message had already reached many thousands of people. The 10,000 figure is deliberately conservative but is not a verified count.
+- **Recorded complete Zero invitations** is the measured complete-invitation count already shown in **Zero at a glance** for the selected date range. It remains an anonymous count of invitation opportunities, not unique people or proof that the look occurred.
+- **Illustrative combined horizon** adds the fixed historical estimate to the recorded complete Zero invitations. These are different measures and may overlap.
+
+The combined illustrative total is compared with two fixed reference points: an imaginative 10% tipping-point horizon of 830 million and a rounded 2026 world-population reference of 8.3 billion. Each additional recorded complete Zero invitation increases the combined total by one. Percentages retain six decimal places so early movement remains visible.
+
+These figures are deliberately motivational rather than predictive. They do not count unique people, establish that a look occurred, or assert that a 10% tipping point exists. Sessions and the historical estimate may overlap. The historical estimate is presentation-only: it is not stored as measured activity and does not alter any session statistic, classifier, database table, or historical record. The fixed estimate and population references should be changed only through a documented dashboard revision.
 
 ## Website Traffic
 
