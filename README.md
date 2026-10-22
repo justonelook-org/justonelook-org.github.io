@@ -19,6 +19,7 @@ GitHub Pages publishes the site from the `main` branch and the repository root.
 - `index.html` — homepage
 - `what-now.html`, `about.html`, and other root HTML files — primary site pages
 - `library/` — books, articles, blog posts, podcasts, audio reports, and videos
+- `share/` — community sharing page with links and downloadable QR codes; see [maintenance notes](docs/share-page.md)
 - `assets/` — shared images, styles, and other site assets
 - `try-it/` — canonical public webpage for unified Zero
 - `self-directed-attention/` — compatibility redirect to the canonical unified guide
