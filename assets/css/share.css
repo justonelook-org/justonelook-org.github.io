@@ -1,5 +1,8 @@
 .content a { text-decoration: underline; text-underline-offset: .18em; }
 .content a:focus-visible, button:focus-visible, .skip-link:focus-visible { outline: 3px solid #0788c9; outline-offset: 4px; }
+.share-intro p { margin: 0 0 16px; }
+.share-intro p:last-child { margin-bottom: 0; }
+.share-permissions { margin-top: 36px; font-size: .9rem; color: #526771; }
 .share-link h3 { margin-top: 28px; }
 .share-link p { margin: 8px 0 14px; }
 .share-url { overflow-wrap: anywhere; }
@@ -23,7 +26,7 @@ button:hover { background: #f0f7fa; }
 .qr-secondary p { margin: 0 0 12px; }
 .skip-link { position: absolute; top: 8px; left: 16px; transform: translateY(-200%); z-index: 101; padding: 8px 12px; background: #fff; }
 .skip-link:focus { transform: none; }
-#main, section { scroll-margin-top: 140px; }
+#main, section { scroll-margin-top: 24px; }
 @media (max-width: 600px) {
   .qr-primary { grid-template-columns: minmax(0, 1fr); padding: 20px; }
   .qr-primary img { justify-self: center; }
