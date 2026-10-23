@@ -1,6 +1,8 @@
 # Share Just One Look
 
-`/share/` is a static community resource for sharing the invitation. It is intentionally absent from homepage navigation. The primary link and larger QR code point directly to `https://justonelook.org/try-it/`; the website homepage is secondary.
+`/share/` is a static community resource for sharing the invitation. It is linked beside Forum in the homepage's secondary footer navigation. The primary link and larger QR code point directly to `https://justonelook.org/try-it/`; the website homepage is secondary.
+
+The Share page uses the normal, non-sticky shared header so it scrolls with the content. It intentionally omits the optional `site-header--sticky` class. The two introduction paragraphs are grouped with a smaller gap, and QR sharing permission appears as a modest note before the footer.
 
 ## Files
 
@@ -19,7 +21,7 @@ The existing Zero navigation decoration remains part of the shared site styling;
 
 Add only finished, approved files under `assets/share/`, with descriptive filenames, preview alternative text, meaningful download labels and any required attribution. Record the rights holder, permission evidence and any usage restrictions here before offering illustrations, text images or PDFs. Do not assume existing site assets are cleared for redistribution or modification. Do not add empty downloads or speculative artwork.
 
-Keep Zero's direct invitation visually primary, preserve clean canonical links and keep the homepage unchanged. Generate QR codes during development, never via a runtime provider. Preserve an opaque white background and at least four modules of quiet space; decode the actual rendered SVG after any regeneration. Generation/decoding tools are development-only and are not site dependencies.
+Keep Zero's direct invitation visually primary, preserve clean canonical links and keep the homepage's central invitation unchanged. Generate QR codes during development, never via a runtime provider. Preserve an opaque white background and at least four modules of quiet space; decode the actual rendered SVG after any regeneration. Generation/decoding tools are development-only and are not site dependencies.
 
 ## Verification
 
