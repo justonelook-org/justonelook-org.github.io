@@ -24,10 +24,13 @@ button:hover { background: #f0f7fa; }
 .qr-primary img, .qr-secondary img { display: block; max-width: 100%; height: auto; }
 .qr-secondary { display: grid; grid-template-columns: 136px minmax(0, 1fr); gap: 24px; align-items: center; margin-top: 32px; }
 .qr-secondary p { margin: 0 0 12px; }
+.roads-links { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 20px; padding-left: 0; list-style: none; }
+.roads-links a { display: inline-flex; align-items: center; min-height: 44px; }
 .skip-link { position: absolute; top: 8px; left: 16px; transform: translateY(-200%); z-index: 101; padding: 8px 12px; background: #fff; }
 .skip-link:focus { transform: none; }
 #main, section { scroll-margin-top: 24px; }
 @media (max-width: 600px) {
+  .roads-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .qr-primary { grid-template-columns: minmax(0, 1fr); padding: 20px; }
   .qr-primary img { justify-self: center; }
   .qr-secondary { grid-template-columns: minmax(0, 1fr); gap: 16px; }
