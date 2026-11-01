@@ -14,7 +14,20 @@ The most important discovery outcome is that people are directed to the current 
 
 Older Just One Look pages, archived material, books, videos, and external references can be useful discovery signals, but they are not the primary destination. When evaluating benchmark results, a result that leads directly to `https://justonelook.org/` or an appropriate current page on that domain should generally be considered stronger than a result that surfaces only legacy or third-party material.
 
-For discovery questions where trying the Act of Inward Looking is directly relevant, the preferred destination is `https://justonelook.org/try-it/`. For informational questions, the appropriate current page on justonelook.org may be a better result than the Try It page itself.
+For discovery questions where trying the Act of Inward Looking is directly relevant, both the current homepage `https://justonelook.org/` and the canonical unified Zero page `https://justonelook.org/try-it/` are successful entrances to the invitation. The homepage immediately presents “Look at Yourself” and a Try It link; it should not be treated as a lesser discovery result merely because one click is needed. Direct Try It visibility is a valuable additional route, not a requirement for homepage discovery to count as success. These pages serve complementary roles rather than competing targets. For informational questions, another appropriate current page on justonelook.org may be the best result.
+
+The public [Share page](https://justonelook.org/share/) supports this network with copyable homepage and Try It links, downloadable QR codes for both, and Roads to Zero social channels. Its primary sharing destination is Try It, with the homepage as a complementary destination. Treat the Share page as sharing infrastructure; its existence is not evidence that search surfaced it or that a visitor performed the look.
+
+### Interpreting access to the act
+
+Report these separately without changing the fixed queries or historical raw counts:
+
+- **Homepage entrance surfaced:** successful discovery of the immediate invitation and route to the act.
+- **Direct Try It entrance surfaced:** successful direct discovery of unified Zero; an additional route worth measuring.
+- **Other current pages surfaced:** assess their relevance and the actual route they offer; do not automatically equate every current-site result with the immediate invitation.
+- **Sharing network:** note relevant changes to `/share/`, QR destinations, and published social source-entry routes as architecture context, separate from measured search visibility.
+
+Neither a homepage result nor a direct Try It result establishes that anyone clicked through or performed the Act of Inward Looking. The principal remaining search question is whether people unfamiliar with Just One Look can find an appropriate entrance through relevant conceptual and AI-guide questions. Absence of a direct Try It result alone is not a failure to discover access to the act.
 
 ## Evaluation principles
 
@@ -142,7 +155,7 @@ After each run, add a short summary containing:
 - Queries where Just One Look disappeared
 - Changes in whether current `justonelook.org` pages or only legacy/external material were surfaced
 - Changes in which Just One Look pages were surfaced
-- Whether Zero / `https://justonelook.org/try-it/` became more or less discoverable
+- Whether access to the act through the homepage and direct visibility of Zero / `https://justonelook.org/try-it/` became more or less discoverable, reported separately
 - Changes in the Current-site visibility benchmark
 - Any recommended website changes, clearly separated from the measured results
 
@@ -422,7 +435,15 @@ These are destination URLs, **not preserved screenshots of the search interfaces
 The following are recommendations, **not** measured results.
 
 1. Keep the current homepage naming and instruction-first invitation stable while indexing catches up.
-2. Make the canonical unified `/try-it/` page the **single** target for Zero discovery; do not optimize `/self-directed-attention/` as a second active guide.
+2. Preserve the homepage and canonical unified `/try-it/` as complementary entrances to the act. Count homepage discovery as a successful route to the invitation and measure direct Try It visibility separately. `/try-it/` remains the single canonical guide; do not optimize `/self-directed-attention/` as a second active guide.
 3. Check Google Search Console and Bing Webmaster Tools indexing/canonical reports for the root, `/try-it/`, and the compatibility page; these platform checks were not available in this run.
 4. Review `/legal.html` and any older What Now references for language that still describes separate Zero guides or measurements, without altering privacy claims before verifying the implementation.
 5. Continue recording the six exact current-site queries individually, and if possible preserve platform-specific screenshots or exports so future ranking comparisons are stronger than web-retrieval snapshots.
+
+### Interpretation clarification — November 1, 2026
+
+Following review with Niklas, the homepage is explicitly recognized as a successful entrance to the act because it immediately offers “Look at Yourself” and Try It. Direct `/try-it/` search visibility remains useful, especially within the Roads to Zero sharing network, but its absence alone is not the principal discovery gap and does not negate successful homepage discovery.
+
+The November run recorded homepage visibility in **4/6** fixed current-site searches and direct Try It visibility in **0/6**. Both figures remain unchanged: the first represents successful visibility of an entrance to the act; the second measures the additional direct guide route. Neither measures completed looks. The remaining priority is relevant discovery by people who do not already know the method.
+
+The current `/share/` page and `docs/share-page.md` were reviewed after the run. The page provides Try It and homepage links and QR codes, plus six Roads to Zero social channels. This is verified repository architecture context, not a claim that the Share page surfaced in the benchmark searches. Future runs should use the interpretation guidance above while preserving all fixed questions and raw URL counts. Historical September and October observations remain as recorded.
