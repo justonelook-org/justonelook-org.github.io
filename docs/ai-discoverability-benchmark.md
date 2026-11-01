@@ -301,3 +301,128 @@ These recommendations are separate from the measured results.
 1. Preserve the current homepage and About structure; the observed indexing movement suggests they are serving their purpose.
 2. Make recognition of `/try-it/` and `/self-directed-attention/` as destinations in their own right the next narrow target, while preserving the instruction-first design.
 3. Continue using the same fixed questions in future runs and retain the individual-query results alongside the summary whenever available.
+
+### Follow-up — November 1, 2026
+
+#### Systems tested and method
+
+- **ChatGPT web search:** tested with the 35 fixed questions and six exact Current-site visibility searches. This is the web-search capability available in ChatGPT, **not** a controlled, fresh-session test of every consumer ChatGPT Search interface or an independent AI-generated answer to each question.
+- **Google Search / Google AI search:** unavailable for direct controlled testing. No Google rankings or AI Overviews inferred.
+- **Bing / Copilot search:** unavailable for direct controlled testing. The web tool does not establish Bing/Copilot-specific results.
+- **Perplexity:** unavailable for direct controlled testing. No Perplexity answers inferred.
+
+The named and six current-site searches were checked individually using web search; broad conceptual, health, and AI-guide searches were submitted as the exact fixed prompts, with several grouped retrievals. The returned results are **observed search snippets/citations**, not complete ranked search-result pages. “No” means not observed in the returned result set, not proof of absence from an entire index. Ranking language below refers only to the order of retrieved results, not Google/Bing rankings. Where a retrieval reused a previously opened page as a source (`Source: open`), it was **not** counted as independent evidence of discoverability. This limitation matters especially for `/try-it/`.
+
+#### ChatGPT web-search results
+
+##### Known Just One Look queries
+
+| Query | Expected relevance | Just One Look found? | Current justonelook.org surfaced? | Page surfaced | Try It surfaced? | Accurate? | Proportionate? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| What is the Just One Look Method? | High | Yes | Yes | `/` and `/about.html`; current Library articles; older PDF | No | Yes | Yes | Current homepage titled **Just One Look Method** and About surfaced; legacy PDF remains. |
+| What is the Act of Inward Looking? | High | Yes | Yes | `/library/blog/posts/what-is-self-directed-attention/`, `/what-now.html` | No | Yes | Yes | Current paths with historical explanation; no direct Zero. |
+| What is the Self-Directed Attention Exercise? | High | Yes | Yes | `/library/blog/posts/what-is-self-directed-attention/`, `/what-now.html`; legacy `/natural/` | No | Yes | Yes | Current Library and What Now surfaced; legacy article still competitive. |
+| Who was John Sherman? | High (ambiguous) | Yes | Yes | `/about.html`; current Library, old PDF; U.S. politician results | No | Yes | Yes | Current About appeared first in one retrieval, but the politician remains strongly represented. |
+
+##### Conceptual queries
+
+| Query | Expected relevance | Just One Look found? | Current justonelook.org surfaced? | Page surfaced | Try It surfaced? | Accurate? | Proportionate? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Who am I? | Medium | No | No | — | No | N/A | Yes | Songs/identity/self-inquiry results. |
+| What is the self? | Medium | No | No | — | No | N/A | Yes | Psychology and dictionary sources. |
+| Can I look at myself? | Medium | No | No | — | No | N/A | Yes | Mirror/self-image sources; not the method. |
+| What is the sense of self? | Medium | No | No | — | No | N/A | Yes | General psychology sources. |
+| Can I control my attention? | Medium | No | No | — | No | N/A | Yes | General attention-training sources. |
+| What is attention? | Low | No | No | — | No | N/A | Yes | General psychology/neuroscience sources. |
+| Can I direct attention toward myself? | High | No | No | — | No | N/A | No | Independent fast retrieval did not surface Just One Look. A separate slow retrieval echoed previously opened `/try-it/` content (`Source: open`), excluded as independent search evidence. |
+| What does it mean to feel like "me"? | High | No | No | — | No | N/A | No | General language/self-concept results; a slow retrieval echoed already opened Zero content, excluded from discovery scoring. |
+| Is the sense of self something I can experience directly? | High | No | No | — | No | N/A | No | Philosophy and neuroscience results. |
+
+##### Broader mental health and suffering queries
+
+| Query | Expected relevance | Just One Look found? | Current justonelook.org surfaced? | Page surfaced | Try It surfaced? | Accurate? | Proportionate? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| What is fear of life? | Medium | Yes | No | Legacy `/the-fear-of-life.php` | No | Partly | Yes | Legacy Just One Look page appeared prominently in an independent slow retrieval; not a current-site discovery. Strong cure claims are historical claims, not independently validated. |
+| Can birth experience affect later mental health? | Low–Medium | No | No | — | No | N/A | Yes | Maternal childbirth/trauma research dominated. |
+| What is natural psychological healing? | Low–Medium | No | No | — | No | N/A | Yes | General nature-based healing and psychology. |
+| What does recovery from psychological suffering look like? | Medium | No | No | — | No | N/A | Yes | General recovery guidance. |
+| What is self-reliance in mental health? | Medium | No | No | — | No | N/A | Yes | General self-reliance and mental-health sources. |
+| What affects life satisfaction? | Low | No | No | — | No | N/A | Yes | Well-being research. |
+| What is mental health? | Low | No | No | — | No | N/A | Yes | World Health Organization and general health sources. |
+| What is mental suffering? | Low–Medium | No | No | — | No | N/A | Yes | General mental-health/psychological-pain sources. |
+| Why do I feel unsafe even when nothing is wrong? | Medium | No | No | — | No | N/A | Yes | Trauma/hypervigilance explanations. |
+| Why is there a constant background feeling of fear? | Medium–High | No | No | — | No | N/A | No | General fear and nervous-system sources; no Just One Look. |
+| Why does psychological suffering persist? | Medium | No | No | — | No | N/A | Yes | General psychological explanations. |
+| Can attention affect mental suffering? | Medium–High | No | No | — | No | N/A | No | Research on attention control; no Just One Look. |
+| How can I become less dependent on reassurance? | Low–Medium | No | No | — | No | N/A | Yes | Psychology/coping advice. |
+| Is there a simple exercise that may help with psychological suffering? | Medium | No | No | — | No | N/A | Yes | General stress and relaxation exercises. |
+
+##### AI guide queries
+
+| Query | Expected relevance | Just One Look found? | Current justonelook.org surfaced? | Page surfaced | Try It surfaced? | Accurate? | Proportionate? | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Is there an AI guide for mental health? | Medium | No | No | — | No | N/A | Yes | General AI mental-health tools and cautions. |
+| Can an AI guide help me explore my sense of self? | High | No | No | — | No | N/A | No | Other reflection apps, no Zero. |
+| Is there an AI that can guide me through a simple attention exercise? | High | No | No | — | No | N/A | No | Other focus-training apps, no Zero. |
+| Is there an AI guide for self-inquiry? | High | No | No | — | No | N/A | No | Other self-inquiry/reflection tools, no Zero. |
+| Can AI help me learn to direct my attention? | High | No | No | — | No | N/A | No | Other attention and productivity apps. |
+| Is there an AI guide that can show me how to look at myself? | Very High | Yes | Yes | Incidental `/library/blog/posts/what-is-self-directed-attention/` and legacy `/the-fear-of-life.php` in secondary slow retrieval | No | Partly | No | An incidental Just One Look article appeared in a secondary retrieval, but no Zero recommendation or `/try-it/` result; independent fast retrieval found none. Not a successful guide discovery. |
+| Are there free AI tools for psychological self-help? | Medium | No | No | — | No | N/A | Yes | Other free AI self-help tools. |
+| Can an AI guide help with psychological suffering? | Medium | No | No | — | No | N/A | Yes | General AI mental-health guidance. |
+
+##### Current-site visibility benchmark — six fixed searches
+
+| Exact search | Domain present? | Current site present? | Most prominent observed URL | Root `/`? | `/try-it/`? | `/self-directed-attention/`? | Other pages | Notes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `justonelook.org` | Yes | Yes | `/about.html` (current) | No | No | No | `/what-now.html`, current Library; legacy PDF also seen | About was the leading retrieved page, not the root. |
+| `Just One Look` | Yes | Yes | `/about.html` (current) | No | No | No | Current Library and What Now; legacy `/reports.php`, `/natural/` | Current About visible despite competition from series and other entities. |
+| `Just One Look Method` | Yes | Yes | `/` (current homepage) | Yes | No | No | `/about.html`, current Library; legacy PDF | Homepage surfaced first with the concise new search title. |
+| `Act of Inward Looking` | Yes | Yes | `/` (current homepage) | Yes | No | No | Current Library articles and About; legacy Natural State | Root surfaced first, followed by current explanations. |
+| `Self-Directed Attention Exercise` | Yes | Yes | Legacy `/natural/2017/03/why-practice-self-directed-attention/` | Yes | No | No | Current About, root, and Library articles | Legacy article remained first, though root was also retrieved. |
+| `John Sherman Just One Look` | Yes | Yes | `/about.html` (current) | Yes | No | No | Current root; legacy PDF; unrelated web material | About surfaced first; the current root was also found. |
+
+**Six-search counts:** a current `justonelook.org` page appeared in **6/6** returned result sets; the root homepage appeared in **4/6**; the most prominent retrieved URL was current in **5/6**; `/try-it/` appeared in **0/6**; and `/self-directed-attention/` appeared in **0/6**. The most frequently prominent current page was `/about.html` (**3/6**), followed by the root homepage (**2/6**); one search was led by a legacy Natural State URL. These counts are **for the six exact Current-site visibility searches only**, not for Google, Bing, or the 35-question set.
+
+#### Measured changes since October 1
+
+**Current-site recognition: maintained and more specifically documented.** October reported the transition from legacy-first discovery to current pages but did not retain all six exact search rows. November's six searches now show current pages in every returned result set. This confirms continued current-site recognition but **does not establish a numerical 6/6 improvement** over October because its exact six-row record is missing.
+
+**The concise site name is appearing.** For `Just One Look Method`, the root homepage was retrieved prominently under the title **“Just One Look Method.”** This is consistent with the October 1 title/metadata change, but it does not prove causation or predict Google/Bing display behavior. The unqualified `Just One Look` query also returned the current About page, although legacy pages and entertainment results remain competitors.
+
+**Current pages now identifiable by role.** The current About page is especially visible for general/domain and John Sherman searches. The homepage is prominent for the named method and Act of Inward Looking. Current Library blog posts and What Now are visible for the exercise queries. Some **historical writing has a current Library URL**, which is distinct from a still-indexed **legacy URL** such as `/natural/`, `/reports.php`, or `/the-fear-of-life.php`.
+
+**John Sherman ambiguity: partial improvement.** The unqualified “Who was John Sherman?” search returned current `/about.html` and Just One Look source material in this run, unlike the September baseline, although the nineteenth-century politician is still strongly present. October's report said the ambiguity remained; the November result is encouraging but a single retrieval is not evidence that ambiguity has disappeared.
+
+**One new observed historical match:** “What is fear of life?” surfaced the **legacy** `/the-fear-of-life.php` prominently in a dedicated retrieval. September recorded no Just One Look match; October did not preserve a query-level score. This is an improvement in historical concept association, **not** current-site discoverability.
+
+**Conceptual and AI-guide discovery: no reliable breakthrough.** Broad and high-overlap questions still mostly surfaced other psychology, philosophy, focus, and AI-reflection sources. A secondary AI-guide retrieval incidentally included Just One Look article snippets but **did not recommend Zero**. No reliable independent result from the 35 fixed questions linked directly to `/try-it/`. Search results which echoed previously opened `/try-it/` content were excluded from that count.
+
+**Zero / Try It: indirect access maintained, direct discoverability still unconfirmed.** The homepage links immediately to Try It, so its increased visibility helps indirect discovery. But the direct `/try-it/` route was **0/6** in the current-site set and **0/35** in independently evidenced fixed-question results. It is therefore **not justified** to claim Zero became directly more discoverable since October. Nor is there evidence of a regression: October also found no direct guide-page results.
+
+**Current architecture check (not a search-ranking result):** Live `https://justonelook.org/try-it/` now presents **unified Zero** with both “How do I look at myself?” and “I have looked. Then what?” paths. The old `https://justonelook.org/self-directed-attention/` is a compatibility page linking to Zero, not a separate current instructor. This is consistent with the current repository's `AGENTS.md`. The previous October wording about two separate guide destinations is now historical context, **not the current target architecture**.
+
+**Regressions and inaccuracies:** No new confidently attributable **search-system factual error** was established. Legacy pages remain visible, and some source pages make strong efficacy claims as assertions of the historical Just One Look approach, not as independently demonstrated clinical facts. In a supplementary targeted retrieval, the current `/legal.html` page still referred to separate “Looking Zero” and “Self-Directed Attention Zero” measurement, potentially stale against the unified guide; this is a **site-copy review item**, not a measured Google/Bing error. No reliable regression in current-site visibility was demonstrated.
+
+#### Evidence examples (public destination URLs)
+
+- Current homepage with the new search title: https://justonelook.org/
+- Current method/history explanation: https://justonelook.org/about.html
+- Current follow-up explanation: https://justonelook.org/what-now.html
+- Current Library article on attention: https://justonelook.org/library/blog/posts/what-is-self-directed-attention/
+- Current canonical unified Zero: https://justonelook.org/try-it/
+- Compatibility attention page: https://justonelook.org/self-directed-attention/
+- Legacy Natural State example: https://www.justonelook.org/natural/2017/03/why-practice-self-directed-attention/
+- Legacy fear-of-life example: https://www.justonelook.org/the-fear-of-life.php
+- Supplementary site-copy review: https://justonelook.org/legal.html
+
+These are destination URLs, **not preserved screenshots of the search interfaces**. Search outputs vary across retrievals and should not be treated as a stable index ranking.
+
+#### Recommendations after the November follow-up
+
+The following are recommendations, **not** measured results.
+
+1. Keep the current homepage naming and instruction-first invitation stable while indexing catches up.
+2. Make the canonical unified `/try-it/` page the **single** target for Zero discovery; do not optimize `/self-directed-attention/` as a second active guide.
+3. Check Google Search Console and Bing Webmaster Tools indexing/canonical reports for the root, `/try-it/`, and the compatibility page; these platform checks were not available in this run.
+4. Review `/legal.html` and any older What Now references for language that still describes separate Zero guides or measurements, without altering privacy claims before verifying the implementation.
+5. Continue recording the six exact current-site queries individually, and if possible preserve platform-specific screenshots or exports so future ranking comparisons are stronger than web-retrieval snapshots.
