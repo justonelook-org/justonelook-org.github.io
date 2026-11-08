@@ -28,9 +28,13 @@
         max-width: 1000px;
         padding: 15px 20px;
         box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-rows: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
         min-height: 100vh;
+      }
+
+      .masthead {
+        align-self: start;
       }
 
       .header {
@@ -74,14 +78,17 @@
 
       .main-invitation {
         text-align: center;
-        flex: 1;
+        padding: 28px 0;
       }
 
       .main-invitation h2 {
         font-size: 2.25rem;
         font-weight: normal;
-        margin-top: 1.577rem;
-        margin-bottom: 10px;
+        margin: 0 0 16px;
+      }
+
+      .main-invitation p {
+        margin: 0;
       }
 
       .main-invitation a {
@@ -97,7 +104,7 @@
         flex-wrap: wrap;
         text-align: center;
         font-size: 0.95rem;
-        margin-top: auto;
+        align-self: end;
         padding-bottom: 12px;
       }
 
@@ -146,19 +153,12 @@
           font-size: 2rem;
         }
 
-        .main-invitation {
-          flex: 0;
-          margin-top: 28px;
-          margin-bottom: 140px;
-        }
-
         .main-invitation h2 {
           font-size: 1.75rem;
-          margin-top: 1.328rem;
         }
 
         .main-invitation a {
-          font-size: 1.25rem;
+          font-size: 1.4rem;
         }
 
         .footer {
@@ -200,15 +200,17 @@
 </head>
   <body>
     <div class="page">
-      <header class="header">
-        <img class="logo" src="assets/brand/jol-logo.jpg" alt="Just One Look">
-        <div class="header-text">
-          <h1 class="site-title">JUST ONE LOOK</h1>
-          <div class="tagline">the purpose of our work is to give an invitation to Look at Yourself to anyone that will try it</div>
-        </div>
-      </header>
+      <div class="masthead">
+        <header class="header">
+          <img class="logo" src="assets/brand/jol-logo.jpg" alt="Just One Look">
+          <div class="header-text">
+            <h1 class="site-title">JUST ONE LOOK</h1>
+            <div class="tagline">the purpose of our work is to give an invitation to Look at Yourself to anyone that will try it</div>
+          </div>
+        </header>
 
-      <div class="blue-bar"></div>
+        <div class="blue-bar"></div>
+      </div>
 
       <main class="main-invitation" data-anonymous-traffic-event="homepage_view">
         <h2>Look at Yourself</h2>
