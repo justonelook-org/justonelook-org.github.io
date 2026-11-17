@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="260" viewBox="0 0 1600 260" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="wash" x2="0" y2="1">
+      <stop stop-color="#b4ddf4" stop-opacity=".66"/>
+      <stop offset="1" stop-color="#e8f6fd" stop-opacity=".12"/>
+    </linearGradient>
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".035 .08" numOctaves="3" seed="12" result="grain"/>
+      <feColorMatrix in="grain" type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="soft-light"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+  <g filter="url(#paper)">
+    <path d="M0 42C240 45 310 230 760 204S1320 30 1600 62V260H0Z" fill="url(#wash)"/>
+    <path d="M0 85C320 90 480 255 900 210S1350 82 1600 108V260H0Z" fill="#d8effc" opacity=".4"/>
+    <path d="M0 43C240 46 310 231 760 205S1320 31 1600 63" fill="none" stroke="#b8e0f6" opacity=".55"/>
+  </g>
+</svg>

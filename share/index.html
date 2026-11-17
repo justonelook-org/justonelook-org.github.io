@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Share Just One Look</title>
-  <meta name="description" content="Simple links and downloadable QR codes to help others discover Just One Look, with a direct invitation to try it with Zero.">
+  <meta name="description" content="Share Just One Look with simple links, QR codes, social images and printable invitations featuring Zero.">
   <meta property="og:title" content="Share Just One Look">
-  <meta property="og:description" content="Share the invitation with simple links and downloadable QR codes.">
+  <meta property="og:description" content="Share the invitation with simple links, QR codes and ready-to-use sharing materials.">
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="../assets/css/page-prose.css">
   <link rel="stylesheet" href="../assets/css/site-navigation.css">
-  <link rel="stylesheet" href="../assets/css/share.css?v=20261023-1">
+  <link rel="stylesheet" href="../assets/css/share.css?v=20261117-1">
 <!-- BEGIN GENERATED SITE METADATA -->
   <link rel="canonical" href="https://justonelook.org/share/">
   <meta property="og:url" content="https://justonelook.org/share/">
@@ -19,85 +19,95 @@
   <meta property="og:image:alt" content="Just One Look">
   <meta name="twitter:card" content="summary">
 <!-- END GENERATED SITE METADATA -->
-  <script src="../assets/js/share.js" defer></script>
+  <script src="../assets/js/share.js?v=20261117-1" defer></script>
 </head>
-<body>
+<body class="share-page">
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="7" width="12" height="14" rx="2"/><path d="M15 7V3H4v14h4"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24"><path d="m10 14 4-4m-7 2-3 3a4 4 0 0 0 6 6l3-3m-2-12 3-3a4 4 0 0 1 6 6l-3 3"/></symbol>
+    <symbol id="icon-external" viewBox="0 0 24 24"><path d="M14 4h6v6m0-6-10 10m0-10H4v16h16v-6"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></symbol>
+  </svg>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header site-nav-host"><a class="site-brand" href="../index.html">JUST ONE LOOK</a><nav class="site-nav site-nav--embedded" aria-label="Primary navigation"><a href="../index.html">Home</a></nav></header>
-  <main id="main" class="content site-content--bottom-spaced" tabindex="-1">
-    <h1>Share Just One Look</h1>
-    <div class="share-intro">
-      <p>If you would like to help others discover Just One Look, here are a few simple ways to share the invitation.</p>
-      <p>Feel free to use these links and materials wherever you think they might be helpful.</p>
+  <main id="main" tabindex="-1">
+    <div class="share-hero">
+      <h1>Share Just One Look</h1>
+      <p>Help share Just One Look to more people.</p>
     </div>
-
-    <section aria-labelledby="links-heading">
-      <h2 id="links-heading">Share a Link</h2>
-      <div class="share-link">
-        <h3>Try It — Zero</h3>
-        <p>A simple invitation to look at yourself, with guidance from Zero.</p>
-        <p class="share-url"><a id="zero-link" href="https://justonelook.org/try-it/">https://justonelook.org/try-it/</a></p>
-        <button type="button" data-copy="zero-link" aria-label="Copy Link for Try It — Zero" hidden>Copy Link</button>
-        <p class="copy-status" role="status" aria-live="polite"></p>
-      </div>
-      <div class="share-link">
-        <h3>Just One Look Website</h3>
-        <p>The home of the Just One Look Method.</p>
-        <p class="share-url"><a id="website-link" href="https://justonelook.org/">https://justonelook.org/</a></p>
-        <button type="button" data-copy="website-link" aria-label="Copy Link for Just One Look Website" hidden>Copy Link</button>
-        <p class="copy-status" role="status" aria-live="polite"></p>
-      </div>
-    </section>
-
-    <section aria-labelledby="qr-heading">
-      <h2 id="qr-heading">Share a QR Code</h2>
-      <p>Download a QR code for a message or something printed. Scanning it opens the link shown below.</p>
-      <div class="qr-primary">
-        <div>
-          <p class="share-label">Recommended for sharing</p>
-          <h3>Try It with Zero</h3>
-          <p>A direct invitation to look at yourself.</p>
-          <p class="share-url"><a href="https://justonelook.org/try-it/">https://justonelook.org/try-it/</a></p>
-          <a class="download-primary" href="../assets/share/try-it-zero-qr.svg" download="just-one-look-zero-qr.svg">Download Zero QR code (SVG)</a>
+    <div class="share-content">
+      <section aria-labelledby="links-heading">
+        <h2 id="links-heading">Links to share</h2>
+        <p class="section-intro">Simple links you can copy and share.</p>
+        <div class="share-link" data-copy-group>
+          <div class="share-link-row"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-link"></use></svg><h3>Try It with Zero</h3><a id="zero-link" class="share-url" href="https://justonelook.org/try-it/">justonelook.org/try-it/</a><button class="share-button" type="button" data-copy="zero-link" aria-label="Copy the Try It with Zero link" hidden><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-copy"></use></svg><span>Copy</span></button></div>
+          <p class="copy-status" role="status" aria-live="polite"></p>
         </div>
-        <img src="../assets/share/try-it-zero-qr.svg" width="240" height="240" alt="QR code linking to Try It with Zero at https://justonelook.org/try-it/">
-      </div>
-      <div class="qr-secondary">
-        <img src="../assets/share/website-qr.svg" width="136" height="136" alt="QR code linking to the Just One Look website at https://justonelook.org/">
-        <div>
-          <h3>Just One Look Website</h3>
-          <p class="share-url"><a href="https://justonelook.org/">https://justonelook.org/</a></p>
-          <a href="../assets/share/website-qr.svg" download="just-one-look-website-qr.svg">Download website QR code (SVG)</a>
+        <div class="share-link" data-copy-group>
+          <div class="share-link-row"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-link"></use></svg><h3>Homepage</h3><a id="website-link" class="share-url" href="https://justonelook.org/">justonelook.org/</a><button class="share-button" type="button" data-copy="website-link" aria-label="Copy the homepage link" hidden><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-copy"></use></svg><span>Copy</span></button></div>
+          <p class="copy-status" role="status" aria-live="polite"></p>
         </div>
-      </div>
-    </section>
-
-    <section aria-labelledby="roads-heading">
-      <h2 id="roads-heading">Roads to Zero</h2>
-      <p>Find Zero on social media. Explore the posts, follow along, and share anything you think might be helpful.</p>
-      <ul class="roads-links">
-        <li><a href="https://bsky.app/profile/justonelook.org" target="_blank" rel="noopener noreferrer">Bluesky</a></li>
-        <li><span class="roads-separator" aria-hidden="true">~</span><a href="https://dk.pinterest.com/JustOneLookOrg/" target="_blank" rel="noopener noreferrer">Pinterest</a></li>
-        <li><span class="roads-separator" aria-hidden="true">~</span><a href="https://www.reddit.com/user/Zero_JustOneLookOrg/" target="_blank" rel="noopener noreferrer">Reddit</a></li>
-        <li><span class="roads-separator" aria-hidden="true">~</span><a href="https://www.tiktok.com/@justonelookorg" target="_blank" rel="noopener noreferrer">TikTok</a></li>
-        <li><span class="roads-separator" aria-hidden="true">~</span><a href="https://justonelookorg.tumblr.com/" target="_blank" rel="noopener noreferrer">Tumblr</a></li>
-        <li><span class="roads-separator" aria-hidden="true">~</span><a href="https://x.com/JustOneLookOrg" target="_blank" rel="noopener noreferrer">X</a></li>
-      </ul>
-    </section>
-
-    <section aria-labelledby="youtube-heading">
-      <h2 id="youtube-heading">Just One Look on YouTube</h2>
-      <p>Explore and share the original talks, videos, and conversations of Just One Look on our YouTube channel.</p>
-      <p><a href="https://www.youtube.com/@justonelook" target="_blank" rel="noopener noreferrer">Visit our YouTube channel</a></p>
-    </section>
-
-    <section aria-labelledby="ideas-heading">
-      <h2 id="ideas-heading">Share Your Ideas</h2>
-      <p>Have an idea for sharing Just One Look?</p>
-      <p><a href="https://forum.justonelook.org">Visit the Forum</a> to exchange ideas, experiences, and suggestions with others.</p>
-    </section>
-    <p class="share-permissions">These QR codes are free to download and share.</p>
-    <footer class="legal-links" aria-label="Footer links"><a href="../contact.html">Contact</a><a href="../legal.html">Legal</a></footer>
+      </section>
+      <section aria-labelledby="qr-heading">
+        <h2 id="qr-heading">QR codes</h2>
+        <p class="section-intro">Scan or download a QR code to the website or directly to Try It.</p>
+        <div class="qr-grid">
+          <article class="qr-panel">
+            <img class="qr-image" src="../assets/share/try-it-zero-qr.svg" width="170" height="170" alt="QR code to Try It with Zero: https://justonelook.org/try-it/">
+            <div class="qr-copy"><h3>Try It with Zero</h3><p>Go directly to the Look at Yourself instruction with Zero.</p>
+              <a class="share-button" href="../assets/share/try-it-zero-qr.png" download aria-label="Download Try It with Zero QR code as PNG"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-download"></use></svg>Download QR (PNG)</a>
+              <a class="svg-download" href="../assets/share/try-it-zero-qr.svg" download>Download Zero QR (SVG)</a>
+            </div>
+          </article>
+          <article class="qr-panel">
+            <img class="qr-image" src="../assets/share/website-qr.svg" width="170" height="170" alt="QR code to the homepage: https://justonelook.org/">
+            <div class="qr-copy"><h3>Homepage</h3><p>The Just One Look website.</p>
+              <a class="share-button" href="../assets/share/website-qr.png" download aria-label="Download homepage QR code as PNG"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-download"></use></svg>Download QR (PNG)</a>
+              <a class="svg-download" href="../assets/share/website-qr.svg" download>Download homepage QR (SVG)</a>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section aria-labelledby="materials-heading">
+        <h2 id="materials-heading">Sharing materials</h2>
+        <p class="section-intro">Ready-to-use images you can share online, print, or send to others.</p>
+        <div class="materials-grid">
+          <article class="material" data-copy-group>
+            <div class="material-preview"><img src="../assets/share/social-invitation.png" width="1080" height="1080" alt="Square invitation with the original Zero owl: Just One Look, Look at Yourself, Try It, justonelook.org/try-it/."></div>
+            <h3>Social media image</h3><p>A simple image to share online.</p>
+            <div class="material-actions"><a class="share-button" href="../assets/share/social-invitation.png" download aria-label="Download the social media image as PNG"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-download"></use></svg>Download (PNG)</a><button class="share-button" type="button" data-copy="material-link" aria-label="Copy the Try It link to share with the social media image" hidden><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-copy"></use></svg><span>Copy Link</span></button></div>
+            <p class="copy-status" role="status" aria-live="polite"></p>
+          </article>
+          <article class="material">
+            <div class="material-preview"><img src="../assets/share/printable-invitation.png" width="1800" height="1200" alt="Landscape Just One Look invitation with the original Zero owl, Look at Yourself, Try It, and a QR code linking to https://justonelook.org/try-it/."></div>
+            <h3>Printable card / flyer</h3><p>A ready-to-print invitation with a QR code to Try It.</p>
+            <div class="material-actions"><a class="share-button" href="../assets/share/printable-invitation.png" download aria-label="Download the printable card or flyer as PNG"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-download"></use></svg>Download (PNG)</a></div>
+          </article>
+        </div>
+        <p class="sharing-guidance"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-info"></use></svg><span><strong>Sharing on social media?</strong> Download an image and include a clickable link to <a id="material-link" href="https://justonelook.org/try-it/">justonelook.org/try-it/</a> in your post.</span></p>
+      </section>
+      <section class="section-divider" aria-labelledby="roads-heading">
+        <h2 id="roads-heading">Roads to Zero</h2><p class="section-intro">Follow Just One Look on social media.</p>
+        <ul class="roads-links">
+          <li><a class="platform-link" href="https://bsky.app/profile/justonelook.org" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/bluesky.svg" width="30" height="30" alt=""><span>Bluesky</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a class="platform-link" href="https://dk.pinterest.com/JustOneLookOrg/" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/pinterest.svg" width="30" height="30" alt=""><span>Pinterest</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a class="platform-link" href="https://www.reddit.com/user/Zero_JustOneLookOrg/" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/reddit.svg" width="30" height="30" alt=""><span>Reddit</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a class="platform-link" href="https://www.tiktok.com/@justonelookorg" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/tiktok.svg" width="30" height="30" alt=""><span>TikTok</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a class="platform-link" href="https://justonelookorg.tumblr.com/" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/tumblr.svg" width="30" height="30" alt=""><span>Tumblr</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a class="platform-link" href="https://x.com/JustOneLookOrg" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/x.svg" width="30" height="30" alt=""><span>X</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        </ul>
+      </section>
+      <section class="section-divider youtube-section" aria-labelledby="youtube-heading">
+        <div><h2 id="youtube-heading">YouTube</h2><p>Explore the Just One Look video collection, including talks, interviews, and historical recordings.</p></div>
+        <a class="platform-link" href="https://www.youtube.com/@justonelook" target="_blank" rel="noopener noreferrer"><img src="../assets/share/icons/youtube.svg" width="30" height="30" alt=""><span>YouTube</span><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="#icon-external"></use></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+      </section>
+      <section class="section-divider share-ideas" aria-labelledby="ideas-heading">
+        <h2 id="ideas-heading">Share Your Ideas</h2><p>Have an idea for sharing Just One Look?</p><p><a href="https://forum.justonelook.org">Visit the Forum</a> to exchange ideas, experiences, and suggestions with others.</p>
+      </section>
+      <p class="share-permissions">These QR codes are free to download and share.</p>
+      <footer class="legal-links" aria-label="Footer links"><a href="../contact.html">Contact</a><a href="../legal.html">Legal</a></footer>
+    </div>
   </main>
 </body>
 </html>
