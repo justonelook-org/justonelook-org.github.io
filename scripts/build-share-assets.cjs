@@ -36,7 +36,7 @@ async function main() {
     `<image href="${owl}" x="85" y="300" width="420" height="580"/>` +
     text(885, 450, 79, 'Look at Yourself', 'fill="#151c27"') +
     text(880, 650, 128, '~ Try It ~', 'font-weight="700" fill="#0864c9"') +
-    text(1070, 860, 67, 'justonelook.org/try-it/') +
+    text(880, 860, 67, 'justonelook.org/try-it/') +
     `<image href="${qr}" x="1290" y="320" width="444" height="444"/>` +
     `<image href="${wave}" x="0" y="935" width="1800" height="265" preserveAspectRatio="none"/>`);
   for (const [name, source] of [['social-invitation', square], ['printable-invitation', card]]) {

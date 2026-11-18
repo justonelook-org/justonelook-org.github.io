@@ -52,7 +52,9 @@
 .youtube-section p { margin:6px 0 0; }
 .share-ideas h2 { font-size:1.45rem; }
 .share-ideas p { margin-top:10px; }
-.share-permissions { font-size:.9rem; color:#526771; }
+.forum-invitation { display:flex; align-items:center; gap:12px; }
+.forum-invitation img { width:52px; height:auto; flex-shrink:0; }
+.share-permissions { font-size:1rem; color:#526771; }
 .share-page .legal-links { margin-top:28px; font-family:Georgia,'Times New Roman',serif; }
 .skip-link { position:absolute; top:8px; left:16px; transform:translateY(-200%); z-index:101; padding:8px 12px; background:#fff; }
 .skip-link:focus { transform:none; }
